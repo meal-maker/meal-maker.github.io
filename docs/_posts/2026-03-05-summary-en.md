@@ -5,228 +5,188 @@ date: 2026-03-05
 lang: en
 ---
 
-> From 17 items, 10 important content pieces were selected
+> From 13 items, 8 important content pieces were selected
 
 ---
 
-1. [Key Researchers Depart Alibaba's Qwen AI Team Amid Qwen 3.5 Release](#item-1) ⭐️ 8.0/10
-2. [NanoGPT Slowrun: Language Modeling with Limited Data, Infinite Compute](#item-2) ⭐️ 8.0/10
-3. [Donald Knuth Acknowledges AI Solved His Open Problem](#item-3) ⭐️ 8.0/10
-4. [Google Releases CLI Tool for Google Workspace Management](#item-4) ⭐️ 7.0/10
-5. [Apple Announces MacBook Neo as Affordable Laptop](#item-5) ⭐️ 7.0/10
-6. [Building a new Flash](#item-6) ⭐️ 7.0/10
-7. [Dario Amodei calls OpenAI’s messaging around military deal ‘straight up lies’](#item-7) ⭐️ 7.0/10
-8. [Moss is a pixel canvas where every brush is a tiny program](#item-8) ⭐️ 7.0/10
-9. [Don't Dump Unreviewed AI-Generated Code on Your Team](#item-9) ⭐️ 7.0/10
-10. [Google Launches Gemini 3.1 Flash-Lite, a Low-Cost AI Model with Adjustable Thinking Levels.](#item-10) ⭐️ 7.0/10
+1. [Apple Announces MacBook Neo: A Budget-Friendly Laptop](#item-1) ⭐️ 8.0/10
+2. [Nvidia CEO Announces Likely Last Investments in OpenAI and Anthropic](#item-2) ⭐️ 8.0/10
+3. [Google Releases Official CLI Tool for Google Workspace Management](#item-3) ⭐️ 7.0/10
+4. [HackerNews Discussion on Flash Nostalgia and Integrated Development Tools](#item-4) ⭐️ 7.0/10
+5. [Internal Tensions and Researcher Departures Threaten Alibaba's Qwen AI Model Future.](#item-5) ⭐️ 7.0/10
+6. [Anthropic CEO Accuses OpenAI of Lying About Military Contract Terms](#item-6) ⭐️ 7.0/10
+7. [MOSS is a pixel drawing tool where every brush is a tiny program.](#item-7) ⭐️ 7.0/10
+8. [NanoGPT Slowrun Launches as a Benchmark for Data-Efficient Language Modeling.](#item-8) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [Key Researchers Depart Alibaba's Qwen AI Team Amid Qwen 3.5 Release](https://simonwillison.net/2026/Mar/4/qwen/#atom-everything) ⭐️ 8.0/10
+## [Apple Announces MacBook Neo: A Budget-Friendly Laptop](https://www.apple.com/newsroom/2026/03/say-hello-to-macbook-neo/) ⭐️ 8.0/10
 
-On March 4, 2026, Junyang Lin, the lead researcher for Alibaba's Qwen AI models, and several other key members including Binyuan Hui, Bowen Yu, and Kaixin Li announced their resignations. This follows the recent release of the Qwen 3.5 family of open weight models, which began with the 397B-A17B model in February 2026. These high-profile departures could significantly impact the development of open-source AI models, as the Qwen team has been crucial in advancing open weight technology and producing competitive models like Qwen 3.5. It also signals potential organizational shifts at Alibaba that might affect its AI strategy and the broader open-source ecosystem. The resignations are reportedly triggered by a reorganization at Alibaba where a new researcher from Google's Gemini team was put in charge of Qwen, although this detail is unconfirmed. Despite operating with fewer resources than competitors, the team achieved notable success with Qwen 3.5 models, which are praised for their large scale and capabilities in tasks like agentic coding.
+Apple announced the MacBook Neo, a new budget-friendly laptop that comes with 8GB of unified memory and features limited ports, including one USB-C port restricted to USB 2.0 speeds. This release positions Apple more aggressively in the affordable laptop segment, directly competing with budget Windows laptops like Microsoft's Surface Laptop. It could also influence software development by setting a lower memory baseline, encouraging optimization for efficiency. Key specifications include 8GB unified memory, no MagSafe or Thunderbolt support, a USB-C port limited to 480 Mb/s, and a display that supports sRGB but not the wider P3 color gamut. Battery life is quoted at 16 hours, slightly less than the MacBook Air.
 
-rss · Simon Willison · Mar 4, 15:50
+hackernews · dm · Mar 4, 14:16
 
-**Background**: Qwen is a series of large language models developed by Alibaba's Qwen team, part of Alibaba Cloud. Open weight models are machine learning models whose internal parameters (weights) are publicly released, enabling transparency, modification, and community reuse without necessarily including full training code or data, distinguishing them from fully open-source models.
+**Background**: Unified memory is a memory architecture in Apple Silicon Macs where the RAM is shared between the CPU and GPU, enhancing performance and efficiency. MagSafe is Apple's proprietary magnetic connector for charging and data transfer, while Thunderbolt is a high-speed interface that builds on USB-C for fast data and display connectivity. sRGB and P3 are color gamut standards, with P3 offering a wider range of colors for more vibrant displays.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://medium.com/lets-code-future/open-weight-ai-models-what-they-are-and-why-openais-next-move-matters-f86fe481973a">Open - Weight AI Models : What They Are, and Why... | Medium</a></li>
-<li><a href="https://huggingface.co/Qwen/Qwen3.5-27B">Qwen/Qwen3.5-27B · Hugging Face</a></li>
+**Discussion**: The community discussion highlights comparisons with the MacBook Air and Windows alternatives, noting cost-saving trade-offs like limited ports and memory. Users point out its competitive pricing against Microsoft's Surface Laptop, and some express optimism that the 8GB memory limit could drive more efficient software development practices.
 
-</ul>
-</details>
-
-**Discussion**: The community expresses concern over the departures, with users praising Qwen 3.5's technical capabilities, especially in agentic coding tasks, and noting its performance above its size. Discussions also highlight organizational tensions, such as conflicts between research and product teams, and speculate on economic implications and potential recruitment by other AI labs.
-
-**Tags**: `#AI`, `#Open Source`, `#Machine Learning`, `#Alibaba`, `#Qwen`
+**Tags**: `#apple`, `#laptops`, `#budget-hardware`, `#software-development`, `#tech-competition`
 
 ---
 
 <a id="item-2"></a>
-## [NanoGPT Slowrun: Language Modeling with Limited Data, Infinite Compute](https://qlabs.sh/slowrun) ⭐️ 8.0/10
+## [Nvidia CEO Announces Likely Last Investments in OpenAI and Anthropic](https://techcrunch.com/2026/03/04/jensen-huang-says-nvidia-is-pulling-back-from-openai-and-anthropic-but-his-explanation-raises-more-questions-than-it-answers/) ⭐️ 8.0/10
 
-The NanoGPT Slowrun project was launched to investigate language modeling under constraints of limited training data but abundant computational resources, exploring efficiency, architectural choices, and optimization methods. It specifically examines approaches like second-order optimizers and ensemble diversity to improve data efficiency. This matters because it shifts focus from scale-driven AI training to data-efficient paradigms, which can reveal fundamental model design insights often masked by large datasets. It has implications for domains with scarce data or where compute is prioritized, such as specialized AI applications or resource-optimized research. Key details include the use of NanoGPT, a minimalist GPT implementation, as the base model, and the exploration of second-order optimizers and architectural variations for ensemble diversity. However, a caveat is that the baseline model (modded-nanogpt) was originally optimized for wall-clock speed, which may not align with data efficiency goals.
+Nvidia CEO Jensen Huang stated that the company's recent investments in OpenAI and Anthropic are likely to be its last, as both AI startups prepare to go public later this year. This signals a strategic shift for Nvidia, potentially affecting funding dynamics in the AI ecosystem and indicating confidence in the startups' independence post-IPO. It highlights Nvidia's evolving role from an investor to a more focused hardware and ecosystem player. Huang's explanation was vague, raising more questions than answers, and Nvidia is not offering additional details. The investments were made just before the companies' anticipated IPOs, suggesting a timing strategy to secure returns before public listing.
 
-hackernews · sdpmas · Mar 4, 17:56
+hackernews · jnord · Mar 5, 02:33
 
-**Background**: NanoGPT is a simple, fast repository for training medium-sized GPT-like models, implemented by Andrej Karpathy to provide an accessible platform for experimentation and education. Slowrun refers to a benchmarking approach designed to test computationally intensive ideas, such as heavy regularization and alternative optimizers, that are often excluded in speed-optimized benchmarks. This paradigm enables research into data-efficient learning by prioritizing exploration over training time efficiency.
+**Background**: Nvidia is a leading technology company known for its GPUs, which are critical for AI training and inference. OpenAI and Anthropic are prominent AI research companies that have received significant investments from tech giants to scale their operations. Going public through an IPO allows these companies to raise capital from public markets, transitioning from private to public ownership and reducing reliance on private investments.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://github.com/karpathy/nanoGPT">GitHub - karpathy/nanoGPT: The simplest, fastest repository for training/finetuning medium-sized GPTs. · GitHub</a></li>
-<li><a href="https://qlabs.sh/slowrun">NanoGPT Slowrun - Q</a></li>
+**Discussion**: Community comments show mixed sentiment: some users see it as a logical move to secure returns before IPOs (e.g., dmix), while others criticize the reporting quality for lack of clarity (codemac). Additional viewpoints suggest Nvidia should focus on consumer GPU production (tl2do) or could potentially compete with former customers (01100011).
 
-</ul>
-</details>
-
-**Discussion**: The community discussion shows positive engagement with substantive insights, including references to similar research like a Stanford paper on limited-data pretraining. Key viewpoints involve questions about second-order optimizers' role in data efficiency, appreciation for underrated ensemble diversity findings, and critiques of the baseline model choice. Concerns were also raised about potential over-fitting in meta-optimization processes.
-
-**Tags**: `#language-modeling`, `#machine-learning`, `#optimization`, `#benchmarking`, `#ai-research`
+**Tags**: `#AI`, `#Nvidia`, `#Investments`, `#OpenAI`, `#Anthropic`
 
 ---
 
 <a id="item-3"></a>
-## [Donald Knuth Acknowledges AI Solved His Open Problem](https://simonwillison.net/2026/Mar/3/donald-knuth/#atom-everything) ⭐️ 8.0/10
+## [Google Releases Official CLI Tool for Google Workspace Management](https://github.com/googleworkspace/cli) ⭐️ 7.0/10
 
-Donald Knuth revealed that Claude Opus 4.6, Anthropic's hybrid reasoning model released three weeks prior, solved an open problem he had been working on for several weeks. This has led him to reconsider his views on generative AI. This is significant because it demonstrates the advanced reasoning and problem-solving capabilities of modern AI, impressing even a skeptical legend like Knuth, and could accelerate AI adoption in mathematical and computational research. It marks a shift in how experts perceive generative AI's potential for automatic deduction and creative tasks. Claude Opus 4.6 is a hybrid reasoning model that can switch between standard and enhanced reasoning modes. Knuth described the AI's solution as 'quite admirable' and a 'dramatic advance in automatic deduction,' with the construction likely to appear in future volumes of 'The Art of Computer Programming.'
+Google has officially released a command-line interface (CLI) tool for Google Workspace, allowing users to manage Workspace resources like users, groups, and settings via terminal commands. The tool, written in Rust, is distributed via npm, and requires setting up an OAuth 2.0 client ID in a Google Cloud Platform (GCP) project for authentication. This official CLI provides developers and system administrators with a powerful, scriptable interface for automating routine Google Workspace management tasks, such as user provisioning, group management, and reporting. Its release fills a notable gap in Google's official tooling, potentially streamlining IT operations and DevOps workflows for organizations using Workspace. The CLI utilizes the OAuth 2.0 device authorization grant flow, a standard method for authenticating CLI applications, where users authorize access via a browser. A notable point of discussion is its installation method: it is a Rust-compiled binary distributed through the npm package registry, which some users found unusual.
 
-rss · Simon Willison · Mar 3, 23:59
+hackernews · gonzalovargas · Mar 5, 00:22
 
-**Background**: Donald Knuth is a legendary computer scientist best known for authoring the multi-volume series 'The Art of Computer Programming.' Claude Opus 4.6 is an AI model developed by Anthropic, featuring hybrid reasoning capabilities for complex tasks like coding and regulatory analysis. Automatic deduction refers to AI systems drawing conclusions from facts, which is a central problem in artificial intelligence research.
+**Background**: Google Workspace is a suite of cloud-based productivity and collaboration tools, including Gmail, Docs, Drive, and Calendar, widely used by businesses and organizations. A CLI (Command-Line Interface) is a text-based interface for interacting with software, preferred by developers and admins for automation and scripting. To use Google APIs, applications typically require an OAuth 2.0 client ID created within a Google Cloud Platform project, which governs the application's permissions and access to user data.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://blog.adafruit.com/2026/03/03/don-knuth-wrote-a-paper-thanking-claude-for-solving-an-open-math-problem/">Don Knuth wrote a paper thanking Claude for solving an open ...</a></li>
-<li><a href="https://www.anthropic.com/claude/opus">Claude Opus 4.6 - Anthropic</a></li>
+<li><a href="https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-device-code">OAuth 2.0 device authorization grant - Microsoft identity ...</a></li>
+<li><a href="https://developers.google.com/workspace/guides/auth-overview">Learn about authentication and authorization | Google Workspace | Google for Developers</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#Donald Knuth`, `#Generative AI`, `#Claude`, `#AI Research`, `#Problem Solving`
+**Discussion**: The community's reaction is mixed. Many users expressed frustration with the complex initial setup process, particularly the requirement to create a GCP application, which they see as a barrier for non-technical users. Some shared detailed accounts of encountering errors during OAuth scope selection and authentication. Others questioned the technical choice of distributing a Rust binary via npm, and some expressed surprise that an official Google Workspace CLI did not exist sooner.
+
+**Tags**: `#cli`, `#google-workspace`, `#automation`, `#developer-tools`
 
 ---
 
 <a id="item-4"></a>
-## [Google Releases CLI Tool for Google Workspace Management](https://github.com/googleworkspace/cli) ⭐️ 7.0/10
+## [HackerNews Discussion on Flash Nostalgia and Integrated Development Tools](https://bill.newgrounds.com/news/post/1607118) ⭐️ 7.0/10
 
-Google has released a new open-source command-line interface (CLI) tool for managing Google Workspace, which is available on GitHub. This tool allows users to perform administrative tasks directly from the terminal. This CLI tool can significantly enhance productivity for administrators and developers by automating Google Workspace management, supporting the growing adoption of DevOps and infrastructure-as-code practices in enterprise environments. The tool uses OAuth 2.0 for authentication, but users have reported setup difficulties, such as errors during scope selection in the login process. It is distributed via npm despite being a Rust binary, which has sparked community discussion about its packaging.
+A high-engagement discussion on HackerNews, scoring 473 points with 129 comments, focused on personal experiences and technical anecdotes about Adobe Flash's development environment. Participants emphasized Flash's unique integrated authoring tools that facilitated seamless collaboration between artists and developers. This discussion highlights the lasting impact of Flash's user-friendly and collaborative features, which many modern development platforms lack, affecting indie game developers and multimedia creators seeking efficient workflows. It also underscores ongoing efforts in the ecosystem to preserve Flash content and replicate its capabilities through emulation and cross-platform frameworks. Notable technical aspects include the ability to import and edit legacy .fla files with open-source tools, as mentioned in comments, and Flash's environment allowing real-time tweaking of animations between coders and artists. Projects like Ruffle, a Flash emulator written in Rust, and OpenFL, a framework mirroring Flash's API, are relevant examples of current preservation and development efforts.
 
-hackernews · gonzalovargas · Mar 5, 00:22
+hackernews · TechPlasma · Mar 4, 20:16
 
-**Background**: Google Workspace is a suite of cloud-based productivity and collaboration tools, including Gmail, Drive, and Docs. The Google Workspace Admin SDK provides APIs for programmatically managing these services, and OAuth 2.0 is the industry-standard protocol for authorization in such integrations, enabling secure access without sharing credentials.
+**Background**: Adobe Flash was a multimedia software platform widely used for creating animations, games, and interactive web content, but it was deprecated and discontinued in January 2021 due to security vulnerabilities and the adoption of HTML5. Following its end, projects like Ruffle emerged as open-source emulators written in Rust to run legacy Flash content via WebAssembly, while OpenFL provides a cross-platform development framework that mimics Flash's API using Haxe.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://www.postman.com/postman/google-api-workspace/collection/uc2iv4a/google-admin-sdk-api">️ Google Admin SDK API | Get Started - Postman</a></li>
-<li><a href="https://oauth.net/2/">OAuth 2 . 0 — OAuth</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Adobe_Flash">Adobe Flash - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ruffle_(software)">Ruffle (software) - Wikipedia</a></li>
+<li><a href="https://github.com/openfl">OpenFL · GitHub</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Community discussion reflects a mix of interest and frustration, with users expressing excitement about the tool's potential but reporting significant setup challenges, especially with OAuth authentication. Technical suggestions include implementing the Streamable HTTP MCP spec for better client compatibility, and there is curiosity about the use of npm for a Rust binary distribution.
+**Discussion**: The community sentiment is overwhelmingly nostalgic and positive, with users recalling Flash as a fun and highly collaborative development environment. Key viewpoints include praise for its seamless artist-developer workflow, the uniqueness of its authoring tools like .fla file editing, and support for projects that enable backward compatibility with old Flash files.
 
-**Tags**: `#google-workspace`, `#cli`, `#devops`, `#open-source`
+**Tags**: `#Flash`, `#Game Development`, `#Multimedia`, `#Development Tools`, `#Nostalgia`
 
 ---
 
 <a id="item-5"></a>
-## [Apple Announces MacBook Neo as Affordable Laptop](https://www.apple.com/newsroom/2026/03/say-hello-to-macbook-neo/) ⭐️ 7.0/10
+## [Internal Tensions and Researcher Departures Threaten Alibaba's Qwen AI Model Future.](https://simonwillison.net/2026/Mar/4/qwen/) ⭐️ 7.0/10
 
-Apple has announced the MacBook Neo, a new laptop model designed to be more affordable than the MacBook Air, but it comes with specific limitations in features and specifications. This matters because it makes Apple's ecosystem more accessible to a wider audience, potentially challenging competitors like Microsoft in the budget laptop market and influencing software development towards lower memory usage. Key details include support for only 8 GB of unified memory, no MagSafe or Thunderbolt support, and one USB-C port limited to USB 2.0 speeds of 480 Mb/s, though it can drive a 4K display at 60Hz.
+Reports indicate internal tensions and potential departures of key researchers at Alibaba Cloud, which could impact the ongoing development of the Qwen large language model series. This follows observations of conflicts between the research team and product teams, such as those behind the Qwen App. This matters because Qwen is a leading open-source AI model family used globally; any disruption in its development could slow innovation in areas like agentic coding and affect the competitive AI landscape. It also highlights broader industry challenges in balancing research goals with corporate product metrics. Key details include that Qwen3.5 models, such as the 35B variant, are noted for high capability in agentic coding tasks, but internal issues may involve Alibaba's push for product-driven KPIs like daily active users (DAU). Community testing shows these models perform well locally but can have limitations with long prompts.
 
-hackernews · dm · Mar 4, 14:16
+hackernews · simonw · Mar 4, 15:55
 
-**Background**: The MacBook Air is Apple's premium thin-and-light laptop, known for its performance and design. Apple's introduction of a more affordable model like the MacBook Neo represents a strategic move to expand its market reach and attract cost-sensitive consumers.
+**Background**: Qwen, also known as Tongyi Qianwen, is a family of large language models developed by Alibaba Cloud. Many variants are distributed as open-weight models under the Apache 2.0 license, enabling broad access for research and deployment. The latest series, Qwen3.5, includes vision-language models with features like a 262K context window and support for multiple languages.
 
-**Discussion**: Community discussion shows varied sentiments: some users list technical compromises compared to the MacBook Air, others compare it favorably to Windows laptops like the Microsoft Surface in terms of value, and a few note potential benefits for software development if 8 GB memory becomes a common baseline.
+<details><summary>References</summary>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Qwen">Qwen - Wikipedia</a></li>
+<li><a href="https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/now-in-foundry-qwen3-5-medium-model-series/4498640">Now in Foundry: Qwen3.5 Medium Model Series | Microsoft ...</a></li>
 
-**Tags**: `#apple`, `#laptops`, `#hardware`, `#consumer-electronics`, `#development`
+</ul>
+</details>
+
+**Discussion**: Community sentiment is mixed, with users praising Qwen3.5's impressive coding capabilities and efficiency for local deployment, noting it punches above its weight for tasks like Rust and Elixir programming. However, concerns are raised about internal tensions at Alibaba, such as conflicts between research and product teams and the imposition of DAU KPIs, which some find puzzling given the high demand for AI researchers.
+
+**Tags**: `#AI`, `#machine-learning`, `#Qwen`, `#Alibaba`, `#research`
 
 ---
 
 <a id="item-6"></a>
-## [Building a new Flash](https://bill.newgrounds.com/news/post/1607118) ⭐️ 7.0/10
+## [Anthropic CEO Accuses OpenAI of Lying About Military Contract Terms](https://techcrunch.com/2026/03/04/anthropic-ceo-dario-amodei-calls-openais-messaging-around-military-deal-straight-up-lies-report-says/) ⭐️ 7.0/10
 
-A HackerNews discussion has sparked interest in creating a modern alternative to Adobe Flash, with community members sharing anecdotes about Flash's development environment and technical projects, including an open-source tool that can import and edit legacy .fla files. Flash was a cornerstone of early web and game development, enabling unique collaboration between artists and programmers, and its decline has left a gap in interactive multimedia tools; a modern successor could preserve legacy content while advancing creative workflows. The open-source tool mentioned allows full authoring and editing of .fla files, which is rare for backward compatibility, but any new Flash-like platform must address historical issues like security vulnerabilities and performance limitations inherent in the original technology.
+Anthropic CEO Dario Amodei has publicly accused OpenAI of deceptive messaging regarding its contract with the U.S. Department of Defense (DoD), calling OpenAI's public statements 'straight up lies'. Amodei shared an internal memo detailing his concerns after Anthropic reportedly walked away from similar DoD work due to disagreements over safety and ethical conditions. This public clash between two leading AI labs highlights a deepening rift within the industry over the ethical boundaries of military AI applications and the transparency of corporate messaging. It raises critical questions about how AI companies navigate lucrative government contracts while upholding their stated safety principles, potentially influencing public trust and regulatory scrutiny. Community analysis suggests OpenAI's contract likely had less enforceable safety conditions than those demanded by Anthropic, essentially requiring the DoD only to follow its own rules. A point of contention also raised is Anthropic's own partnership with surveillance firm Palantir, which some see as inconsistent with its stance on DoD surveillance concerns.
 
-hackernews · TechPlasma · Mar 4, 20:16
+hackernews · SilverElfin · Mar 4, 23:51
 
-**Background**: Adobe Flash was a multimedia platform used for animations, games, and web applications, relying on the ActionScript programming language and SWF file format. ActionScript evolved into an ECMAScript implementation similar to JavaScript, while SWF was a vector-based format for delivering interactive content on the web, though it is now defunct due to security and performance concerns.
+**Background**: Anthropic is known for its 'Constitutional AI' approach, a framework that uses a set of principles to guide AI behavior towards being helpful, honest, and harmless, and to avoid assisting in illegal or unethical activities. The U.S. Department of Defense has its own set of ethical principles for AI, adopted in 2020, focusing on responsible and lawful use, though operationalizing them remains a challenge.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/ActionScript">ActionScript - Wikipedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/SWF">SWF - Wikipedia</a></li>
+<li><a href="https://constitutional.ai/">Constitutional AI | Tracking Anthropic's AI Revolution</a></li>
+<li><a href="https://www.anthropic.com/news/claudes-constitution">Anthropic</a></li>
+<li><a href="https://cset.georgetown.edu/wp-content/uploads/CSET-Responsible-and-Ethical-Military-AI.pdf">CSET - Responsible and Ethical Military AI</a></li>
 
 </ul>
 </details>
 
-**Discussion**: The discussion reflects nostalgic and positive sentiment, with developers praising Flash's collaborative environment that seamlessly integrated coders and artists. Key viewpoints include anecdotes about the fun of Flash development, technical challenges like building a Flash crawler, and excitement over open-source tools that maintain compatibility with old files.
+**Discussion**: Community discussion highlights skepticism about the enforceability of OpenAI's contract conditions, viewing them as potentially weak. Debate also centers on the immense financial pressures driving such deals and the ethical dilemma of funding frontier AI. Some users praise Amodei's integrity, while others point out perceived hypocrisy in Anthropic's existing partnerships.
 
-**Tags**: `#Flash`, `#Web Development`, `#Game Development`, `#Legacy Systems`, `#Multimedia`
+**Tags**: `#AI ethics`, `#OpenAI`, `#Anthropic`, `#military AI`, `#corporate controversy`
 
 ---
 
 <a id="item-7"></a>
-## [Dario Amodei calls OpenAI’s messaging around military deal ‘straight up lies’](https://techcrunch.com/2026/03/04/anthropic-ceo-dario-amodei-calls-openais-messaging-around-military-deal-straight-up-lies-report-says/) ⭐️ 7.0/10
+## [MOSS is a pixel drawing tool where every brush is a tiny program.](https://www.moss.town/) ⭐️ 7.0/10
 
-Anthropic CEO Dario Amodei has accused OpenAI of making misleading statements about a military contract with the Department of Defense, labeling their messaging as 'straight up lies' in a recent report. This public accusation highlights intense ethical and financial tensions within the AI industry, as leading companies navigate the trade-offs between safety principles, lucrative military funding, and competitive dynamics. The dispute centers on contractual conditions that may be unenforceable, and Anthropic's own partnership with surveillance firm Palantir is cited as a contradiction to its ethical stance on military use.
+The tool MOSS has been introduced, featuring a pixel canvas where each brush is a small script that executes code to paint dynamically based on user inputs like stroke speed and pressure. This innovation bridges programming and creative art, enabling dynamic and interactive artwork that can evolve with user interaction, appealing to both digital artists and coders. MOSS includes over 50 pre-made brushes, operates on a fixed 128x128 pixel canvas, and allows users to tweak brush code to alter painting behavior based on parameters such as noise and randomness.
 
-hackernews · SilverElfin · Mar 4, 23:51
+hackernews · smusamashah · Mar 4, 10:21
 
-**Background**: OpenAI and Anthropic are major AI research labs competing in frontier model development. Anthropic emphasizes 'Constitutional AI' for safety, while OpenAI has pursued various commercial and defense partnerships. Military AI contracts often raise ethical debates over autonomous weapons and surveillance, influencing industry credibility and regulatory scrutiny.
+**Background**: Pixel art is a digital art form where images are created using pixels as the fundamental building blocks. Programmable brushes extend traditional digital painting by allowing brush behavior to be defined through code, which is a core aspect of creative coding that merges software development with artistic expression. Tools like MOSS build on graphics programming techniques to enable interactive and responsive art creation.
 
-**Discussion**: Community sentiment is divided, with discussions focusing on the financial pressures driving military deals, skepticism about the enforceability of ethical conditions in contracts, and criticism of Anthropic's perceived hypocrisy due to its Palantir partnership. Some users argue both companies engage in 'safety theater' without solving core AI alignment issues.
+<details><summary>References</summary>
+<ul>
+<li><a href="https://www.moss.town/">MOSS — A Painting Toy Where Every Brush Is a Tiny Program</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Pixel_art">Pixel art - Wikipedia</a></li>
 
-**Tags**: `#AI ethics`, `#military AI`, `#industry news`, `#OpenAI`, `#Anthropic`
+</ul>
+</details>
+
+**Discussion**: Community comments were overwhelmingly positive, with users expressing excitement about the programmable brush concept. Key suggestions included adding features like stroke recording for replay with different brushes, support for straight-line drawing with modifier keys such as Shift, and comparisons to popular tools like Aseprite and Procreate.
+
+**Tags**: `#creative-coding`, `#graphics-programming`, `#interactive-art`, `#software-tools`, `#pixel-canvas`
 
 ---
 
 <a id="item-8"></a>
-## [Moss is a pixel canvas where every brush is a tiny program](https://www.moss.town/) ⭐️ 7.0/10
+## [NanoGPT Slowrun Launches as a Benchmark for Data-Efficient Language Modeling.](https://qlabs.sh/slowrun) ⭐️ 7.0/10
 
-Moss is a new drawing tool where each brush is implemented as a tiny script that programmatically paints on a pixel canvas using parameters like noise, patterns, and stroke data. It was recently developed and shared online, gaining high engagement with 220 upvotes and 25 comments. This matters because it democratizes programmable art tools, allowing artists and coders to create unique, algorithm-driven visuals that bridge creative coding and digital art. It could expand the boundaries of generative art and influence the development of programming tools for creative workflows. Each brush script in Moss has access to the entire canvas state and can utilize real-time input such as stroke speed and pressure to dynamically adjust painting behavior, enabling effects like realistic spray cans or pattern-based drawings. However, creating custom brushes requires basic programming knowledge, which may limit accessibility for non-coders.
+The NanoGPT Slowrun project has been introduced as an open benchmark for language modeling algorithms in the infinite compute, limited data regime, using 100 million tokens from FineWeb with no time constraints to achieve the lowest validation loss. This initiative matters because it addresses the critical challenge of data scarcity as computational resources outpace available training data, guiding research towards more efficient methods that could optimize large language model development and reduce reliance on massive datasets. In the first week, the project reported a 5.5x improvement in data efficiency, and it builds on recent research findings that optimal regularization, such as weight decay, can be up to 30 times larger than standard values in data-constrained settings to prevent overfitting.
 
-hackernews · smusamashah · Mar 4, 10:21
+hackernews · sdpmas · Mar 4, 17:56
 
-**Background**: Creative coding involves using programming to create visual or interactive art, often leveraging algorithms and procedural generation techniques. Procedures like Perlin noise, a type of gradient noise, are commonly used in generative art to produce organic, random patterns for digital canvases. Script-based painting allows artists to define brush behaviors through code, as seen in libraries like p5.js for JavaScript.
+**Background**: Language modeling involves training neural networks to predict the next token in a sequence, typically using vast datasets. NanoGPT is a lightweight framework for such tasks, with its Speedrun version focused on fast training and the new Slowrun version emphasizing data efficiency under fixed data conditions. FineWeb is a commonly used dataset in benchmarks, and the 'infinite compute' paradigm assumes abundant computational power but limited data, a trend highlighted in recent research on pre-training.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin noise - Wikipedia</a></li>
-<li><a href="https://www.ideo.com/journal/painting-with-code">Painting with Code</a></li>
+<li><a href="https://qlabs.sh/slowrun">NanoGPT Slowrun - Q</a></li>
+<li><a href="https://github.com/qlabs-eng/slowrun">GitHub - qlabs-eng/slowrun: 100M tokens, no time limit, best val loss wins!</a></li>
+<li><a href="https://arxiv.org/abs/2509.14786">[2509.14786] Pre-training under infinite compute</a></li>
 
 </ul>
 </details>
 
-**Discussion**: The community expressed enthusiasm for Moss, with users praising its concept and suggesting features like timelapse recording, tracking brush usage, and adding a Shift key for straight-line painting. Some compared it to tools like Aseprite and Procreate, while others envisioned creative exploits using its programmable nature.
+**Discussion**: The discussion shows strong interest in related research, such as a Stanford paper on pre-training with unlimited compute and limited data, and includes debates on the role of second-order optimizers for data efficiency, questions about baseline model choices, and concerns about overfitting risks due to meta-optimization on validation sets.
 
-**Tags**: `#creative-coding`, `#digital-art`, `#programming-tools`, `#software-engineering`
-
----
-
-<a id="item-9"></a>
-## [Don't Dump Unreviewed AI-Generated Code on Your Team](https://simonwillison.net/guides/agentic-engineering-patterns/anti-patterns/#atom-everything) ⭐️ 7.0/10
-
-Simon Willison explicitly calls out the anti-pattern of submitting large pull requests filled with AI-generated code that the author has not personally reviewed. He stresses that the initial review pass is the submitter's responsibility and provides specific characteristics of a good 'agentic engineering' pull request. This matters because it addresses a growing point of friction in AI-assisted development, safeguarding team efficiency and collaborative trust. If developers shirk the responsibility of reviewing their own AI-aided work, they shift cognitive load and waste colleagues' time, undermining the potential productivity gains of the tool. Willison recommends providing evidence of personal review, such as notes on manual testing, comments on implementation choices, or screenshots. A key caveat is that even the convincing-looking pull request descriptions written by agents must be reviewed and validated by the human author.
-
-rss · Simon Willison · Mar 4, 17:34
-
-**Background**: Agentic engineering is a software development discipline where humans define goals and constraints, and AI agents autonomously plan, write, and test code under structured human oversight. Coined by OpenAI's Andrej Karpathy, it represents an evolution beyond simple code completion or suggestion tools (like GitHub Copilot's chat), towards more autonomous coding agents. It emphasizes that the engineer's role shifts from writing every line to designing systems and providing high-quality oversight.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.ibm.com/think/topics/agentic-engineering">What is agentic engineering? - IBM</a></li>
-<li><a href="https://www.glideapps.com/blog/what-is-agentic-engineering">What is agentic engineering? How AI engineering has evolved ...</a></li>
-<li><a href="https://simonwillison.net/2026/Feb/23/agentic-engineering-patterns/">Writing about Agentic Engineering Patterns | Simon Willison’s Weblog</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#agentic-engineering`, `#code-review`, `#software-engineering`, `#AI-assistance`
-
----
-
-<a id="item-10"></a>
-## [Google Launches Gemini 3.1 Flash-Lite, a Low-Cost AI Model with Adjustable Thinking Levels.](https://simonwillison.net/2026/Mar/3/gemini-31-flash-lite/#atom-everything) ⭐️ 7.0/10
-
-Google released Gemini 3.1 Flash-Lite, an AI model priced at $0.25 per million input tokens and $1.5 per million output tokens, which is one-eighth the cost of Gemini 3.1 Pro. This model also introduces support for four different thinking levels, from minimal to high. The drastic price reduction makes AI more accessible for high-volume applications like agentic tasks and data extraction, potentially accelerating adoption in cost-sensitive projects. The adjustable thinking levels allow developers to balance reasoning depth with budget, enabling more efficient use in varied scenarios. Gemini 3.1 Flash-Lite is a multimodal model that accepts text, image, speech, and video inputs but outputs only text, with a context window of 1 million tokens and knowledge up to January 2025. Its thinking levels can be configured to integrate external tools and real-time information, enhancing reasoning capabilities.
-
-rss · Simon Willison · Mar 3, 21:53
-
-**Background**: In AI language models, tokens are units of text used for processing and pricing, with input and output tokens typically charged at different rates, often with output being more expensive. Thinking levels refer to a model's ability to perform reasoning at varying depths, from simple to complex, which can impact response quality and computational cost. Google's Gemini models are multimodal AI systems designed for tasks ranging from conversation to analysis, and token-based pricing is a common industry practice for scaling usage.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite-preview">Gemini 3.1 Flash-Lite Preview - Google AI for Developers</a></li>
-<li><a href="https://ai.google.dev/gemini-api/docs/thinking">Gemini thinking | Gemini API | Google AI for Developers</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#AI Models`, `#Google Gemini`, `#Cost Reduction`, `#Machine Learning`
+**Tags**: `#language-modeling`, `#machine-learning`, `#data-efficiency`, `#hacker-news`
 
 ---
