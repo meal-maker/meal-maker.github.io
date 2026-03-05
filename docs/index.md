@@ -1,17 +1,7 @@
 ---
 layout: default
-title: Home
+title: 每日AI新闻速递
 ---
-
-# Horizon
-
-Welcome to [Horizon](https://github.com/thysrael/Horizon), an AI-driven information aggregation system.
-
-## Documentation
-
-- [Configuration Guide](configuration) — AI providers, information sources, filtering, and environment variable substitution
-- [Source Scrapers](scrapers) — How Horizon collects content from GitHub, Hacker News, RSS, and Reddit
-- [Scoring System](scoring) — AI-based content analysis and the 0-10 scoring scale
 
 ## 中文速递
 
