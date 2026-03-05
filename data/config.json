@@ -21,6 +21,12 @@
         "owner": "astral-sh",
         "repo": "uv",
         "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openclaw",
+        "repo": "openclaw",
+        "enabled": true
       }
     ],
     "hackernews": {
@@ -32,14 +38,26 @@
       {
         "name": "Simon Willison",
         "url": "https://simonwillison.net/atom/everything/",
+        "enabled": false,
+        "category": "ai-tools"
+      },
+      {
+        "name": "阮一峰的个人网站",
+        "url": "http://feeds.feedburner.com/ruanyifeng",
         "enabled": true,
         "category": "ai-tools"
       },
       {
-        "name": "LWN.net (subscriber full-text)",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
-        "enabled": false,
-        "category": "linux"
+        "name": "鸟窝",
+        "url": "https://colobu.com/atom.xml",
+        "enabled": true,
+        "category": "ai-tools"
+      },
+      {
+        "name": "量子位",
+        "url": "https://www.qbitai.com/feed",
+        "enabled": true,
+        "category": "ai-tools"
       }
     ],
     "reddit": {
@@ -50,14 +68,70 @@
           "enabled": true,
           "sort": "hot",
           "time_filter": "day",
-          "fetch_limit": 15,
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "ClaudeAI",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "ChatGPT",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "LocalLLM",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "singularity",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "openai",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "artificial",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
+          "min_score": 50
+        },
+        {
+          "subreddit": "ArtificialInteligence",
+          "enabled": true,
+          "sort": "hot",
+          "time_filter": "day",
+          "fetch_limit": 10,
           "min_score": 50
         }
       ],
       "users": [
         {
           "username": "iamthatis",
-          "enabled": true,
+          "enabled": false,
           "sort": "new",
           "fetch_limit": 10
         }
