@@ -33,6 +33,10 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: uv run horizon --hours 48
 
+      # 新增步骤：生成日期并存入环境变量（关键修复）
+      - name: Set current date as environment variable
+        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -40,6 +44,7 @@ jobs:
           publish_dir: ./docs
           destination_dir: ./docs
           keep_files: true  # Keep existing summaries on gh-pages branch
-          commit_message: "📝 Daily Summary: $(date +'%Y-%m-%d')"
+          # 引用环境变量中的日期
+          commit_message: "📝 Daily Summary: ${{ env.DATE }}"
           publish_branch: main
           enable_jekyll: true
