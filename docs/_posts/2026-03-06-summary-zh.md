@@ -5,220 +5,257 @@ date: 2026-03-06
 lang: zh
 ---
 
-> From 16 items, 9 important content pieces were selected
+> From 17 items, 11 important content pieces were selected
 
 ---
 
-1. [OpenAI 发布 GPT-5.4，具备 100 万 token 上下文窗口和新的定价结构](#item-1) ⭐️ 9.0/10
-2. [维基百科因恶意蠕虫入侵管理员账户被迫进入只读模式。](#item-2) ⭐️ 8.0/10
-3. [美国海关和边境保护局利用在线广告数据追踪人员移动](#item-3) ⭐️ 7.0/10
-4. [保罗·格雷厄姆的文章批评了品牌在现代社会中超越功能的主导地位。](#item-4) ⭐️ 7.0/10
-5. [10%的 Firefox 崩溃由位翻转导致](#item-5) ⭐️ 7.0/10
-6. [优秀软件懂得适时止步](#item-6) ⭐️ 7.0/10
-7. [Jido 2.0：面向生产环境的 Elixir AI 智能体框架发布](#item-7) ⭐️ 7.0/10
-8. [Proton Mail 帮助 FBI 识别匿名 'Stop Cop City' 抗议者](#item-8) ⭐️ 7.0/10
-9. [GitHub Issue 标题漏洞通过 AI 工具导致 4000 台开发者机器被入侵](#item-9) ⭐️ 6.0/10
+1. [OpenAI 发布 GPT-5.4，具备 100 万 token 上下文窗口](#item-1) ⭐️ 9.0/10
+2. [Anthropic 明确针对国防部使用 AI 的伦理例外情况](#item-2) ⭐️ 8.0/10
+3. [研究发现 10%的 Firefox 崩溃由内存位翻转导致](#item-3) ⭐️ 8.0/10
+4. [Paul Graham 的《品牌时代》分析了从创新驱动到品牌主导竞争的演变。](#item-4) ⭐️ 8.0/10
+5. [Anthropic 提出 AI 劳动力市场影响的新指标](#item-5) ⭐️ 8.0/10
+6. [处理低质量 AI 生成拉取请求的标准协议提案](#item-6) ⭐️ 8.0/10
+7. [维基百科因蠕虫攻击管理员账户而被迫进入只读模式](#item-7) ⭐️ 8.0/10
+8. [CBP 利用在线广告数据追踪人员移动。](#item-8) ⭐️ 7.0/10
+9. [倡导“已完成”的软件以对抗功能蔓延](#item-9) ⭐️ 7.0/10
+10. [GitHub Issue 标题导致 4000 台开发者机器被入侵](#item-10) ⭐️ 7.0/10
+11. [Linux 系统上远程解锁加密硬盘的技术](#item-11) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [OpenAI 发布 GPT-5.4，具备 100 万 token 上下文窗口和新的定价结构](https://openai.com/index/introducing-gpt-5-4/) ⭐️ 9.0/10
+## [OpenAI 发布 GPT-5.4，具备 100 万 token 上下文窗口](https://openai.com/index/introducing-gpt-5-4/) ⭐️ 9.0/10
 
-OpenAI 宣布了 GPT-5.4，该模型引入了突破性的 100 万 token 上下文窗口，并更新了定价结构，使其在 AI 模型市场中更具竞争力。 这一发布使 AI 模型能够在单次交互中处理更长的文档或对话，通过提高分析的连贯性和深度，可能彻底改变法律研究、软件开发和内容生成等领域的应用。 GPT-5.4 提供 100 万 token 的上下文窗口，且对超过 200k token 的生成没有额外费用，定价为每百万输入 token 2.50 美元和每百万输出 token 15 美元，价格低于 Anthropic 的 Opus 等竞争对手。
+OpenAI 发布了 GPT-5.4，这一新模型具备 100 万 token 的上下文窗口，并改进了 token 效率，其定价相比之前的 GPT-5.3 和 Opus 4.6 等模型更具竞争力。 100 万 token 的上下文窗口使得 AI 模型能够处理更长的文档和对话，为法律分析和代码审查等领域开辟了新应用。此外，竞争性定价使开发者和企业能够以更低的成本使用先进的 AI 功能。 关键细节包括 GPT-5.4 使用完整的 100 万上下文窗口没有额外费用，而某些模型超过 20 万 token 会收取惩罚性费用，并且其 token 效率改进可以通过每个任务使用更少的 token 来降低运营成本和加快响应速度。
 
 hackernews · mudkipdev · Mar 5, 18:08
 
-**背景**: 在大型语言模型中，上下文窗口指的是模型在处理时一次性能考虑的文本最大量，以 token 计量。Token 是自然语言处理中的基本文本单位，如单词或子词，用于将输入分解以供机器理解。更大的上下文窗口使模型能够从长文档或扩展对话中保留更多信息，从而提高其生成相关且连贯响应的能力。
+**背景**: 在大型语言模型中，上下文窗口指的是模型单次输入能够处理的文本量，以 token 为单位，更大的窗口支持更长的序列处理。Token 效率涉及如 token 剪枝等技术，在推理过程中选择性地移除信息量较少的 token，从而提高速度和降低成本。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Context_window">Context window - Wikipedia</a></li>
-<li><a href="https://www.geeksforgeeks.org/nlp/nlp-how-tokenizing-text-sentence-words-works/">Tokenization in NLP</a></li>
+<li><a href="https://www.ibm.com/think/topics/context-window">What is a context window ? | IBM</a></li>
+<li><a href="https://www.techrxiv.org/users/895989/articles/1272463-the-role-of-token-pruning-in-efficient-transformer-architectures">The Role of Token Pruning in Efficient Transformer Architectures - TechRxiv</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区讨论反映出对 100 万 token 上下文窗口和竞争性定价的赞赏，以及对 OpenAI 版本命名和模型阵容混乱的批评。用户赞赏该模型在代码分析等任务中性能的提升，但对与竞争对手相比不一致的命名和部署策略表示不满。
+**社区讨论**: 社区评论突出了对 100 万上下文窗口和成本效率的积极情绪，用户注意到相比 Opus 4.6 等模型的显著节约。一些人指出了博客文章'询问 ChatGPT'功能无法访问 URL 的讽刺之处，而其他人则赞扬了模型改进的写作清晰度和 token 效率对降低开支的作用。
 
-**标签**: `#artificial-intelligence`, `#openai`, `#gpt`, `#context-window`, `#pricing`
+**标签**: `#AI`, `#GPT-Models`, `#OpenAI`, `#Context-Window`, `#Pricing`
 
 ---
 
 <a id="item-2"></a>
-## [维基百科因恶意蠕虫入侵管理员账户被迫进入只读模式。](https://www.wikimediastatus.net/) ⭐️ 8.0/10
+## [Anthropic 明确针对国防部使用 AI 的伦理例外情况](https://www.anthropic.com/news/where-stand-department-war) ⭐️ 8.0/10
 
-一个自我传播的 JavaScript 蠕虫利用了维基媒体各 wiki 网站上的用户脚本，导致大量管理员账户被入侵，迫使平台进入全局只读模式以控制损害。该事件记录在公开的 Phabricator 工单（T419143）中，起因是一名维基媒体基金会员工进行的测试无意中触发了恶意脚本的传播。 此次事件凸显了对全球最依赖的免费知识来源之一的关键安全威胁，直接损害了其完整性和可用性。它暴露了开放协作平台特有的风险，即用户贡献的代码被高度信任，却可能被武器化，利用管理员权限传播攻击。 该蠕虫被设计为注入到关键的 JavaScript 页面（如 MediaWiki:Common.js）中以实现持久化、隐藏 UI 元素、用 XSS 负载破坏文章，并且在感染管理员账户后，会利用 Special:Nuke 等特权工具随机删除页面。取证工作面临重大挑战，因为蠕虫通过修改数据库历史记录进行传播，而历史记录本身就是一个核心传播媒介。
+Anthropic 已具体说明，将允许其 AI 系统（如 Claude）在两种狭义的伦理例外情况下被美国国防部使用，这些例外基于实用考量而非道德理由。 此举具有重要意义，因为它标志着科技行业规范向有条件的军事合作转变，可能影响 AI 伦理标准，并为全球公司与国防机构的合作方式设定先例。 这些例外情况定义狭窄，且 Anthropic 的立场与 OpenAI 近期在不同条款下与五角大楼的合作形成对比，突显了在持续伦理辩论中，各公司对军事 AI 使用的不同方法。
 
-hackernews · greyface- · Mar 5, 16:04
+hackernews · surprisetalk · Mar 6, 00:40
 
-**背景**: 驱动维基百科的 MediaWiki 软件允许用户编写自定义的 JavaScript“用户脚本”来修改界面或添加功能。跨站脚本（XSS）是一种网络安全漏洞，允许攻击者向原本良性和受信任的网站中注入恶意脚本。维基百科上的管理员账户拥有更高的权限，例如删除页面或编辑受保护的全站脚本，这使他们成为高价值目标。
+**背景**: Anthropic 是一家专注于 AI 安全和伦理的 AI 研究公司，以开发 Claude 等模型而闻名。国防部是美国国防部的现代等效机构，它已采纳'AI 优先'战略，将人工智能整合到军事行动中，作为其追求军事优势的一部分。这一背景涉及关于 AI 在战争中伦理影响的持续辩论，包括自主系统和监视。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.bleepingcomputer.com/news/security/wikipedia-hit-by-self-propagating-javascript-worm-that-vandalized-pages/">Wikipedia hit by self-propagating JavaScript worm that ...</a></li>
-<li><a href="https://www.sentinelone.com/vulnerability-database/cve-2025-61640/">CVE-2025-61640: MediaWiki XSS Vulnerability - SentinelOne</a></li>
+<li><a href="https://apnews.com/article/anthropic-pentagon-openai-claude-chatgpt-military-ai-b2bbcf5fda3f27353eae1e0eb7ab07b6">Anthropic's moral stand against Pentagon raises questions about AI's readiness for military use | AP News</a></li>
+<li><a href="https://media.defense.gov/2026/Jan/12/2003855671/-1/-1/0/ARTIFICIAL-INTELLIGENCE-STRATEGY-FOR-THE-DEPARTMENT-OF-WAR.PDF">Artificial Intelligence Strategy for the Department of War</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区深入参与了技术分析，剖析了蠕虫的传播机制、其利用 jQuery 隐藏证据的行为，以及获得管理员权限后的破坏性操作。对于触发此事件的内部测试流程存在大量批评，认为其操作鲁莽。讨论也集中在取证和清理工作的挑战上，有人指出定期的数据库快照可能有助于恢复，同时有猜测将此攻击与之前针对俄语维基的破坏活动联系起来。
+**社区讨论**: 社区评论反映了对科技行业态度道德转变的担忧，用户指出历史上从 outright refusal 军事工作转向实用主义例外。一些人批评所使用的语言，如'warfighter'一词，并质疑伦理影响，而其他人则分享个人轶事，强调对 AI 开发用于战争的责任的不同观点。
 
-**标签**: `#security`, `#wikipedia`, `#web-security`, `#incident-response`, `#hacking`
+**标签**: `#AI Ethics`, `#Military Technology`, `#Tech Policy`, `#Corporate Responsibility`, `#Anthropic`
 
 ---
 
 <a id="item-3"></a>
-## [美国海关和边境保护局利用在线广告数据追踪人员移动](https://www.404media.co/cbp-tapped-into-the-online-advertising-ecosystem-to-track-peoples-movements/) ⭐️ 7.0/10
+## [研究发现 10%的 Firefox 崩溃由内存位翻转导致](https://mas.to/@gabrielesvelto/116171750653898304) ⭐️ 8.0/10
 
-一项最近的调查显示，美国海关和边境保护局利用了从在线广告生态系统中获取的位置数据，具体通过实时竞价系统和数据经纪人，在没有授权令的情况下监控个人的移动。 这种做法表明，政府机构可以绕过传统的法律要求，将商业监控工具重新用于执法，这带来了重大的隐私风险——为广告收集的敏感位置数据可被当局获取。 据报道，这种追踪依赖于移动广告标识符以及数据经纪人从应用和网站汇总的数据。来自广告行业的反对观点指出，这些网络中的位置数据通常不准确，是基于概率性猜测而非精确的 GPS 坐标。
+近期一项对 Firefox 崩溃数据的分析显示，该浏览器约 10%的崩溃可归因于系统内存中的位翻转。这一发现源于对软件不稳定性根本原因的讨论和研究。 这之所以重要，是因为它突显了软件可靠性的一个根本性挑战：底层硬件的缺陷会直接导致应用程序故障，且开发者难以诊断。这引发了一场关于纠错码（ECC）内存是否应在消费级硬件中更广泛采用的讨论，因为 ECC 内存可以缓解此类错误。 相关讨论中包含了专家们的轶事，例如一位游戏开发者在 2004 年实施的位翻转检测发现，大约 0.1%的机器会出现故障。社区评论还指出，用户手动将内存超频至稳定极限以上，是引发此类内存错误的常见人为原因。
 
-hackernews · ece · Mar 4, 15:57
+hackernews · marvinborner · Mar 4, 19:58
 
-**背景**: 在线广告生态系统使用一种称为实时竞价（RTB）的过程，这是一个自动化拍卖系统，当用户加载页面时，网站或应用上的广告位会在几毫秒内被售出。数据经纪人是那些从各种来源（包括商业交易、应用程序和跟踪技术）聚合大量个人信息，以构建详细用户画像并将其出售的公司。移动广告 ID 是分配给设备的唯一标识符，允许广告商跨不同的应用和网站追踪用户活动，以实现定向广告投放。
+**背景**: 内存位翻转，或称单粒子翻转（SEU），是指内存中单个数据位发生意外改变（从 0 变为 1 或反之），通常由宇宙射线或电干扰等环境因素引起。ECC（纠错码）内存是一种特殊类型的 RAM，能够检测并自动纠正单比特错误，从而防止许多位翻转导致崩溃或数据损坏。ECC 在服务器和工作站中很常见，但在标准消费级 PC 和笔记本电脑中则更昂贵且不普及。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Real-time_bidding">Real-time bidding - Wikipedia</a></li>
-<li><a href="https://staysafeonline.org/articles/data-brokers-what-they-are-how-they-work-and-how-you-can-protect-your-privacy">Data Brokers: What They Are, How They Work, and How You Can ...</a></li>
-<li><a href="https://www.eff.org/deeplinks/2026/03/targeted-advertising-gives-your-location-government-just-ask-cbp">The Government Uses Targeted Advertising to Track Your Location. Here's What We Need to Do. | Electronic Frontier Foundation</a></li>
+<li><a href="https://en.wikipedia.org/wiki/ECC_memory">ECC memory - Wikipedia</a></li>
+<li><a href="https://www.techbriefs.com/component/content/article/3185-npo-45368">Injecting Artificial Memory Errors Into a Running... - Tech Briefs</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区评论反映了强烈的隐私担忧和主动应对措施，用户主张积极屏蔽广告并尽量减少设备使用。一位用户提到了 Cory Doctorow 在 2007 年的一个故事，认为其具有先见之明。而另一位从事广告数据工作的用户则挑战了这一叙事，强调许多位置数据的不准确性，暗示这种追踪可能没有人们担心的那么精确。
+**社区讨论**: 社区的讨论普遍认同位翻转问题的重要性，开发者们分享了在游戏（《激战》）、编程语言（Go 工具链）和科学计算（Julia）等领域遇到并诊断此类错误的实际经验。一个反复出现的主题是对消费级系统 ECC 内存价格高昂且不易获得的沮丧，许多人认为它应成为标准配置。几位评论者分享了他们最终追溯到故障内存或不稳定超频导致的离奇崩溃的个人经历。
 
-**标签**: `#privacy`, `#surveillance`, `#ad-tech`, `#government-tracking`, `#data-brokers`
+**标签**: `#bitflips`, `#firefox`, `#memory-errors`, `#software-reliability`, `#ecc-memory`
 
 ---
 
 <a id="item-4"></a>
-## [保罗·格雷厄姆的文章批评了品牌在现代社会中超越功能的主导地位。](https://paulgraham.com/brandage.html) ⭐️ 7.0/10
+## [Paul Graham 的《品牌时代》分析了从创新驱动到品牌主导竞争的演变。](https://paulgraham.com/brandage.html) ⭐️ 8.0/10
 
-保罗·格雷厄姆发表了一篇题为《品牌时代》的文章，他认为在现代社会中，品牌化已变得比实用功能更重要，尤其对技术和奢侈品领域有具体影响。 这很重要，因为它突显了一个社会转变，即营销和品牌认知可能掩盖产品功能性，可能导致 AI 等行业的商品化以及奢侈品市场的人为稀缺。 格雷厄姆的批评延伸到技术领域，暗示随着大语言模型等产品商品化，品牌化可能成为关键区分因素，类似于百达翡丽等奢侈手表品牌使用人为稀缺来保持价值。
+Paul Graham 发表了一篇名为《品牌时代》的新文章，提出了一个关于行业如何演变的框架。他认为，在快速创新的“黄金时代”之后，行业往往会进入平台期，并迈入“品牌时代”，此时竞争主要转向品牌和营销，而非实质性的产品改进。 这个框架之所以重要，是因为它为创业者、投资者和消费者提供了一个理解行业动态和预测市场趋势的视角。它向技术社区揭示了一个潜在的陷阱，即可能低估品牌的作用，直到在竞争中为时已晚。 Graham 用航空（如协和式飞机）、咖啡店（如星巴克）和社交媒体等例子来阐述他的论点。他还详述了“品牌时代”使用的策略，例如百达翡丽等奢侈手表制造商为营造稀缺性而采取的人工限量手段。
 
 hackernews · bigwheels · Mar 5, 17:44
 
-**背景**: 品牌化涉及为产品创建独特身份以影响消费者选择和忠诚度。商品化发生在产品标准化并主要基于价格竞争时，促使公司强调品牌化以进行区分。保罗·格雷厄姆是一位知名的企业家和散文家，经常撰写关于技术和社会趋势的文章。
+**背景**: Paul Graham 是创业加速器 Y Combinator 的联合创始人，也是科技与商业领域知名的文章作者。在技术和创业圈，他的文章是具有影响力的思想著述。“黄金时代”指的是一个领域内快速、根本性创新的时期，而“品牌时代”描述的则是后续阶段，此阶段的差异化更多是关于认知和地位，而非核心功能。
 
-**社区讨论**: 社区评论大多赞同格雷厄姆的观点，用户将这一批评与 AI 商品化和奢侈品牌实践联系起来。关键点包括对 Anthropic 营销策略、百达翡丽通过等待名单实现人为稀缺以及苹果依赖高制作营销吸引消费者的讨论。
+**社区讨论**: 社区讨论显示出对文章核心前提的认同，将其与史蒂夫·乔布斯关于营销部门接管公司的警告联系起来。然而，一些评论者质疑品牌化必然负面或导致劣质产品的观点，并以冠蓝狮（Grand Seiko）等品牌与工程卓越共存的例子作为反证。另一些人则批评奢侈品牌使用的人工稀缺策略。
 
-**标签**: `#branding`, `#essay`, `#society`, `#ai`
+**标签**: `#branding`, `#innovation`, `#business-models`, `#essay`, `#technology`
 
 ---
 
 <a id="item-5"></a>
-## [10%的 Firefox 崩溃由位翻转导致](https://mas.to/@gabrielesvelto/116171750653898304) ⭐️ 7.0/10
+## [Anthropic 提出 AI 劳动力市场影响的新指标](https://www.anthropic.com/research/labor-market-impacts) ⭐️ 8.0/10
 
-一项讨论指出，大约 10%的 Firefox 崩溃可能源于硬件位翻转，即由宇宙射线或硬件缺陷等因素引起的内存错误。 这一点很重要，因为它揭示了相当一部分软件崩溃源于硬件问题而非编程错误，影响了用户体验并增加了调试难度。这强调了在消费级设备中采用更可靠硬件（如 ECC 内存）的必要性。 10%这一数字是基于社区讨论的估计，而非同行评审的研究，并且位翻转可能由多种因素引起，包括宇宙射线、Row hammer 效应或内存缺陷。区分位翻转导致的崩溃与软件错误通常需要先进的遥测和错误检测系统。
+人工智能研究公司 Anthropic 发表了一项研究，引入了一种新指标来评估人工智能对劳动力市场的影响，并利用该方法提供了早期证据。 这项研究之所以重要，是因为它旨在提高测量 AI 经济干扰的准确性，从而为政策制定者、企业和工人提供关于就业和生产力潜在变化的信息。 这一新指标旨在解决过去预测 AI 影响方法的局限性，但证据尚属初步，可能尚未反映长期趋势。社区讨论强调了从生产力提升到影响甚微的混合现实体验。
 
-hackernews · marvinborner · Mar 4, 19:58
+hackernews · jjwiseman · Mar 5, 22:55
 
-**背景**: 位翻转是内存中位的无意改变，即 0 变为 1 或 1 变为 0，通常由外部辐射或内部 DRAM 漏洞（如 Row hammer）触发。它们被分类为临时的软错误或由硬件损坏引起的永久性硬错误。ECC（纠错码）内存可以检测并纠正某些位翻转，但在消费级硬件中并不标准。
+**背景**: Anthropic 是一家美国 AI 安全和研究公司，以开发如 Claude 这样的大型语言模型而闻名。AI 技术的快速扩散增强了对其劳动力市场效应理解的兴趣，但现有指标往往缺乏精确性。这项研究有助于持续预测 AI 如何重塑就业和经济生产力的努力。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Bit_flipping">Bit flipping - Wikipedia</a></li>
-<li><a href="https://engineerfix.com/what-is-a-bit-flip-and-what-causes-one/">What Is a Bit Flip and What Causes One? - Engineer Fix</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Row_hammer">Row hammer - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Anthropic">Anthropic - Wikipedia</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区讨论包括在《激战》等游戏中检测位翻转的个人轶事、关于 ECC 内存必要性和可获得性的争论，以及对 10%说法的质疑（与基于 Chromium 的浏览器进行比较）。来自其他软件项目（如 Go 的遥测系统）的见解展示了崩溃数据如何揭示潜在问题。
+**社区讨论**: 社区评论展示了多种观点：一些用户报告在软件开发中生产力显著提升，而另一些人则认为对其工作流程影响甚微。其他见解包括 AI 压缩了项目时间线而没有减少总工作量，以及可能影响初级职位的招聘。
 
-**标签**: `#bitflips`, `#firefox`, `#hardware-reliability`, `#software-crashes`, `#debugging`
+**标签**: `#AI`, `#Labor Economics`, `#Research`, `#Productivity`, `#Hacker News`
 
 ---
 
 <a id="item-6"></a>
-## [优秀软件懂得适时止步](https://ogirardot.writizzy.com/p/good-software-knows-when-to-stop) ⭐️ 7.0/10
+## [处理低质量 AI 生成拉取请求的标准协议提案](https://406.fail/) ⭐️ 8.0/10
 
-这篇新闻主张软件开发者应认识到产品何时完成，从而避免功能蔓延，专注于核心功能和稳定性。 这很重要，因为不受控制的功能添加会导致软件臃肿、令人困惑，损害用户体验并增加维护负担，这与 YAGNI 等软件工程原则相契合，促进高效开发。 讨论中的突出例子包括 Sublime Text 对速度和核心功能的坚持，以及 Java 标准库处于维护模式，展示了宣布软件完成的实际益处。
+根据网站 406.fail 的概述，已提出一项标准协议，用于系统化处理和丢弃开源项目中的低质量 AI 生成拉取请求。 这很重要，因为它解决了开源维护者因自动化低价值贡献而日益增加的负担，这些贡献浪费审查时间并威胁项目质量，符合行业管理 AI 生成代码的努力。 该协议可能包含基于缺乏上下文或冗余更改等模式识别此类拉取请求的指南，并可能与现有的分析编码风格和结构的 AI 代码检测工具集成。
 
-hackernews · ssaboum · Mar 5, 13:52
+hackernews · Muhammad523 · Mar 5, 22:04
 
-**背景**: 功能蔓延是指产品中过度扩展新功能，常超出其原始范围。YAGNI 原则，全称'You Aren't Gonna Need It'，建议开发者仅实现当前需求所必需的功能，有助于防止过度设计。
+**背景**: 拉取请求是开源开发中提议代码更改的核心机制。随着 GitHub Copilot 等 AI 编码助手的兴起，低质量 AI 生成提交日益增多，这些提交通常表面正确但缺乏实用价值或项目理解，给维护者资源带来压力。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Feature_creep">Feature creep - Wikipedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/You_aren't_gonna_need_it">You aren't gonna need it - Wikipedia</a></li>
+<li><a href="https://aicodedetector.org/">AI Code Detector - Detect AI Generated Code vs Human Written Code | Free Online Tool</a></li>
+<li><a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/managing-and-standardizing-pull-requests">Managing and standardizing pull requests - GitHub Docs</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区讨论普遍赞同这一观点，引用了 Sublime Text 的高效性和成熟 Java 库的稳定性等例子。部分评论强调停止功能开发并专注于核心用例需要勇气。
+**社区讨论**: 社区评论反映了对 AI 生成拉取请求的不满，维护者分享了浪费审查时间的经历，并呼吁制定明确的接受标准。一些人建议贡献者应使用个人分支进行实验性更改，而其他人则强调贡献中上下文的重要性。
 
-**标签**: `#software-engineering`, `#product-management`, `#feature-creep`, `#development-philosophy`
+**标签**: `#open-source`, `#pull-requests`, `#AI-generated-code`, `#software-maintenance`, `#community-standards`
 
 ---
 
 <a id="item-7"></a>
-## [Jido 2.0：面向生产环境的 Elixir AI 智能体框架发布](https://jido.run/blog/jido-2-0-is-here) ⭐️ 7.0/10
+## [维基百科因蠕虫攻击管理员账户而被迫进入只读模式](https://www.wikimediastatus.net/) ⭐️ 8.0/10
 
-用于构建 AI 智能体的 Elixir 框架 Jido 已发布其 2.0 版本，这是一个可在 BEAM 虚拟机上构建、管理和运行智能体的、面向生产环境强化的系统。此版本新增了全面的多智能体支持、ReAct 和思维树等高级推理策略、持久化功能以及通过 Model Context Protocol (MCP) 实现的集成能力。 此次发布之所以重要，是因为它代表了 Elixir/BEAM 生态系统中一个面向生产环境的主要 AI 智能体框架，而该生态系统正日益被认为是分布式、容错智能体工作负载的理想架构选择。它为 Elixir 开发者提供了一个强大、原生的工具集，用于构建可扩展且可观测的 AI 应用，可能扩大 BEAM 在 AI 编排领域的应用。 关键的技术特性包括跨分布式 BEAM 进程的多智能体监管、用于持久化的鲁棒存储层、基于 OpenTelemetry 的深度可观测性，以及通过 MCP 和传感器与外部服务交互的能力。该框架支持包括思维链和思维树在内的多种推理策略，超越了基础执行模式。
+一个计算机蠕虫攻击了多个维基百科管理员账户，导致平台进入只读模式以阻止大规模文章破坏，并启动取证清理。该蠕虫通过 XSS 漏洞注入恶意脚本，导致了随机页面的编辑和删除。 这次事件暴露了全球信任知识平台的关键安全漏洞，威胁维基百科内容的完整性，并展示了协作网络系统中权限滥用的风险。它强调了被数百万人依赖的开源项目需要强大的安全实践。 该蠕虫利用 XSS 将脚本注入到 MediaWiki 的 Common.js 等页面，劫持了 Special:Nuke 等管理员工具进行批量删除，且其在数据库历史中的持久性使取证恢复复杂化。它还使用 jQuery 隐藏可能暴露感染的 UI 元素。
 
-hackernews · mikehostetler · Mar 5, 15:48
+hackernews · greyface- · Mar 5, 16:04
 
-**背景**: Elixir 是一种基于 Erlang 虚拟机（BEAM）的函数式编程语言，以使用 OTP 框架构建低延迟、分布式和容错系统而闻名。AI 智能体是能够自主执行任务、做出决策并与环境交互的软件程序，通常使用大型语言模型（LLM）。ReAct（推理+行动）和思维树等推理策略是指导智能体决策过程的框架，使其能够进行更复杂的规划和问题解决。Model Context Protocol (MCP) 是一个用于连接 AI 应用与外部数据源和工具的开源标准。
+**背景**: 计算机蠕虫是一种独立的恶意软件程序，能够自我复制以在网络中传播，通常利用安全漏洞进行访问。MediaWiki 是维基百科背后的开源软件，其中管理员账户拥有管理内容和用户操作的高权限。XSS（跨站脚本）是一种网络安全漏洞，允许攻击者向其他用户查看的网页中注入客户端脚本。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://medium.com/@servifyspheresolutions/how-reasoning-agents-actually-work-5eed384515be">How Reasoning Agents Actually Work | Medium</a></li>
-<li><a href="https://www.emergentmind.com/topics/tree-of-thoughts-tot">Tree of Thoughts : Branching Reasoning for LLMs</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Model Context Protocol - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Computer_worm">Computer worm - Wikipedia</a></li>
+<li><a href="https://www.mediawiki.org/wiki/Manual:Security">Manual: Security - MediaWiki</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区反响总体积极，许多人认同 BEAM 的执行模型非常适合智能体框架，尤其是在处理节点故障等鲁棒性问题方面。一些用户对 Jido 能减轻使用基础 OTP 工具构建自定义智能体编排的痛苦感到兴奋。讨论中提出了关于 Jido 与 OpenAI 的 Symphony 等其他编排工具相比如何的问题，并有用户指出项目网站因访问量过大出现问题，随后分享了存档链接。
+**社区讨论**: 社区评论指出，蠕虫是由一位维基媒体基金会员工账户测试用户脚本时触发的，用户详细描述了其行为，如脚本注入和隐藏 UI。讨论还强调了取证挑战，例如依赖数据库快照进行清理，以及有关攻击可能源于先前俄语维基攻击的理论。
 
-**标签**: `#Elixir`, `#Agent-Framework`, `#AI-Agents`, `#BEAM`, `#Distributed-Computing`
+**标签**: `#security`, `#wikipedia`, `#incident-response`, `#web-security`, `#xss`
 
 ---
 
 <a id="item-8"></a>
-## [Proton Mail 帮助 FBI 识别匿名 'Stop Cop City' 抗议者](https://www.404media.co/proton-mail-helped-fbi-unmask-anonymous-stop-cop-city-protestor/) ⭐️ 7.0/10
+## [CBP 利用在线广告数据追踪人员移动。](https://www.404media.co/cbp-tapped-into-the-online-advertising-ecosystem-to-track-peoples-movements/) ⭐️ 7.0/10
 
-据 404 Media 报道，Proton Mail 通过提供 IP 地址和设备识别信息协助了 FBI，从而识别出一名参与匿名 'Stop Cop City' 抗议活动的个人。 这一事件挑战了加密电子邮件服务提供绝对隐私的认知，表明即使是以隐私为重点的提供商也可能在法律压力下分享用户元数据，从而引发了关于数字隐私界限和执法访问的辩论。 由于使用 OpenPGP 加密，Proton Mail 只能访问 IP 地址和设备 ID，而无法获取加密的电子邮件内容；然而，这些元数据与互联网服务提供商的数据结合后足以用于识别身份，并且过去也曾发生过类似的信息披露。
+美国海关和边境保护局（CBP）通过实时竞价等系统，利用在线广告网络的数据来监控个人的移动。 这很重要，因为它展示了政府监控如何利用商业广告技术进行追踪，可能绕过隐私保护措施，并引发关于数据滥用的伦理问题。 值得注意的是，社区讨论指出，由于浏览器和操作系统限制，广告网络的位置数据通常不准确，并且这种追踪可能涉及设备指纹识别等技术。
 
-hackernews · sedatk · Mar 5, 21:35
+hackernews · ece · Mar 4, 15:57
 
-**背景**: Proton Mail 是一种以隐私为重点的电子邮件服务，它使用 OpenPGP 标准进行端到端加密，保护电子邮件内容不被第三方访问。然而，像许多电子邮件提供商一样，它可能出于运营目的记录如 IP 地址之类的元数据。法律框架，例如《电子邮件隐私法》，可以要求提供商在特定条件下向执法部门披露用户信息，以平衡隐私与调查需求。
+**背景**: 在线广告生态系统经常使用实时竞价（RTB），这是一种通过即时拍卖买卖广告展示的过程。设备指纹识别通过收集独特设备属性（如操作系统、浏览器类型和屏幕分辨率）来识别和追踪用户，而不依赖于 cookie。这些技术本用于定向广告，但可被重新用于其他追踪目的。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.openpgp.org/">OpenPGP - OpenPGP</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Email_Privacy_Act">Email Privacy Act - Wikipedia</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Real-time_bidding">Real - time bidding - Wikipedia</a></li>
+<li><a href="https://www.cloudwards.net/device-fingerprinting/">What Is Device Fingerprinting & How to Prevent It in 2026 Device fingerprinting explained: how it tracks you without ... What Is Device Fingerprinting & How Does It Work? | SEON What Is Device Fingerprinting and How Does It Work in 2025 Images Top 8 Device Fingerprinting Solutions | Memcyco Device Fingerprinting Explained: Methods, Scenarios, and ...</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区评论显示了不同的情绪：一些用户并不感到惊讶，引用了 Proton Mail 在 2021 年的过往数据披露；其他人澄清说该服务仅提供如 IP 地址之类的元数据，而非加密内容；还有一些人赞扬 404 Media 的报道。总体而言，人们理解隐私服务有其局限性，无法保护用户免受所有形式的身份识别。
+**社区讨论**: 社区评论强调了对数据准确性的怀疑，有用户指出广告网络位置数据常常不准确。其他人表达了对隐私侵犯造成真实危害的担忧，如生计丧失，并批评使用纳税人资金进行此类监控。
 
-**标签**: `#privacy`, `#security`, `#law-enforcement`, `#email`, `#proton-mail`
+**标签**: `#privacy`, `#surveillance`, `#ad-tech`, `#government`, `#data-tracking`
 
 ---
 
 <a id="item-9"></a>
-## [GitHub Issue 标题漏洞通过 AI 工具导致 4000 台开发者机器被入侵](https://grith.ai/blog/clinejection-when-your-ai-tool-installs-another) ⭐️ 6.0/10
+## [倡导“已完成”的软件以对抗功能蔓延](https://ogirardot.writizzy.com/p/good-software-knows-when-to-stop) ⭐️ 7.0/10
 
-一个恶意的 GitHub Issue 标题利用了 Claude AI 工具中的漏洞，当该工具通过未净化的提示集成到 GitHub Actions 中时，导致约 4000 台开发者机器通过执行分叉仓库的后安装脚本而被入侵。 这一事件强调了在未进行输入净化的 AI 集成 CI/CD 管道中存在的关键安全风险，可能导致威胁开发者生态系统和自动化工作流的广泛供应链攻击。 攻击通过 `${{ github.event.issue.title }}` 将 Issue 标题未净化地直接插入 Claude 的提示中，恶意指令诱使 AI 安装来自分叉仓库的 npm 包，从而运行了入侵脚本。
+一篇博客文章提出，认识到一个软件产品何时“完成”并停止主要功能开发，是保持专注和产品质量的关键准则。文章讨论了“功能蔓延”——即不断添加新功能的倾向——并提出成熟的软件应主要专注于缺陷修复和安全更新。 这一观点很重要，因为不受控制的功能蔓延会导致软件臃肿、不稳定且令人困惑，从而疏远其核心用户。对于产品团队和开发者而言，有意识地定义一个“完成”状态可以保持软件的原始价值，简化维护，并可能带来更高的长期用户满意度和产品稳定性。 这场讨论围绕产品哲学而非具体的技术变更展开。评论者引用了现实世界的例子，例如 Sublime Text（因其专注卓越而受到赞扬）以及旧版本的 Evernote 和 Dropbox，这些软件在添加过多功能之前被认为“完美”。文章承认，这一立场需要建设者有勇气抵抗市场对持续创新的压力。
+
+hackernews · ssaboum · Mar 5, 13:52
+
+**背景**: 功能蔓延（或称范围蔓延）是软件开发中的常见挑战，指持续添加新功能使项目超出其最初目标，通常会使得代码库复杂化并稀释用户体验。软件处于“维护模式”的概念指的是开发从添加主要新功能转向确保可靠性、安全性和进行小幅改进的阶段。本文参与了软件工程和产品管理中关于如何在必要演进和有害的臃肿之间划清界限的持续辩论。
+
+**社区讨论**: 社区强烈支持这一核心理念，并分享了他们认为通过保持专注而取得成功的软件实例。评论者赞扬了 Sublime Text 甚至记事本（Notepad）等工具，因为它们能把一件事做好。其他评论者，如 wenbin，倡导使“已完成”的产品正常化。讨论还涉及如何理解成熟、稳定的库（例如 Java 中的一些库），不将其视为生态系统衰落的迹象，而是成熟度和可靠性的指标。
+
+**标签**: `#software-engineering`, `#product-management`, `#feature-creep`, `#maintenance`
+
+---
+
+<a id="item-10"></a>
+## [GitHub Issue 标题导致 4000 台开发者机器被入侵](https://grith.ai/blog/clinejection-when-your-ai-tool-installs-another) ⭐️ 7.0/10
+
+一个标题为 'Performance Issue.' 的 GitHub Issue 通过 GitHub Actions 触发了恶意的 npm install 命令，导致约 4000 台开发者机器被入侵。该 issue 包含从分叉仓库安装包的指令，该包执行了有害的 postinstall 脚本。 这一事件突显了自动化开发工具中存在的重大安全漏洞，issue 标题中的不可信输入可能导致广泛的系统入侵。它强调了在 CI/CD 流水线和包管理中实施更严格控制的必要性，以保护开发者环境。 攻击利用了 GitHub Actions 中的 `issues` 触发器，该触发器在 issue 事件上运行工作流，类似于已知的高风险 `pull_request_target` 触发器。恶意 npm 包利用了 postinstall 生命周期钩子，在安装时自动执行代码，绕过用户同意。
 
 hackernews · edf13 · Mar 5, 16:22
 
-**背景**: Claude 是 Anthropic 开发的一款用于编码任务的 AI 助手，而 GitHub Actions 是一个基于仓库事件（如 Issue 创建）自动化工作流的 CI/CD 平台。提示注入是一种安全漏洞，当未净化的不可信输入（如 Issue 标题）被馈送到 AI 提示中时，攻击者可以操纵输出并执行命令。
+**背景**: GitHub Actions 是一个持续集成和交付（CI/CD）平台，基于仓库事件（如 issue 创建）自动化工作流。npm 是 JavaScript 的包管理器，允许脚本（如 postinstall）在包安装期间自动运行。如果工作流处理不可信用户输入时没有进行适当的清理，这些自动化功能可能被利用。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.aikido.dev/blog/promptpwnd-github-actions-ai-agents">Prompt Injection Inside GitHub Actions: The New Frontier of Supply Chain Attacks</a></li>
-<li><a href="https://www.docker.com/blog/mcp-horror-stories-github-prompt-injection/">The GitHub Prompt Injection Data Heist | Docker</a></li>
+<li><a href="https://www.wiz.io/blog/github-actions-security-guide">Hardening GitHub Actions: Lessons from Recent Attacks | Wiz Blog</a></li>
+<li><a href="https://cycode.com/blog/malicious-code-hidden-in-npm-packages/">One Threat to Unite Them All: Malicious Code Hidden in NPM Packages - Cycode</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区批评这篇文章重复了一个月前的事件，没有新的见解，讨论集中在净化措施对 AI 操纵的局限性、GitHub Actions 触发器如 'issues' 和 'pull_request_target' 的类似风险，以及在自动化工作流中将所有用户输入视为潜在威胁的重要性。
+**社区讨论**: 社区讨论批评了这篇文章重复旧资料而没有新见解，但突出了关键的安全问题。评论者强调 GitHub Actions 中的 `issues` 触发器与 `pull_request_target` 一样危险，并建议沙箱化 npm 命令以减轻此类风险。
 
-**标签**: `#security`, `#github-actions`, `#ai-tools`, `#vulnerability`
+**标签**: `#security`, `#github-actions`, `#npm`, `#vulnerability`, `#developer-workflow`
+
+---
+
+<a id="item-11"></a>
+## [Linux 系统上远程解锁加密硬盘的技术](https://jyn.dev/remotely-unlocking-an-encrypted-hard-disk/) ⭐️ 7.0/10
+
+Hacker News 上的讨论分享了如 Mandos 和 dracut-sshd 等实用方法和工具，用于在 Linux 系统上远程解锁加密硬盘。 这很重要，因为它解决了系统管理员和家庭用户在需要远程重启全盘加密服务器时的常见难题，使得无人值守操作成为可能，并增强了远程管理能力。 关键细节包括 Mandos 使用 OpenPGP 通过网络安全传输密码，并支持如 initramfs-tools 和 Dracut 等 initramfs 系统，但在 RAID 5 和 RAID 6 配置中存在限制。dracut-sshd 将 SSH 集成到 initramfs 中，以允许远程输入 LUKS 密码。
+
+hackernews · janandonly · Mar 5, 18:43
+
+**背景**: Linux 上的全盘加密通常依赖 LUKS 来保护数据，需要在启动时输入密码来解锁磁盘。initramfs 是启动过程中早期加载的临时文件系统，包含在主系统启动前用于磁盘解密等任务的工具。远程解锁解决方案修改 initramfs 以通过网络接受解密密钥，从而无需物理访问。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://blog.boyeau.com/booting-an-unattended-full-disk-encrypted-server-ubuntu-server-16-04-setup-with-mandos/">Booting an unattended / headless full disk encrypted server – Ubuntu server 16.04 setup – Stephane Boyeau</a></li>
+<li><a href="https://github.com/gsauthof/dracut-sshd">GitHub - gsauthof/dracut-sshd: Provide SSH access to initramfs early user space on Fedora and other systems that use Dracut</a></li>
+<li><a href="https://www.cyberciti.biz/security/how-to-unlock-luks-using-dropbear-ssh-keys-remotely-in-linux/">How to unlock LUKS using Dropbear SSH keys remotely in Linux - nixCraft</a></li>
+
+</ul>
+</details>
+
+**社区讨论**: 社区讨论显示出积极的参与，用户分享了使用 Mandos 和 dracut-sshd 等工具的经验，同时也讨论了如使用树莓派作为堡垒主机等替代设置，并对将 Tailscale 等网络工具集成到 initramfs 中的安全风险表示担忧。
+
+**标签**: `#encryption`, `#linux`, `#remote-access`, `#full-disk-encryption`, `#systems-administration`
 
 ---
