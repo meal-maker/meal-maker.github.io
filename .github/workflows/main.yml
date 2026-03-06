@@ -2,8 +2,8 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs everyday at 00:00 UTC
-  workflow_dispatch:      # Allow manual trigger
+    - cron: '0 * * * *'  # Runs everyday at 00:00 UTC
+  # workflow_dispatch:      # Allow manual trigger
 
 jobs:
   daily-summary:
