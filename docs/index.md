@@ -4,7 +4,16 @@ title: 每日AI新闻速递
 ---
 
 
-## 中文速递 <a class="rss-icon" href="{{ '/feed-zh.xml' | relative_url }}" aria-label="订阅中文"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 17a2 2 0 11-.001-4.001A2 2 0 016 17zm-2-9.5v3A8.5 8.5 0 0112.5 19h3A11.5 11.5 0 014 7.5zm0-4v3A12.5 12.5 0 0116.5 19h3C19.5 9.784 12.216 2.5 4 2.5z"/></svg></a>
+<div class="title-row">
+  <h2>中文速递</h2>
+  <a class="subscribe-icon" href="{{ '/feed-zh.xml' | relative_url }}" aria-label="订阅中文">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="6" cy="18" r="2"></circle>
+      <path d="M4 11a9 9 0 0 1 9 9"></path>
+      <path d="M4 5a15 15 0 0 1 15 15"></path>
+    </svg>
+  </a>
+</div>
 
 <ul>
   {% assign zh_posts = site.posts | where: "lang", "zh" %}
@@ -17,7 +26,16 @@ title: 每日AI新闻速递
   {% endfor %}
 </ul>
 
-## English Digest <a class="rss-icon" href="{{ '/feed-en.xml' | relative_url }}" aria-label="Subscribe English"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 17a2 2 0 11-.001-4.001A2 2 0 016 17zm-2-9.5v3A8.5 8.5 0 0112.5 19h3A11.5 11.5 0 014 7.5zm0-4v3A12.5 12.5 0 0116.5 19h3C19.5 9.784 12.216 2.5 4 2.5z"/></svg></a>
+<div class="title-row">
+  <h2>English Digest</h2>
+  <a class="subscribe-icon" href="{{ '/feed-en.xml' | relative_url }}" aria-label="Subscribe English">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="6" cy="18" r="2"></circle>
+      <path d="M4 11a9 9 0 0 1 9 9"></path>
+      <path d="M4 5a15 15 0 0 1 15 15"></path>
+    </svg>
+  </a>
+</div>
 
 <ul>
   {% assign en_posts = site.posts | where: "lang", "en" %}
