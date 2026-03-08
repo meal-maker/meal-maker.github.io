@@ -3,7 +3,8 @@ layout: default
 title: 每日AI新闻速递
 ---
 
-## 中文速递
+
+## 中文速递 [订阅]({{ '/feed.xml' | relative_url }})
 
 <ul>
   {% assign zh_posts = site.posts | where: "lang", "zh" %}
@@ -16,7 +17,7 @@ title: 每日AI新闻速递
   {% endfor %}
 </ul>
 
-## English Digest
+## English Digest [Subscribe]({{ '/feed.xml' | relative_url }})
 
 <ul>
   {% assign en_posts = site.posts | where: "lang", "en" %}
