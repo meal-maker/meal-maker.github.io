@@ -29,11 +29,3 @@ title: 每日AI新闻速递
     <li><em>No posts yet</em></li>
   {% endfor %}
 </ul>
-
-<p style="text-align: right; margin-top: 10px;">
-  <small>
-    <a href="{{ '/feed.xml' | relative_url }}">订阅 RSS</a>
-    ·
-    <a href="{{ '/feed.xml' | relative_url }}">Subscribe RSS</a>
-  </small>
-</p>

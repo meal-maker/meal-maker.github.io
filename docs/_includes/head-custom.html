@@ -2,3 +2,20 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌅</text></svg>">
 <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌅</text></svg>">
 <link rel="alternate" type="application/rss+xml" title="Horizon Daily RSS" href="{{ '/feed.xml' | relative_url }}">
+<style>
+.feed-link {
+  float: right;
+  font-size: 0.85em;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var footer = document.querySelector('footer.site-footer');
+  if (!footer) return;
+  var href = "{{ '/feed.xml' | relative_url }}";
+  var badge = document.createElement('span');
+  badge.className = 'feed-link';
+  badge.innerHTML = '<a href="' + href + '">订阅 RSS</a> · <a href="' + href + '">Subscribe RSS</a>';
+  footer.appendChild(badge);
+});
+</script>
