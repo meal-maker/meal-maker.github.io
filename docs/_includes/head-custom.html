@@ -5,9 +5,10 @@
 <link rel="alternate" type="application/atom+xml" title="Horizon Daily RSS (ZH)" href="{{ '/feed-zh.xml' | relative_url }}">
 <link rel="alternate" type="application/atom+xml" title="Horizon Daily RSS (EN)" href="{{ '/feed-en.xml' | relative_url }}">
 <style>
-.feed-link {
-  float: right;
-}
+.feed-link { float: right; }
+.feed-link a { margin-left: 14px; text-decoration: none; opacity: 0.85; }
+.feed-link a:first-child { margin-left: 0; }
+.feed-link a:hover { opacity: 1; text-decoration: underline; }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -15,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!footer) return;
   var zh = "{{ '/feed-zh.xml' | relative_url }}";
   var en = "{{ '/feed-en.xml' | relative_url }}";
-  var badge = document.createElement('span');
-  badge.className = 'feed-link';
-  badge.innerHTML = '<a href="' + zh + '">订阅</a> · <a href="' + en + '">Subscribe</a>';
-  footer.appendChild(badge);
+  var box = document.createElement('span');
+  box.className = 'feed-link';
+  box.innerHTML = '<a href="' + zh + '">订阅</a><a href="' + en + '">Subscribe</a>';
+  footer.appendChild(box);
 });
 </script>
