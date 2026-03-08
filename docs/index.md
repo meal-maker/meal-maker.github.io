@@ -4,7 +4,7 @@ title: 每日AI新闻速递
 ---
 
 
-## 中文速递 [订阅]({{ '/feed.xml' | relative_url }})
+## 中文速递 <span class="badge-subscribe"><a href="{{ '/feed.xml' | relative_url }}">订阅</a></span>
 
 <ul>
   {% assign zh_posts = site.posts | where: "lang", "zh" %}
@@ -17,7 +17,7 @@ title: 每日AI新闻速递
   {% endfor %}
 </ul>
 
-## English Digest [Subscribe]({{ '/feed.xml' | relative_url }})
+## English Digest <span class="badge-subscribe"><a href="{{ '/feed.xml' | relative_url }}">Subscribe</a></span>
 
 <ul>
   {% assign en_posts = site.posts | where: "lang", "en" %}
