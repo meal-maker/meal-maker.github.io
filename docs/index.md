@@ -4,7 +4,10 @@ title: 每日AI新闻速递
 ---
 
 
-## 中文速递 <a class="rss-icon" href="{{ '/feed-zh.xml' | relative_url }}" aria-label="订阅中文">📡</a>
+<div class="title-row">
+  <h2>中文速递</h2>
+  <a class="subscribe-icon" href="{{ '/feed-zh.xml' | relative_url }}" aria-label="订阅中文"></a>
+</div>
 
 <ul>
   {% assign zh_posts = site.posts | where: "lang", "zh" %}
@@ -17,7 +20,10 @@ title: 每日AI新闻速递
   {% endfor %}
 </ul>
 
-## English Digest <a class="rss-icon" href="{{ '/feed-en.xml' | relative_url }}" aria-label="Subscribe English">📡</a>
+<div class="title-row">
+  <h2>English Digest</h2>
+  <a class="subscribe-icon" href="{{ '/feed-en.xml' | relative_url }}" aria-label="Subscribe English"></a>
+</div>
 
 <ul>
   {% assign en_posts = site.posts | where: "lang", "en" %}

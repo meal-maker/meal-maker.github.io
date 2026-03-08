@@ -7,4 +7,17 @@
 <style>
 .rss-icon { font-size: 0.7em; margin-left: 0.4em; text-decoration: none; opacity: 0.85; }
 .rss-icon:hover { opacity: 1; }
+.title-row{display:flex;justify-content:space-between;align-items:baseline;margin-top:.5rem}
+.subscribe-icon{opacity:.8;display:inline-block}
+.subscribe-icon:hover{opacity:1}
+.subscribe-icon::before{
+  content:"";
+  display:inline-block;
+  width:16px;
+  height:16px;
+  vertical-align:middle;
+  background-color: currentColor;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 5a15 15 0 0 1 15 15"/></svg>') no-repeat center / contain;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2"/><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 5a15 15 0 0 1 15 15"/></svg>') no-repeat center / contain;
+}
 </style>
