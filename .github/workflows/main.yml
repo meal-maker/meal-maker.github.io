@@ -2,18 +2,18 @@ name: Daily Horizon Summary
 
 on:
   schedule:
-    - cron: '0 0 * * *'   # Runs everyday at 00:00 UTC
+    - cron: '0 0 * * *'   # Runs every day at 00:00 UTC
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
   daily-summary:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Needed to commit changes
+      contents: write  # Needed to commit changes back to main
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -21,19 +21,18 @@ jobs:
           python-version: "3.12"
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v6
 
       - name: Install dependencies
         run: uv sync
 
       - name: Run Horizon
         env:
-          # Map secrets to environment variables expected by config.json
-          # Modify these based on your config.json provider settings
+          # config.json uses the OpenAI-compatible client pointed at DeepSeek;
+          # the actual DeepSeek API key is stored in this secret.
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: uv run horizon --hours 48
 
-      # 新增步骤：生成日期并存入环境变量（关键修复）
       - name: Set current date as environment variable
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
@@ -43,8 +42,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
           destination_dir: ./docs
-          keep_files: true  # Keep existing summaries on gh-pages branch
-          # 引用环境变量中的日期
+          keep_files: true  # Keep existing summaries on the main branch
           commit_message: "📝 Daily Summary: ${{ env.DATE }}"
           publish_branch: main
           enable_jekyll: true
