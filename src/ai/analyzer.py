@@ -1,13 +1,18 @@
 """Content analysis using AI."""
 
+import asyncio
 import json
-from typing import List
+import re
+from typing import List, Optional
 from tenacity import retry, stop_after_attempt, wait_exponential
 from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn, MofNCompleteColumn
 
 from .client import AIClient
 from .prompts import CONTENT_ANALYSIS_SYSTEM, CONTENT_ANALYSIS_USER
+from .utils import parse_json_response
 from ..models import ContentItem
+
+DEFAULT_THROTTLE_SEC = 0.0
 
 
 class ContentAnalyzer:
@@ -16,12 +21,44 @@ class ContentAnalyzer:
     def __init__(self, ai_client: AIClient):
         self.client = ai_client
 
-    async def analyze_batch(
-        self,
-        items: List[ContentItem],
-        batch_size: int = 10
-    ) -> List[ContentItem]:
-        analyzed_items = []
+    @staticmethod
+    def _parse_json_response(response: str) -> Optional[dict]:
+        """Try multiple strategies to extract a JSON object from an AI response.
+
+        Returns the parsed dict, or None if all strategies fail.
+        """
+        return parse_json_response(response)
+
+    def _get_throttle_sec(self) -> float:
+        """Return the configured inter-item throttle, clamped to zero or above."""
+        config = getattr(self.client, "config", None)
+        throttle_sec = getattr(config, "throttle_sec", DEFAULT_THROTTLE_SEC)
+        return max(throttle_sec, 0.0)
+
+    def _get_concurrency(self) -> int:
+        """Return the configured analysis concurrency, clamped to 1 or above."""
+        config = getattr(self.client, "config", None)
+        concurrency = getattr(config, "analysis_concurrency", 1)
+        return max(concurrency, 1)
+
+    async def analyze_batch(self, items: List[ContentItem]) -> List[ContentItem]:
+        throttle_sec = self._get_throttle_sec()
+        concurrency = self._get_concurrency()
+        semaphore = asyncio.Semaphore(concurrency)
+
+        async def _process(item: ContentItem, index: int, progress_task) -> ContentItem:
+            async with semaphore:
+                try:
+                    await self._analyze_item(item)
+                except Exception as e:
+                    print(f"Error analyzing item {item.id}: {e}")
+                    item.ai_score = 0.0
+                    item.ai_reason = "Analysis failed"
+                    item.ai_summary = item.title
+                if throttle_sec > 0 and index < len(items) - 1:
+                    await asyncio.sleep(throttle_sec)
+            progress.advance(progress_task)
+            return item
 
         with Progress(
             SpinnerColumn(),
@@ -31,20 +68,10 @@ class ContentAnalyzer:
             transient=True,
         ) as progress:
             task = progress.add_task("Analyzing", total=len(items))
-
-            for i in range(0, len(items), batch_size):
-                batch = items[i:i + batch_size]
-                for item in batch:
-                    try:
-                        await self._analyze_item(item)
-                        analyzed_items.append(item)
-                    except Exception as e:
-                        print(f"Error analyzing item {item.id}: {e}")
-                        item.ai_score = 0.0
-                        item.ai_reason = "Analysis failed"
-                        item.ai_summary = item.title
-                        analyzed_items.append(item)
-                    progress.advance(task)
+            coros = [
+                _process(item, i, task) for i, item in enumerate(items)
+            ]
+            analyzed_items = await asyncio.gather(*coros)
 
         return analyzed_items
 
@@ -116,22 +143,17 @@ class ContentAnalyzer:
         response = await self.client.complete(
             system=CONTENT_ANALYSIS_SYSTEM,
             user=user_prompt,
-            temperature=0.3
         )
 
-        # Parse JSON response
-        try:
-            result = json.loads(response)
-        except json.JSONDecodeError:
-            # Try to extract JSON from markdown code block
-            if "```json" in response:
-                json_str = response.split("```json")[1].split("```")[0].strip()
-                result = json.loads(json_str)
-            elif "```" in response:
-                json_str = response.split("```")[1].split("```")[0].strip()
-                result = json.loads(json_str)
-            else:
-                raise ValueError(f"Invalid JSON response: {response}")
+        # Parse JSON response with robust fallback
+        result = self._parse_json_response(response)
+        if result is None:
+            print(f"Warning: could not parse analysis response for {item.id}, using defaults")
+            item.ai_score = 0.0
+            item.ai_reason = "Analysis response parse failed"
+            item.ai_summary = item.title
+            item.ai_tags = []
+            return
 
         # Update item with analysis results
         item.ai_score = float(result.get("score", 0))
