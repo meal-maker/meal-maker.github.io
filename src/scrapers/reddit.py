@@ -75,12 +75,22 @@ class RedditScraper(BaseScraper):
     async def _fetch_subreddit(
         self, cfg: RedditSubredditConfig, since: datetime
     ) -> List[ContentItem]:
+        # RSS is the only endpoint Reddit reliably serves to anonymous,
+        # data-center IPs (GitHub Actions). Try it first so we don't waste a
+        # request cycle hitting 403s on old.reddit/JSON every run. RSS carries
+        # no score/num_comments, so we fall back to the richer old-HTML listing
+        # only if RSS yields nothing.
+        rss_items = await self._fetch_subreddit_rss(cfg, since)
+        if rss_items:
+            return rss_items
+
         html_items = await self._fetch_subreddit_html(cfg, since)
         if html_items:
             return html_items
 
-        logger.warning(
-            "Reddit old HTML returned no posts for r/%s; falling back to JSON",
+        logger.info(
+            "Reddit RSS and old HTML both returned nothing for r/%s; "
+            "trying JSON listing",
             cfg.subreddit,
         )
         params: dict[str, Any] = {"limit": min(cfg.fetch_limit, 100), "raw_json": 1}
@@ -91,11 +101,11 @@ class RedditScraper(BaseScraper):
         try:
             data = await self._reddit_get(url, params)
         except RedditBlockedError:
-            logger.warning(
-                "Reddit blocked JSON listing for r/%s; falling back to RSS",
+            logger.info(
+                "Reddit blocked JSON listing for r/%s; no further fallback",
                 cfg.subreddit,
             )
-            return await self._fetch_subreddit_rss(cfg, since)
+            return []
         if not data:
             return []
 
@@ -184,7 +194,7 @@ class RedditScraper(BaseScraper):
             )
             response.raise_for_status()
         except httpx.HTTPError as e:
-            logger.warning(
+            logger.info(
                 "Reddit old HTML request failed for r/%s: %s", cfg.subreddit, e
             )
             return []

@@ -116,11 +116,17 @@ def _old_comments_html() -> str:
     """
 
 
+def _empty_rss() -> str:
+    return '<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"></feed>'
+
+
 def test_reddit_fetch_uses_browser_like_headers():
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
+        if request.url.path.endswith("/hot/.rss"):
+            return httpx.Response(200, text=_empty_rss())
         return httpx.Response(200, text=_old_listing_html())
 
     transport = httpx.MockTransport(handler)
@@ -130,15 +136,18 @@ def test_reddit_fetch_uses_browser_like_headers():
     asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    assert len(requests) == 1
-    assert requests[0].url.host == "old.reddit.com"
-    assert requests[0].headers["user-agent"] == REDDIT_HEADERS["User-Agent"]
-    assert requests[0].headers["accept-language"] == REDDIT_HEADERS["Accept-Language"]
-    assert requests[0].headers["referer"] == REDDIT_HEADERS["Referer"]
+    # Browser-like headers must be sent on every request, including the RSS one.
+    assert requests, "no requests were made"
+    for req in requests:
+        assert req.headers["user-agent"] == REDDIT_HEADERS["User-Agent"]
+        assert req.headers["accept-language"] == REDDIT_HEADERS["Accept-Language"]
+        assert req.headers["referer"] == REDDIT_HEADERS["Referer"]
 
 
 def test_reddit_comment_403_degrades_to_post_without_comments():
     def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path.endswith("/hot/.rss"):
+            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com":
             return httpx.Response(500, text="old reddit unavailable")
         if request.url.path.endswith("/hot.json"):
@@ -159,11 +168,13 @@ def test_reddit_comment_403_degrades_to_post_without_comments():
     assert "Top Comments" not in (items[0].content or "")
 
 
-def test_reddit_listing_uses_old_reddit_first():
+def test_reddit_listing_prefers_rss_then_old_html():
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
+        if request.url.path.endswith("/hot/.rss"):
+            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com" and request.url.path.endswith("/hot/"):
             return httpx.Response(200, text=_old_listing_html())
         raise AssertionError(f"unexpected url: {request.url}")
@@ -175,7 +186,12 @@ def test_reddit_listing_uses_old_reddit_first():
     items = asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    assert [str(request.url.host) for request in requests] == ["old.reddit.com"]
+    # RSS is tried first; when it yields nothing we fall back to old HTML,
+    # which carries score/num_comments.
+    assert [request.url.path for request in requests] == [
+        "/r/LocalLLaMA/hot/.rss",
+        "/r/LocalLLaMA/hot/",
+    ]
     assert len(items) == 1
     assert items[0].title == "Old HTML post"
     assert items[0].content == "old body"
@@ -184,15 +200,12 @@ def test_reddit_listing_uses_old_reddit_first():
     assert items[0].metadata["num_comments"] == 7
 
 
-def test_reddit_listing_old_failure_falls_back_to_json_then_rss():
+def test_reddit_listing_rss_success_short_circuits():
+    """When RSS returns posts, neither old HTML nor JSON is tried."""
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
-        if request.url.host == "old.reddit.com":
-            return httpx.Response(500, text="old reddit unavailable")
-        if request.url.path.endswith("/hot.json"):
-            return httpx.Response(403, text="blocked")
         if request.url.path.endswith("/hot/.rss"):
             return httpx.Response(
                 200,
@@ -220,8 +233,6 @@ def test_reddit_listing_old_failure_falls_back_to_json_then_rss():
     asyncio.run(client.aclose())
 
     assert [request.url.path for request in requests] == [
-        "/r/LocalLLaMA/hot/",
-        "/r/LocalLLaMA/hot.json",
         "/r/LocalLLaMA/hot/.rss",
     ]
     assert len(items) == 1
@@ -237,6 +248,8 @@ def test_reddit_comments_use_old_reddit_first():
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
+        if request.url.path.endswith("/hot/.rss"):
+            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com" and request.url.path.endswith("/hot/"):
             return httpx.Response(200, text=_old_listing_html())
         if request.url.host == "old.reddit.com" and "/comments/old123/" in request.url.path:
@@ -251,6 +264,7 @@ def test_reddit_comments_use_old_reddit_first():
     asyncio.run(client.aclose())
 
     assert [str(request.url.host) for request in requests] == [
+        "www.reddit.com",
         "old.reddit.com",
         "old.reddit.com",
     ]
@@ -266,6 +280,8 @@ def test_reddit_subreddits_are_fetched_sequentially():
 
     async def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request.url.path)
+        if request.url.path.endswith("/hot/.rss"):
+            return httpx.Response(200, text=_empty_rss())
         if "/r/LocalLLaMA/" in request.url.path:
             await asyncio.sleep(0)
             local_done.set()
@@ -284,7 +300,14 @@ def test_reddit_subreddits_are_fetched_sequentially():
     items = asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    assert requests == ["/r/LocalLLaMA/hot/", "/r/MachineLearning/hot/"]
+    # Each subreddit: RSS (empty) then old HTML. LocalLLaMA fully completes
+    # before MachineLearning starts.
+    assert requests == [
+        "/r/LocalLLaMA/hot/.rss",
+        "/r/LocalLLaMA/hot/",
+        "/r/MachineLearning/hot/.rss",
+        "/r/MachineLearning/hot/",
+    ]
     assert [item.metadata["subreddit"] for item in items] == [
         "LocalLLaMA",
         "MachineLearning",
