@@ -13,6 +13,7 @@ import httpx
 from bs4 import BeautifulSoup
 
 from .base import BaseScraper
+from .reddit_auth import RedditTokenManager
 from ..models import (
     ContentItem,
     RedditConfig,
@@ -25,6 +26,7 @@ logger = logging.getLogger(__name__)
 
 REDDIT_BASE = "https://www.reddit.com"
 OLD_REDDIT_BASE = "https://old.reddit.com"
+OAUTH_REDDIT_BASE = "https://oauth.reddit.com"
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
     "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -50,6 +52,44 @@ class RedditScraper(BaseScraper):
         super().__init__(config.model_dump(), http_client)
         self.reddit_config = config
         self._comment_semaphore = asyncio.Semaphore(MAX_COMMENT_CONCURRENCY)
+        self._token_manager = (
+            RedditTokenManager(config.auth, http_client) if config.auth else None
+        )
+
+    def _is_authenticated(self) -> bool:
+        return self._token_manager is not None
+
+    def _auth_user_agent(self) -> str:
+        if self.reddit_config.auth and self.reddit_config.auth.user_agent:
+            return self.reddit_config.auth.user_agent
+        username = self.reddit_config.auth.username if self.reddit_config.auth else "anon"
+        return f"horizon:1.0 (by /u/{username})"
+
+    async def _authenticated_get(self, url: str, params: dict) -> Optional[Any]:
+        """GET an oauth.reddit.com endpoint with a bearer token.
+
+        Returns None if the token can't be obtained or the request fails, so
+        callers can fall back to the anonymous path.
+        """
+        token = await self._token_manager.get_token()  # type: ignore[union-attr]
+        if not token:
+            return None
+        try:
+            response = await self.client.get(
+                url,
+                params=params,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "User-Agent": self._auth_user_agent(),
+                    "Accept": "application/json,*/*",
+                },
+                follow_redirects=True,
+            )
+            response.raise_for_status()
+            return response.json()
+        except (httpx.HTTPError, ValueError) as e:
+            logger.info("Reddit authenticated request failed for %s: %s", url, e)
+            return None
 
     async def fetch(self, since: datetime) -> List[ContentItem]:
         if not self.config.get("enabled", True):
@@ -75,6 +115,20 @@ class RedditScraper(BaseScraper):
     async def _fetch_subreddit(
         self, cfg: RedditSubredditConfig, since: datetime
     ) -> List[ContentItem]:
+        # When OAuth is configured, prefer the authenticated oauth.reddit.com
+        # .json endpoint: it carries score/num_comments (so min_score filtering
+        # works) and bypasses the anonymous 403s. On any failure, fall through
+        # to the anonymous RSS-first path below.
+        if self._is_authenticated():
+            auth_items = await self._fetch_subreddit_auth(cfg, since)
+            if auth_items:
+                return auth_items
+            logger.info(
+                "Reddit authenticated fetch failed for r/%s; "
+                "falling back to anonymous RSS",
+                cfg.subreddit,
+            )
+
         # RSS is the only endpoint Reddit reliably serves to anonymous,
         # data-center IPs (GitHub Actions). Try it first so we don't waste a
         # request cycle hitting 403s on old.reddit/JSON every run. RSS carries
@@ -106,6 +160,28 @@ class RedditScraper(BaseScraper):
                 cfg.subreddit,
             )
             return []
+        if not data:
+            return []
+
+        posts = [
+            child["data"]
+            for child in data.get("data", {}).get("children", [])
+            if child.get("kind") == "t3"
+        ]
+        return await self._process_posts(
+            posts, since, "subreddit", cfg.subreddit, cfg.min_score
+        )
+
+    async def _fetch_subreddit_auth(
+        self, cfg: RedditSubredditConfig, since: datetime
+    ) -> List[ContentItem]:
+        """Fetch a subreddit via authenticated oauth.reddit.com .json."""
+        params: dict[str, Any] = {"limit": min(cfg.fetch_limit, 100), "raw_json": 1}
+        if cfg.sort in ("top", "controversial"):
+            params["t"] = cfg.time_filter
+
+        url = f"{OAUTH_REDDIT_BASE}/r/{cfg.subreddit}/{cfg.sort}"
+        data = await self._authenticated_get(url, params)
         if not data:
             return []
 
@@ -299,8 +375,15 @@ class RedditScraper(BaseScraper):
             "sort": cfg.sort,
             "raw_json": 1,
         }
-        url = f"{REDDIT_BASE}/user/{cfg.username}/submitted.json"
-        data = await self._reddit_get(url, params)
+
+        # Prefer the authenticated endpoint; fall back to anonymous JSON.
+        data = None
+        if self._is_authenticated():
+            auth_url = f"{OAUTH_REDDIT_BASE}/user/{cfg.username}/submitted"
+            data = await self._authenticated_get(auth_url, params)
+        if not data:
+            url = f"{REDDIT_BASE}/user/{cfg.username}/submitted.json"
+            data = await self._reddit_get(url, params)
         if not data:
             return []
 
@@ -384,15 +467,26 @@ class RedditScraper(BaseScraper):
 
     async def _fetch_comments(self, subreddit: str, post_id: str) -> List[dict]:
         fetch_limit = self.reddit_config.fetch_comments
-        html_comments = await self._fetch_comments_html(subreddit, post_id, fetch_limit)
-        if html_comments:
-            return html_comments
-
-        url = f"{REDDIT_BASE}/r/{subreddit}/comments/{post_id}.json"
         params = {"limit": fetch_limit, "depth": 1, "sort": "top", "raw_json": 1}
 
-        async with self._comment_semaphore:
-            data = await self._reddit_get(url, params)
+        # Authenticated path first (avoids the anonymous 403 on comment JSON).
+        data = None
+        if self._is_authenticated():
+            auth_url = f"{OAUTH_REDDIT_BASE}/r/{subreddit}/comments/{post_id}"
+            async with self._comment_semaphore:
+                data = await self._authenticated_get(auth_url, params)
+
+        if not data:
+            html_comments = await self._fetch_comments_html(
+                subreddit, post_id, fetch_limit
+            )
+            if html_comments:
+                return html_comments
+
+            url = f"{REDDIT_BASE}/r/{subreddit}/comments/{post_id}.json"
+            async with self._comment_semaphore:
+                data = await self._reddit_get(url, params)
+
         if not data or not isinstance(data, list) or len(data) < 2:
             return []
 

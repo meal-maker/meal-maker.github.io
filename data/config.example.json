@@ -56,6 +56,13 @@
     ],
     "reddit": {
       "enabled": true,
+      "auth": {
+        "client_id_env": "REDDIT_CLIENT_ID",
+        "client_secret_env": "REDDIT_CLIENT_SECRET",
+        "username": "your_reddit_username",
+        "password_env": "REDDIT_PASSWORD",
+        "user_agent": "horizon:1.0 (by /u/your_reddit_username)"
+      },
       "subreddits": [
         {
           "subreddit": "MachineLearning",

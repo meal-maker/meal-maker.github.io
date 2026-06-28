@@ -162,6 +162,22 @@ class RedditUserConfig(BaseModel):
     fetch_limit: int = 10
 
 
+class RedditAuthConfig(BaseModel):
+    """OAuth2 credentials for authenticated Reddit access.
+
+    Uses the script-app password grant: the configured account authenticates
+    with its username/password plus the app's client_id/secret to obtain a
+    bearer token, which clears Reddit's anonymous 403s and restores
+    score/num_comments on listings.
+    """
+
+    client_id_env: str
+    client_secret_env: str
+    username: str  # account owning the script app (not a secret)
+    password_env: str
+    user_agent: Optional[str] = None  # e.g. "horizon:1.0 (by /u/username)"
+
+
 class RedditConfig(BaseModel):
     """Reddit source configuration."""
 
@@ -169,6 +185,7 @@ class RedditConfig(BaseModel):
     subreddits: List[RedditSubredditConfig] = Field(default_factory=list)
     users: List[RedditUserConfig] = Field(default_factory=list)
     fetch_comments: int = 5  # top comments per post, 0 to disable
+    auth: Optional[RedditAuthConfig] = None  # when set, use authenticated OAuth requests
 
 
 class TelegramChannelConfig(BaseModel):

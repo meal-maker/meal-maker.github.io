@@ -31,6 +31,12 @@ jobs:
           # config.json uses the OpenAI-compatible client pointed at DeepSeek;
           # the actual DeepSeek API key is stored in this secret.
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Reddit OAuth (script / password grant). Optional: when unset the
+          # scraper degrades to anonymous RSS access.
+          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          REDDIT_USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          REDDIT_PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
         run: uv run horizon --hours 24
 
       - name: Set current date as environment variable
