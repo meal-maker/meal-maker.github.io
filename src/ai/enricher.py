@@ -6,8 +6,6 @@ For items that pass the score threshold, this module:
 """
 
 import asyncio
-import json
-import re
 import sys
 import os
 from typing import List, Optional
@@ -36,6 +34,16 @@ class ContentEnricher:
         concurrency = getattr(config, "enrichment_concurrency", 1)
         return max(concurrency, 1)
 
+    def _get_timeout_sec(self) -> float:
+        """Return the per-item enrichment timeout, clamped above zero."""
+        config = getattr(self.client, "config", None)
+        timeout = getattr(config, "enrichment_timeout_sec", 30.0)
+        return max(float(timeout), 1.0)
+
+    def _get_fallback_timeout_sec(self) -> float:
+        """Return a bounded timeout for lightweight translation fallback."""
+        return min(max(self._get_timeout_sec() / 3, 5.0), 15.0)
+
     async def enrich_batch(self, items: List[ContentItem]) -> None:
         """Enrich items in-place with background knowledge.
 
@@ -43,15 +51,31 @@ class ContentEnricher:
             items: Content items to enrich (modified in-place)
         """
         concurrency = self._get_concurrency()
+        timeout_sec = self._get_timeout_sec()
+        fallback_timeout_sec = self._get_fallback_timeout_sec()
         semaphore = asyncio.Semaphore(concurrency)
 
         async def _process(item: ContentItem, progress_task) -> None:
             async with semaphore:
                 try:
-                    await self._enrich_item(item)
+                    await asyncio.wait_for(self._enrich_item(item), timeout=timeout_sec)
+                except asyncio.TimeoutError:
+                    print(
+                        f"Warning: enrichment timed out for {item.id} after "
+                        f"{timeout_sec:.0f}s, skipping item"
+                    )
                 except Exception as e:
                     print(f"Error enriching item {item.id}: {e}, falling back to translation")
-                    await self._translate_item(item)
+                    try:
+                        await asyncio.wait_for(
+                            self._translate_item(item),
+                            timeout=fallback_timeout_sec,
+                        )
+                    except asyncio.TimeoutError:
+                        print(
+                            f"Warning: translation fallback timed out for {item.id} after "
+                            f"{fallback_timeout_sec:.0f}s, skipping item"
+                        )
             progress.advance(progress_task)
 
         with Progress(
@@ -161,8 +185,11 @@ class ContentEnricher:
         # Step 2: Search web for each concept
         all_results = []
         web_sections = []
-        for query in queries:
-            results = await self._web_search(query)
+        search_tasks = [self._web_search(query) for query in queries]
+        search_results = await asyncio.gather(*search_tasks, return_exceptions=True)
+        for query, results in zip(queries, search_results):
+            if isinstance(results, Exception):
+                continue
             all_results.extend(results)
             if results:
                 lines = [f"- [{r['title']}]({r['url']}): {r['body']}" for r in results]
