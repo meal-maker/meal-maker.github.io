@@ -3,7 +3,8 @@
 import asyncio
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
+from pathlib import Path
 from typing import List, Dict, Optional
 from urllib.parse import urlparse
 import httpx
@@ -82,145 +83,16 @@ class HorizonOrchestrator:
             # 1. Determine time window
             since = self._determine_time_window(force_hours)
             self.console.print(f"📅 Fetching content since: {since.strftime('%Y-%m-%d %H:%M:%S')}\n")
-
-            # 2. Fetch content from all sources
-            all_items = await self.fetch_all_sources(since)
-            self.console.print(f"📥 Fetched {len(all_items)} items from all sources\n")
-
-            if not all_items:
-                self.console.print("[yellow]No new content found. Exiting.[/yellow]")
-                return
-
-            # 3. Merge cross-source duplicates (same URL from different sources)
-            merged_items = self.merge_cross_source_duplicates(all_items)
-            if len(merged_items) < len(all_items):
-                self.console.print(
-                    f"🔗 Merged {len(all_items) - len(merged_items)} cross-source duplicates "
-                    f"→ {len(merged_items)} unique items\n"
-                )
-
-            # 4. Analyze with AI
-            analyzed_items = await self._analyze_content(merged_items)
-            self.console.print(f"🤖 Analyzed {len(analyzed_items)} items with AI\n")
-
-            # 5. Filter by score threshold
-            threshold = self.config.filtering.ai_score_threshold
-            important_items = [
-                item for item in analyzed_items
-                if item.ai_score and item.ai_score >= threshold
-            ]
-            important_items.sort(key=lambda x: x.ai_score or 0, reverse=True)
-
-            self.console.print(
-                f"⭐️ {len(important_items)} items scored ≥ {threshold}\n"
+            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+            await self._run_window(
+                since=since,
+                until=None,
+                output_date=today,
+                send_notifications=True,
             )
 
-            # 5.5 Semantic deduplication: drop items covering the same topic
-            deduped_items = await self.merge_topic_duplicates(important_items)
-            if len(deduped_items) < len(important_items):
-                self.console.print(
-                    f"🧹 Removed {len(important_items) - len(deduped_items)} topic duplicates "
-                    f"→ {len(deduped_items)} unique items\n"
-                )
-            important_items = deduped_items
-
-            # 5.6 Optional second-stage Twitter reply expansion + targeted re-analysis
-            await self._expand_twitter_discussion(important_items)
-
-            # 5.7 Apply per-category and global digest limits before enrichment
-            balanced_result = self.apply_balanced_digest(important_items)
-            important_items = balanced_result.items
-
-            # Show per-sub-source selection breakdown
-            selected_counts: Dict[str, int] = defaultdict(int)
-            for item in important_items:
-                key = f"{item.source_type.value}/{self._sub_source_label(item)}"
-                selected_counts[key] += 1
-            for source_key, count in sorted(selected_counts.items()):
-                self.console.print(f"      • {source_key}: {count}")
-            self.console.print("")
-
-            # 6. Search related stories + enrich with background knowledge (2nd AI pass)
-            await self._enrich_important_items(important_items)
-
-            # 7. Generate and save daily summaries for each configured language
-            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-            for lang in self.config.ai.languages:
-                summarizer = DailySummarizer()
-                summary = await summarizer.generate_summary(important_items, today, len(all_items), language=lang)
-
-                # Save to data/summaries/
-                summary_path = self.storage.save_daily_summary(today, summary, language=lang)
-                self.console.print(f"💾 Saved {lang.upper()} summary to: {summary_path}\n")
-
-                # Copy to docs/ for GitHub Pages
-                try:
-                    from pathlib import Path
-
-                    post_filename = f"{today}-summary-{lang}.md"
-                    posts_dir = Path("docs/_posts")
-                    posts_dir.mkdir(parents=True, exist_ok=True)
-
-                    dest_path = posts_dir / post_filename
-
-                    # Add Jekyll front matter
-                    front_matter = (
-                        "---\n"
-                        "layout: default\n"
-                        f"title: \"Horizon Summary: {today} ({lang.upper()})\"\n"
-                        f"date: {today}\n"
-                        f"lang: {lang}\n"
-                        "---\n\n"
-                    )
-
-                    # Strip leading H1 header to avoid duplication with Jekyll title
-                    summary_content = summary
-                    first_line = summary_content.strip().split("\n")[0]
-                    if first_line.startswith("# "):
-                        parts = summary_content.split("\n", 1)
-                        if len(parts) > 1:
-                            summary_content = parts[1].strip()
-
-                    with open(dest_path, "w", encoding="utf-8") as f:
-                        f.write(front_matter + summary_content)
-
-                    self.console.print(f"📄 Copied {lang.upper()} summary to GitHub Pages: {dest_path}\n")
-                except Exception as e:
-                    self.console.print(f"[yellow]⚠️  Failed to copy {lang.upper()} summary to docs/: {e}[/yellow]\n")
-
-                # Send email if configured
-                if self.email_manager and self.config.email and self.config.email.enabled:
-                    self.console.print(f"📧 Sending {lang.upper()} email summary...")
-                    subscribers = self.storage.load_subscribers()
-                    subject = f"Horizon Summary ({lang.upper()}) - {today}"
-                    self.email_manager.send_daily_summary(summary, subject, subscribers)
-
-                # Send webhook notification if configured
-                if self.webhook_notifier:
-                    await self.webhook_notifier.send_daily_summary(
-                        summary=summary,
-                        important_items=important_items,
-                        all_items_count=len(all_items),
-                        date=today,
-                        lang=lang,
-                        summarizer=summarizer,
-                    )
-
             self.console.print("[bold green]✅ Horizon completed successfully![/bold green]")
-            usage = get_usage_snapshot()
-            if usage.total_tokens > 0:
-                self.console.print(
-                    f"\n🧮 Token usage this run: "
-                    f"{usage.total_tokens} tokens "
-                    f"(input: {usage.total_input_tokens}, output: {usage.total_output_tokens})"
-                )
-                for provider, u in sorted(usage.per_provider.items()):
-                    if u.total <= 0:
-                        continue
-                    self.console.print(
-                        f"   • {provider}: {u.total} tokens "
-                        f"(in: {u.input_tokens}, out: {u.output_tokens})"
-                    )
+            self._print_token_usage()
 
         except Exception as e:
             self.console.print(f"[bold red]❌ Error: {e}[/bold red]")
@@ -233,6 +105,217 @@ class HorizonOrchestrator:
                 )
 
             raise
+
+    async def run_backfill(self, days: int, end_date: Optional[date] = None) -> None:
+        """Backfill historical summaries by UTC day without sending notifications."""
+        if days <= 0:
+            raise ValueError("backfill days must be greater than 0")
+
+        final_day = end_date or datetime.now(timezone.utc).date()
+        self.console.print("[bold cyan]🕰️ Horizon - Starting backfill...[/bold cyan]\n")
+
+        for offset in range(days - 1, -1, -1):
+            current_day = final_day - timedelta(days=offset)
+            since = datetime.combine(current_day, time.min, tzinfo=timezone.utc)
+            until = since + timedelta(days=1)
+            self.console.print(f"[bold cyan]📚 Backfilling {current_day.isoformat()}[/bold cyan]")
+            await self._run_window(
+                since=since,
+                until=until,
+                output_date=current_day.isoformat(),
+                send_notifications=False,
+            )
+
+        self.console.print("[bold green]✅ Backfill completed successfully![/bold green]")
+        self._print_token_usage()
+
+    async def _run_window(
+        self,
+        since: datetime,
+        until: Optional[datetime],
+        output_date: str,
+        send_notifications: bool,
+    ) -> None:
+        """Run the full pipeline for one time window."""
+        fetched_items = await self.fetch_all_sources(since)
+        self.console.print(f"📥 Fetched {len(fetched_items)} items from all sources\n")
+
+        all_items = (
+            self._filter_items_by_window(fetched_items, since, until)
+            if until is not None
+            else fetched_items
+        )
+        if until is not None:
+            self.console.print(f"🗓️ Retained {len(all_items)} items for {output_date}\n")
+
+        if not all_items:
+            self.console.print("[yellow]No content found for this window. Skipping.[/yellow]\n")
+            return
+
+        # 3. Merge cross-source duplicates (same URL from different sources)
+        merged_items = self.merge_cross_source_duplicates(all_items)
+        if len(merged_items) < len(all_items):
+            self.console.print(
+                f"🔗 Merged {len(all_items) - len(merged_items)} cross-source duplicates "
+                f"→ {len(merged_items)} unique items\n"
+            )
+
+        # 4. Analyze with AI
+        analyzed_items = await self._analyze_content(merged_items)
+        self.console.print(f"🤖 Analyzed {len(analyzed_items)} items with AI\n")
+
+        # 5. Filter by score threshold
+        threshold = self.config.filtering.ai_score_threshold
+        important_items = [
+            item for item in analyzed_items
+            if item.ai_score and item.ai_score >= threshold
+        ]
+        important_items.sort(key=lambda x: x.ai_score or 0, reverse=True)
+
+        self.console.print(
+            f"⭐️ {len(important_items)} items scored ≥ {threshold}\n"
+        )
+
+        # 5.5 Semantic deduplication: drop items covering the same topic
+        deduped_items = await self.merge_topic_duplicates(important_items)
+        if len(deduped_items) < len(important_items):
+            self.console.print(
+                f"🧹 Removed {len(important_items) - len(deduped_items)} topic duplicates "
+                f"→ {len(deduped_items)} unique items\n"
+            )
+        important_items = deduped_items
+
+        # 5.6 Optional second-stage Twitter reply expansion + targeted re-analysis
+        await self._expand_twitter_discussion(important_items)
+
+        # 5.7 Apply per-category and global digest limits before enrichment
+        balanced_result = self.apply_balanced_digest(important_items)
+        important_items = balanced_result.items
+
+        selected_counts: Dict[str, int] = defaultdict(int)
+        for item in important_items:
+            key = f"{item.source_type.value}/{self._sub_source_label(item)}"
+            selected_counts[key] += 1
+        for source_key, count in sorted(selected_counts.items()):
+            self.console.print(f"      • {source_key}: {count}")
+        self.console.print("")
+
+        # 6. Search related stories + enrich with background knowledge (2nd AI pass)
+        await self._enrich_important_items(important_items)
+
+        # 7. Generate and save daily summaries for each configured language
+        for lang in self.config.ai.languages:
+            summarizer = DailySummarizer()
+            summary = await summarizer.generate_summary(
+                important_items,
+                output_date,
+                len(all_items),
+                language=lang,
+            )
+            await self._publish_summary(
+                summary=summary,
+                lang=lang,
+                date_str=output_date,
+                important_items=important_items,
+                total_items=len(all_items),
+                summarizer=summarizer,
+                send_notifications=send_notifications,
+            )
+
+    @staticmethod
+    def _filter_items_by_window(
+        items: List[ContentItem],
+        since: datetime,
+        until: Optional[datetime],
+    ) -> List[ContentItem]:
+        """Keep only items inside the requested UTC window."""
+        if until is None:
+            return items
+        return [
+            item for item in items
+            if since <= item.published_at.astimezone(timezone.utc) < until
+        ]
+
+    async def _publish_summary(
+        self,
+        summary: str,
+        lang: str,
+        date_str: str,
+        important_items: List[ContentItem],
+        total_items: int,
+        summarizer: DailySummarizer,
+        send_notifications: bool,
+    ) -> None:
+        """Persist one generated summary and optionally deliver notifications."""
+        summary_path = self.storage.save_daily_summary(date_str, summary, language=lang)
+        self.console.print(f"💾 Saved {lang.upper()} summary to: {summary_path}\n")
+
+        try:
+            post_filename = f"{date_str}-summary-{lang}.md"
+            posts_dir = Path("docs/_posts")
+            posts_dir.mkdir(parents=True, exist_ok=True)
+
+            dest_path = posts_dir / post_filename
+            front_matter = (
+                "---\n"
+                "layout: default\n"
+                f"title: \"Horizon Summary: {date_str} ({lang.upper()})\"\n"
+                f"date: {date_str}\n"
+                f"lang: {lang}\n"
+                "---\n\n"
+            )
+
+            summary_content = summary
+            first_line = summary_content.strip().split("\n")[0]
+            if first_line.startswith("# "):
+                parts = summary_content.split("\n", 1)
+                if len(parts) > 1:
+                    summary_content = parts[1].strip()
+
+            with open(dest_path, "w", encoding="utf-8") as f:
+                f.write(front_matter + summary_content)
+
+            self.console.print(f"📄 Copied {lang.upper()} summary to GitHub Pages: {dest_path}\n")
+        except Exception as e:
+            self.console.print(f"[yellow]⚠️  Failed to copy {lang.upper()} summary to docs/: {e}[/yellow]\n")
+
+        if not send_notifications:
+            return
+
+        if self.email_manager and self.config.email and self.config.email.enabled:
+            self.console.print(f"📧 Sending {lang.upper()} email summary...")
+            subscribers = self.storage.load_subscribers()
+            subject = f"Horizon Summary ({lang.upper()}) - {date_str}"
+            self.email_manager.send_daily_summary(summary, subject, subscribers)
+
+        if self.webhook_notifier:
+            await self.webhook_notifier.send_daily_summary(
+                summary=summary,
+                important_items=important_items,
+                all_items_count=total_items,
+                date=date_str,
+                lang=lang,
+                summarizer=summarizer,
+            )
+
+    def _print_token_usage(self) -> None:
+        """Print token usage for the current run when available."""
+        usage = get_usage_snapshot()
+        if usage.total_tokens <= 0:
+            return
+
+        self.console.print(
+            f"\n🧮 Token usage this run: "
+            f"{usage.total_tokens} tokens "
+            f"(input: {usage.total_input_tokens}, output: {usage.total_output_tokens})"
+        )
+        for provider, u in sorted(usage.per_provider.items()):
+            if u.total <= 0:
+                continue
+            self.console.print(
+                f"   • {provider}: {u.total} tokens "
+                f"(in: {u.input_tokens}, out: {u.output_tokens})"
+            )
 
     def _determine_time_window(self, force_hours: int = None) -> datetime:
         if force_hours:

@@ -138,3 +138,31 @@ def test_generate_empty_summary_zh_uses_localized_analyzed_line():
 
     assert "> 已分析 10 条内容，但没有达到重要性阈值的条目。" in result
     assert "Analyzed 10 items" not in result
+
+
+def test_generate_summary_zh_prefers_chinese_metadata_over_english_fallback():
+    summarizer = DailySummarizer()
+    item = _make_item(1)
+    item.metadata["title_zh"] = "重要条目 1"
+    item.metadata["detailed_summary_zh"] = "这是一条中文摘要。"
+    item.metadata["background_zh"] = "这是一段中文背景。"
+    item.metadata["community_discussion_zh"] = "这是一段中文讨论。"
+    item.metadata["title_en"] = "Important Item 1"
+    item.metadata["detailed_summary"] = "English fallback summary."
+    item.metadata["background"] = "English fallback background."
+    item.metadata["community_discussion"] = "English fallback discussion."
+
+    result = _run_async(
+        summarizer.generate_summary(
+            [item],
+            date="2026-04-25",
+            total_fetched=10,
+            language="zh",
+        )
+    )
+
+    assert "## [重要条目 1](https://example.com/items/1)" in result
+    assert "这是一条中文摘要。" in result
+    assert "**背景**: 这是一段中文背景。" in result
+    assert "**社区讨论**: 这是一段中文讨论。" in result
+    assert "English fallback summary." not in result

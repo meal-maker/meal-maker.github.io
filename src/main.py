@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -37,6 +38,8 @@ def main():
 
     parser = argparse.ArgumentParser(description="Horizon - AI-Driven Information Aggregation System")
     parser.add_argument("--hours", type=int, help="Force fetch from last N hours")
+    parser.add_argument("--backfill-days", type=int, help="Backfill the last N UTC days")
+    parser.add_argument("--end-date", type=str, help="End date for backfill in YYYY-MM-DD (UTC)")
     args = parser.parse_args()
 
     try:
@@ -74,7 +77,17 @@ def main():
 
         # Create and run orchestrator
         orchestrator = HorizonOrchestrator(config, storage)
-        asyncio.run(orchestrator.run(force_hours=args.hours))
+        if args.backfill_days:
+            end_date = None
+            if args.end_date:
+                try:
+                    end_date = datetime.strptime(args.end_date, "%Y-%m-%d").date()
+                except ValueError:
+                    console.print("[bold red]❌ --end-date must use YYYY-MM-DD format[/bold red]")
+                    sys.exit(1)
+            asyncio.run(orchestrator.run_backfill(args.backfill_days, end_date=end_date))
+        else:
+            asyncio.run(orchestrator.run(force_hours=args.hours))
 
     except KeyboardInterrupt:
         console.print("\n[yellow]⚠️  Interrupted by user[/yellow]")

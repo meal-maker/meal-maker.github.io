@@ -1,9 +1,10 @@
 """Daily summary generation — pure programmatic rendering."""
 
 import re
-from typing import List, Dict
+from typing import List
 
 from ..models import ContentItem
+from .utils import has_meaningful_cjk
 
 
 _CJK = r"[\u4e00-\u9fff\u3400-\u4dbf]"
@@ -160,25 +161,39 @@ class DailySummarizer:
         prefix = f"第 {index}/{total} 条\n\n" if language == "zh" else f"Item {index}/{total}\n\n"
         return prefix + self._format_item(item, labels, language, index).rstrip("-\n ")
 
+    @staticmethod
+    def _pick_text(language: str, localized: str, *fallbacks: str) -> str:
+        """Prefer valid localized text and only then fall back."""
+        if language != "zh":
+            return localized or next((text for text in fallbacks if text), "")
+        if localized and has_meaningful_cjk(localized):
+            return localized
+        return next((text for text in fallbacks if text), "")
+
     def _format_item(self, item: ContentItem, labels: dict, language: str, index: int) -> str:
         """Format a single ContentItem into Markdown."""
-        _title = item.metadata.get(f"title_{language}") or item.title
+        # Chinese pages should use validated Chinese fields first; English is a last resort.
+        _title = self._pick_text(language, item.metadata.get(f"title_{language}") or "", item.title)
         title = str(_title).replace("[", "(").replace("]", ")")
         url = str(item.url)
         score = item.ai_score or "?"
         meta = item.metadata
 
-        summary = (
-            meta.get(f"detailed_summary_{language}")
-            or meta.get("detailed_summary")
-            or item.ai_summary
-            or ""
+        summary = self._pick_text(
+            language,
+            meta.get(f"detailed_summary_{language}") or "",
+            meta.get("detailed_summary") or "",
+            item.ai_summary or "",
         )
-        background = meta.get(f"background_{language}") or meta.get("background") or ""
-        discussion = (
-            meta.get(f"community_discussion_{language}")
-            or meta.get("community_discussion")
-            or ""
+        background = self._pick_text(
+            language,
+            meta.get(f"background_{language}") or "",
+            meta.get("background") or "",
+        )
+        discussion = self._pick_text(
+            language,
+            meta.get(f"community_discussion_{language}") or "",
+            meta.get("community_discussion") or "",
         )
 
         if language == "zh":
