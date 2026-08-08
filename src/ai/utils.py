@@ -2,7 +2,7 @@
 
 import json
 import re
-from typing import Any, Optional
+from typing import Optional
 
 
 def parse_json_response(response: str) -> Optional[dict]:
@@ -58,20 +58,3 @@ def parse_json_response(response: str) -> Optional[dict]:
             pass
 
     return None
-
-
-def coerce_text(value: Any) -> str:
-    """Normalize model output values into plain text."""
-    if value is None:
-        return ""
-    if isinstance(value, dict):
-        text = value.get("text")
-        return str(text).strip() if text is not None else ""
-    return str(value).strip()
-
-
-def has_meaningful_cjk(text: str, min_chars: int = 2) -> bool:
-    """Return whether text contains enough CJK characters to count as Chinese."""
-    if not text:
-        return False
-    return len(re.findall(r"[\u3400-\u4dbf\u4e00-\u9fff]", text)) >= min_chars

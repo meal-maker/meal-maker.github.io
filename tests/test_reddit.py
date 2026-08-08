@@ -1,16 +1,14 @@
 import asyncio
-import os
 from datetime import datetime, timedelta, timezone
-from unittest.mock import patch
+from unittest.mock import AsyncMock
 
 import httpx
 
-from src.models import RedditAuthConfig, RedditConfig, RedditSubredditConfig
+from src.models import RedditConfig, RedditSubredditConfig, RedditUserConfig
 from src.scrapers.reddit import REDDIT_HEADERS, RedditScraper
-from src.scrapers.reddit_auth import TOKEN_URL
 
 
-def _make_config(fetch_comments: int = 1) -> RedditConfig:
+def _make_config(fetch_comments: int = 1, profile: str | None = None) -> RedditConfig:
     return RedditConfig(
         enabled=True,
         subreddits=[
@@ -20,6 +18,7 @@ def _make_config(fetch_comments: int = 1) -> RedditConfig:
                 sort="hot",
                 fetch_limit=1,
                 min_score=1,
+                profile=profile,
             )
         ],
         users=[],
@@ -119,17 +118,11 @@ def _old_comments_html() -> str:
     """
 
 
-def _empty_rss() -> str:
-    return '<?xml version="1.0" encoding="UTF-8"?><feed xmlns="http://www.w3.org/2005/Atom"></feed>'
-
-
 def test_reddit_fetch_uses_browser_like_headers():
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(200, text=_empty_rss())
         return httpx.Response(200, text=_old_listing_html())
 
     transport = httpx.MockTransport(handler)
@@ -139,18 +132,15 @@ def test_reddit_fetch_uses_browser_like_headers():
     asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    # Browser-like headers must be sent on every request, including the RSS one.
-    assert requests, "no requests were made"
-    for req in requests:
-        assert req.headers["user-agent"] == REDDIT_HEADERS["User-Agent"]
-        assert req.headers["accept-language"] == REDDIT_HEADERS["Accept-Language"]
-        assert req.headers["referer"] == REDDIT_HEADERS["Referer"]
+    assert len(requests) == 1
+    assert requests[0].url.host == "old.reddit.com"
+    assert requests[0].headers["user-agent"] == REDDIT_HEADERS["User-Agent"]
+    assert requests[0].headers["accept-language"] == REDDIT_HEADERS["Accept-Language"]
+    assert requests[0].headers["referer"] == REDDIT_HEADERS["Referer"]
 
 
 def test_reddit_comment_403_degrades_to_post_without_comments():
     def handler(request: httpx.Request) -> httpx.Response:
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com":
             return httpx.Response(500, text="old reddit unavailable")
         if request.url.path.endswith("/hot.json"):
@@ -171,44 +161,43 @@ def test_reddit_comment_403_degrades_to_post_without_comments():
     assert "Top Comments" not in (items[0].content or "")
 
 
-def test_reddit_listing_prefers_rss_then_old_html():
+def test_reddit_listing_uses_old_reddit_first():
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com" and request.url.path.endswith("/hot/"):
             return httpx.Response(200, text=_old_listing_html())
         raise AssertionError(f"unexpected url: {request.url}")
 
     transport = httpx.MockTransport(handler)
     client = httpx.AsyncClient(transport=transport)
-    scraper = RedditScraper(_make_config(fetch_comments=0), client)
+    scraper = RedditScraper(
+        _make_config(fetch_comments=0, profile="subreddit-profile"), client
+    )
 
     items = asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    # RSS is tried first; when it yields nothing we fall back to old HTML,
-    # which carries score/num_comments.
-    assert [request.url.path for request in requests] == [
-        "/r/LocalLLaMA/hot/.rss",
-        "/r/LocalLLaMA/hot/",
-    ]
+    assert [str(request.url.host) for request in requests] == ["old.reddit.com"]
     assert len(items) == 1
     assert items[0].title == "Old HTML post"
     assert items[0].content == "old body"
     assert items[0].author == "old_author"
     assert items[0].metadata["score"] == 42
     assert items[0].metadata["num_comments"] == 7
+    assert items[0].profile == "subreddit-profile"
 
 
-def test_reddit_listing_rss_success_short_circuits():
-    """When RSS returns posts, neither old HTML nor JSON is tried."""
+def test_reddit_listing_old_failure_falls_back_to_json_then_rss():
     requests = []
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
+        if request.url.host == "old.reddit.com":
+            return httpx.Response(500, text="old reddit unavailable")
+        if request.url.path.endswith("/hot.json"):
+            return httpx.Response(403, text="blocked")
         if request.url.path.endswith("/hot/.rss"):
             return httpx.Response(
                 200,
@@ -230,12 +219,16 @@ def test_reddit_listing_rss_success_short_circuits():
 
     transport = httpx.MockTransport(handler)
     client = httpx.AsyncClient(transport=transport)
-    scraper = RedditScraper(_make_config(fetch_comments=3), client)
+    scraper = RedditScraper(
+        _make_config(fetch_comments=3, profile="rss-profile"), client
+    )
 
     items = asyncio.run(scraper.fetch(datetime(2029, 12, 31, tzinfo=timezone.utc)))
     asyncio.run(client.aclose())
 
     assert [request.url.path for request in requests] == [
+        "/r/LocalLLaMA/hot/",
+        "/r/LocalLLaMA/hot.json",
         "/r/LocalLLaMA/hot/.rss",
     ]
     assert len(items) == 1
@@ -244,6 +237,25 @@ def test_reddit_listing_rss_success_short_circuits():
     assert items[0].author == "rss_author"
     assert items[0].metadata["subreddit"] == "LocalLLaMA"
     assert items[0].metadata["fallback"] == "rss"
+    assert items[0].profile == "rss-profile"
+
+
+def test_reddit_user_profile_propagates() -> None:
+    config = RedditConfig(
+        enabled=True,
+        subreddits=[],
+        users=[RedditUserConfig(username="tester", profile="user-profile")],
+        fetch_comments=0,
+    )
+    scraper = RedditScraper(config, AsyncMock())
+    scraper._reddit_get = AsyncMock(return_value=_listing_payload())
+
+    items = asyncio.run(
+        scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1))
+    )
+
+    assert len(items) == 1
+    assert items[0].profile == "user-profile"
 
 
 def test_reddit_comments_use_old_reddit_first():
@@ -251,8 +263,6 @@ def test_reddit_comments_use_old_reddit_first():
 
     def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request)
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(200, text=_empty_rss())
         if request.url.host == "old.reddit.com" and request.url.path.endswith("/hot/"):
             return httpx.Response(200, text=_old_listing_html())
         if request.url.host == "old.reddit.com" and "/comments/old123/" in request.url.path:
@@ -267,7 +277,6 @@ def test_reddit_comments_use_old_reddit_first():
     asyncio.run(client.aclose())
 
     assert [str(request.url.host) for request in requests] == [
-        "www.reddit.com",
         "old.reddit.com",
         "old.reddit.com",
     ]
@@ -283,8 +292,6 @@ def test_reddit_subreddits_are_fetched_sequentially():
 
     async def handler(request: httpx.Request) -> httpx.Response:
         requests.append(request.url.path)
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(200, text=_empty_rss())
         if "/r/LocalLLaMA/" in request.url.path:
             await asyncio.sleep(0)
             local_done.set()
@@ -303,214 +310,8 @@ def test_reddit_subreddits_are_fetched_sequentially():
     items = asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
     asyncio.run(client.aclose())
 
-    # Each subreddit: RSS (empty) then old HTML. LocalLLaMA fully completes
-    # before MachineLearning starts.
-    assert requests == [
-        "/r/LocalLLaMA/hot/.rss",
-        "/r/LocalLLaMA/hot/",
-        "/r/MachineLearning/hot/.rss",
-        "/r/MachineLearning/hot/",
-    ]
+    assert requests == ["/r/LocalLLaMA/hot/", "/r/MachineLearning/hot/"]
     assert [item.metadata["subreddit"] for item in items] == [
         "LocalLLaMA",
         "MachineLearning",
     ]
-
-
-# --- OAuth (script / password grant) tests ---
-
-
-def _make_auth_config(fetch_comments: int = 0, min_score: int = 1) -> RedditConfig:
-    return RedditConfig(
-        enabled=True,
-        auth=RedditAuthConfig(
-            client_id_env="REDDIT_CLIENT_ID",
-            client_secret_env="REDDIT_CLIENT_SECRET",
-            username="testuser",
-            password_env="REDDIT_PASSWORD",
-            user_agent="horizon:test (by /u/testuser)",
-        ),
-        subreddits=[
-            RedditSubredditConfig(
-                subreddit="LocalLLaMA",
-                enabled=True,
-                sort="hot",
-                fetch_limit=5,
-                min_score=min_score,
-            )
-        ],
-        users=[],
-        fetch_comments=fetch_comments,
-    )
-
-
-_AUTH_ENV = {
-    "REDDIT_CLIENT_ID": "cid",
-    "REDDIT_CLIENT_SECRET": "csecret",
-    "REDDIT_PASSWORD": "pw",
-}
-
-
-def _token_response() -> dict:
-    return {"access_token": "tok-123", "token_type": "bearer", "expires_in": 3600}
-
-
-def _listing_payload_with_score(score: int) -> dict:
-    now = datetime.now(timezone.utc)
-    return {
-        "data": {
-            "children": [
-                {
-                    "kind": "t3",
-                    "data": {
-                        "id": "authpost1",
-                        "title": "Authed post",
-                        "is_self": True,
-                        "subreddit": "LocalLLaMA",
-                        "permalink": "/r/LocalLLaMA/comments/authpost1/authed/",
-                        "author": "tester",
-                        "created_utc": now.timestamp(),
-                        "score": score,
-                        "upvote_ratio": 0.95,
-                        "num_comments": 3,
-                        "selftext": "body",
-                    },
-                }
-            ]
-        }
-    }
-
-
-def test_reddit_auth_fetches_token_and_sends_bearer():
-    requests = []
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        requests.append(request)
-        if request.url == TOKEN_URL:
-            assert request.headers["authorization"].startswith("Basic ")
-            return httpx.Response(200, json=_token_response())
-        if request.url.host == "oauth.reddit.com":
-            assert request.headers["authorization"] == "Bearer tok-123"
-            return httpx.Response(200, json=_listing_payload_with_score(42))
-        raise AssertionError(f"unexpected url: {request.url}")
-
-    transport = httpx.MockTransport(handler)
-    client = httpx.AsyncClient(transport=transport)
-    scraper = RedditScraper(_make_auth_config(fetch_comments=0), client)
-
-    with patch.dict(os.environ, _AUTH_ENV):
-        items = asyncio.run(
-            scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1))
-        )
-    asyncio.run(client.aclose())
-
-    hosts = [str(r.url.host) for r in requests]
-    assert "www.reddit.com" in hosts  # token endpoint
-    assert "oauth.reddit.com" in hosts  # authenticated listing
-    assert len(items) == 1
-    assert items[0].title == "Authed post"
-    assert items[0].metadata["score"] == 42
-    assert items[0].metadata["num_comments"] == 3
-
-
-def test_reddit_auth_token_cached_across_requests():
-    token_calls = 0
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        nonlocal token_calls
-        if request.url == TOKEN_URL:
-            token_calls += 1
-            return httpx.Response(200, json=_token_response())
-        if request.url.host == "oauth.reddit.com":
-            return httpx.Response(200, json=_listing_payload_with_score(42))
-        raise AssertionError(f"unexpected url: {request.url}")
-
-    transport = httpx.MockTransport(handler)
-    client = httpx.AsyncClient(transport=transport)
-    cfg = RedditConfig(
-        enabled=True,
-        auth=RedditAuthConfig(
-            client_id_env="REDDIT_CLIENT_ID",
-            client_secret_env="REDDIT_CLIENT_SECRET",
-            username="testuser",
-            password_env="REDDIT_PASSWORD",
-        ),
-        subreddits=[
-            RedditSubredditConfig(subreddit="LocalLLaMA", min_score=1, fetch_limit=3),
-            RedditSubredditConfig(subreddit="MachineLearning", min_score=1, fetch_limit=3),
-        ],
-        users=[],
-        fetch_comments=0,
-    )
-    scraper = RedditScraper(cfg, client)
-
-    with patch.dict(os.environ, _AUTH_ENV):
-        asyncio.run(scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1)))
-    asyncio.run(client.aclose())
-
-    assert token_calls == 1  # one token fetch shared across both subreddits
-
-
-def test_reddit_auth_applies_min_score():
-    def handler(request: httpx.Request) -> httpx.Response:
-        if request.url == TOKEN_URL:
-            return httpx.Response(200, json=_token_response())
-        if request.url.host == "oauth.reddit.com":
-            # score 5, below min_score 10 -> filtered out
-            return httpx.Response(200, json=_listing_payload_with_score(5))
-        raise AssertionError(f"unexpected url: {request.url}")
-
-    transport = httpx.MockTransport(handler)
-    client = httpx.AsyncClient(transport=transport)
-    scraper = RedditScraper(_make_auth_config(fetch_comments=0, min_score=10), client)
-
-    with patch.dict(os.environ, _AUTH_ENV):
-        items = asyncio.run(
-            scraper.fetch(datetime.now(timezone.utc) - timedelta(hours=1))
-        )
-    asyncio.run(client.aclose())
-
-    assert items == []  # low-score post filtered, score now available via auth
-
-
-def test_reddit_auth_token_failure_falls_back_to_rss():
-    requests = []
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        requests.append(request)
-        if request.url == TOKEN_URL:
-            return httpx.Response(401, text="bad creds")
-        if request.url.path.endswith("/hot/.rss"):
-            return httpx.Response(
-                200,
-                text="""
-                <?xml version="1.0" encoding="UTF-8"?>
-                <feed xmlns="http://www.w3.org/2005/Atom">
-                  <entry>
-                    <id>t3_rssfallback</id>
-                    <title>RSS fallback post</title>
-                    <author><name>rss_author</name></author>
-                    <link href="https://www.reddit.com/r/LocalLLaMA/comments/rssfallback/test/" />
-                    <updated>2030-01-01T00:00:00+00:00</updated>
-                    <summary type="html">&lt;p&gt;rss body&lt;/p&gt;</summary>
-                  </entry>
-                </feed>
-                """,
-            )
-        raise AssertionError(f"unexpected url: {request.url}")
-
-    transport = httpx.MockTransport(handler)
-    client = httpx.AsyncClient(transport=transport)
-    scraper = RedditScraper(_make_auth_config(fetch_comments=0), client)
-
-    with patch.dict(os.environ, _AUTH_ENV):
-        items = asyncio.run(scraper.fetch(datetime(2029, 12, 31, tzinfo=timezone.utc)))
-    asyncio.run(client.aclose())
-
-    paths = [r.url.path for r in requests]
-    # token fails, then degrades to anonymous RSS-first path
-    assert "/api/v1/access_token" in paths
-    assert "/r/LocalLLaMA/hot/.rss" in paths
-    assert len(items) == 1
-    assert items[0].title == "RSS fallback post"
-    assert items[0].metadata["fallback"] == "rss"
