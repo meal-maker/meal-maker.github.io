@@ -5,230 +5,187 @@ date: 2026-08-09
 lang: en
 ---
 
-> From 30 items, 11 important content pieces were selected
+> From 34 items, 8 important content pieces were selected
 
 ---
 
 **Technology News**
-1. [Shopify Replaces Redis with MySQL for Inventory Reservations at Scale](#item-tech-news-1) ⭐️ 8.0/10
-2. [Triton: Open-Source DirectX 11 Driver for QEMU](#item-tech-news-2) ⭐️ 8.0/10
-3. [First AI-Designed Viable Bacteriophages Created](#item-tech-news-3) ⭐️ 8.0/10
-4. [Tencent WorkBuddy Tops Office AI Agents, Becomes Strategic Product](#item-tech-news-4) ⭐️ 8.0/10
-5. [macOS Screen Sharing Vulnerability Allows Password-less Login, Fixed in macOS 26.6.1](#item-tech-news-5) ⭐️ 8.0/10
-6. [Cloudflare Predicts AI Bot Traffic Will Exceed Humans 1000x in 5 Years](#item-tech-news-6) ⭐️ 8.0/10
-7. [World&\#x27;s largest single AI computing facility operational in Inner Mongolia](#item-tech-news-7) ⭐️ 8.0/10
-8. [Claude Code Makes Auto Mode Default for Paid Plans](#item-tech-news-8) ⭐️ 7.0/10
+1. [AI-Generated Bacteriophage Genomes Yield Viable Viruses](#item-tech-news-1) ⭐️ 10.0/10
+2. [Cloudflare: AI Bot Traffic 1,000x Human in 5 Years](#item-tech-news-2) ⭐️ 8.0/10
+3. [World&\#x27;s Largest Single AI Computing Facility Opens in Inner Mongolia](#item-tech-news-3) ⭐️ 8.0/10
+4. [Elon Musk Details SpaceX Moon Factory to Produce AI Satellites Using Robots](#item-tech-news-4) ⭐️ 8.0/10
+5. [Everything you do is being recorded](#item-tech-news-5) ⭐️ 7.0/10
+6. [Former ByteDance Robotics Lead Kong Tao Joins Xiaomi to Head Foundation Model Development](#item-tech-news-6) ⭐️ 7.0/10
 
 **Financial News**
-1. [Moonshot AI Restructures and Adds State Investors for Hong Kong IPO](#item-finance-news-1) ⭐️ 8.0/10
-2. [Nevada Utility Sues Data Center Developer Over $1B Grid Upgrade, Warns of Rate Hikes](#item-finance-news-2) ⭐️ 8.0/10
-3. [Berkshire Hathaway earnings rise 16% in Q2; CEO Abel deploys cash hoard](#item-finance-news-3) ⭐️ 7.0/10
+1. [China Tightens Enforcement of Social Security Contribution Bases](#item-finance-news-1) ⭐️ 8.0/10
+2. [U.S. Court Temporarily Blocks WuXi AppTec from Military-Linked List](#item-finance-news-2) ⭐️ 7.0/10
 
 ---
 
 ## Technology News
 
 <a id="item-tech-news-1"></a>
-### [Shopify Replaces Redis with MySQL for Inventory Reservations at Scale](https://shopify.engineering/scaling-inventory-reservations) ⭐️ 8.0/10
+### [AI-Generated Bacteriophage Genomes Yield Viable Viruses](https://www.reddit.com/r/MachineLearning/comments/1vjj4pr/r_generative_design_of_novel_bacteriophages_with/) ⭐️ 10.0/10
 
-Shopify migrated its high-throughput inventory reservation system from Redis to MySQL. To maintain performance, they implemented a bounded row-pool design where each sellable unit is represented by a row, but the pool is capped at 1,000 rows per item/location combination, with a replenishment process adding rows as needed. This approach avoids large scans and leverages row-level locking, enabling MySQL to handle the workload. The move was driven by the need for stronger consistency and operational simplicity, though it required careful lock ordering to prevent deadlocks.
+Researchers have achieved the first generative design of viable bacteriophage genomes using frontier genome language models, Evo 1 and Evo 2. Using the lytic phage ΦX174 as a template, the models produced whole-genome sequences with realistic genetic architectures and desirable host tropism. Experimental testing of these AI-generated genomes resulted in 16 viable phages exhibiting substantial evolutionary novelty. This milestone demonstrates the capability of genome language models to generate functional sequences at whole-genome scale, representing a major advance in AI-driven synthetic biology.
 
-hackernews · adletbalzhanov · Aug 8, 22:32 · [Discussion](https://news.ycombinator.com/item?id=49226536)
+reddit · r/MachineLearning · /u/moschles · Aug 9, 07:11
 
-**「Background」** Shopify&\#x27;s inventory system must handle high-throughput reservations during checkout, temporarily holding stock while payments process to prevent overselling. Traditionally, they used Redis, an in-memory data store, but scaling it for their volume proved complex. The article details a migration to MySQL using a novel row-per-unit pool design capped at 1,000 rows per item/location to maintain performance at scale.
+**「Background」** Bacteriophages are viruses that infect bacteria, with ΦX174 being a well-characterized model phage. Genome language models like Evo 1 and Evo 2 are AI systems trained on vast genome sequences to learn the &\#x27;grammar&\#x27; of DNA, enabling the generation of novel genetic sequences. This study reports the first successful generative design of complete, functional bacteriophage genomes using such models.
 
-**「Impact」** Shopify&\#x27;s successful migration demonstrates that a bounded row-pool design in MySQL can replace Redis for high-throughput inventory reservations, offering a viable alternative for teams prioritizing consistency and operational simplicity.
-
-**「Community Discussion」** Commenters debate the design choices, proposing alternatives such as per-cart reservations or direct inventory deduction with rollback, while others critique the post&\#x27;s clarity and question if the row-pool approach would pass a system design interview.
+**「Impact」** This work establishes that genome language models can create functional viral genomes, opening new possibilities for rapid, AI-driven design of bacteriophages for phage therapy and synthetic biology.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://shopify.engineering/scaling-inventory-reservations">We replaced Redis with MySQL for inventory ... - Shopify</a></li>
+<li><a href="https://www.science.org/doi/10.1126/science.aec2657">Generative design of bacteriophages with genome language models</a></li>
+<li><a href="https://www.biorxiv.org/content/10.1101/2025.09.12.675911v1">Generative design of novel bacteriophages with genome ...</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#software-engineering`, `#databases`, `#scaling`, `#mysql`, `#redis`
+**Tags**: `#generative models`, `#genomics`, `#language models`, `#synthetic biology`, `#AI research`
 
 ---
 
 <a id="item-tech-news-2"></a>
-### [Triton: Open-Source DirectX 11 Driver for QEMU](https://blog.getutm.app/2026/introducing-triton-directx-11-driver-for-qemu/) ⭐️ 8.0/10
+### [Cloudflare: AI Bot Traffic 1,000x Human in 5 Years](https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html) ⭐️ 8.0/10
 
-Triton is a newly introduced open-source DirectX 11 driver for QEMU that enables hardware-accelerated graphics in Windows virtual machines. This development addresses a long-standing challenge for Linux users who previously needed complex GPU passthrough setups to achieve similar performance in Windows guests. The driver promises to improve the feasibility of gaming and graphical applications within VMs, particularly for systems with a single discrete GPU. The implementation is detailed in a technical article, though full backward compatibility with earlier DirectX versions remains unclear from the initial announcement.
+During its Q2 earnings call, Cloudflare predicted that AI-driven non-human traffic could reach 1,000 times human traffic within five years, as current trends accelerate. CFO Thomas Seifert noted that humans would become a &\#x27;rounding error&\#x27; on the internet, not because of declining human traffic but due to explosive growth in automated traffic. The shift is being driven by agentic AI systems capable of mimicking normal browsing at machine speed, where a single prompt can trigger thousands of requests. Cloudflare CEO Matthew Prince had earlier forecast that bot traffic would surpass human traffic by late 2027, but this milestone was already reached in 2024. The prediction underscores a rapid transformation in internet traffic composition with significant implications for infrastructure scaling.
 
-hackernews · electricant · Aug 8, 13:33 · [Discussion](https://news.ycombinator.com/item?id=49221711)
+telegram · zaihuapd · Aug 9, 02:08
 
-**「Background」** QEMU is a popular open-source virtualization platform that can leverage virglrenderer and Mesa to provide 3D graphics acceleration to guest virtual machines. DirectX 11 is Microsoft’s graphics API commonly required by Windows applications and games. Until now, no open-source DirectX 11 driver existed specifically for QEMU, with the only working open-source user-mode driver being part of VirtualBox and not easily adaptable.
+**「Background」** Cloudflare operates a global network that handles a substantial portion of web traffic, giving it a unique vantage point on internet trends. Agentic AI refers to autonomous systems that can interact with web services similarly to human users but at vastly higher volumes, generating large-scale automated requests. This trend has already shifted internet traffic patterns, with bots exceeding human traffic for the first time in 2024, earlier than previously anticipated.
 
-**「Impact」** Linux users now have an open-source option for running DirectX 11 applications with hardware acceleration in Windows virtual machines, removing the previous requirement for dedicated GPU passthrough or dual-boot configurations.
-
-**「Community Discussion」** Commenters express enthusiasm for the driver, while raising questions about support for earlier DirectX versions and compatibility with other virtualization platforms like VirtualBox.
+**「Internet Infrastructure Strain」** Internet infrastructure providers and website operators must urgently scale to accommodate a predicted 1,000-fold increase in AI-driven bot traffic within five years. The shift is already underway, with bots outnumbering humans in HTTP requests as of mid-2024.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://blog.getutm.app/2026/introducing-triton-directx-11-driver-for-qemu/">Introducing Triton: DirectX 11 driver for QEMU | UTM Blog</a></li>
-<li><a href="https://www.phoronix.com/news/Triton-DirectX-11-QEMU-Driver">AI Helped Create A DirectX 11 Driver For QEMU VMs - Phoronix</a></li>
+<li><a href="https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html">Cloudflare says humans could become a &quot;rounding error&quot; as bots generate 1,000 times more internet traffic | TechSpot</a></li>
+<li><a href="https://www.forbes.com/sites/josipamajic/2026/06/04/bots-now-outnumber-humans-online-and-the-internet-was-never-built-for-this/">Bots Now Outnumber Humans Online And The Internet Was Never Built For This</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#virtualization`, `#graphics-drivers`, `#qemu`, `#directx`, `#open-source`
+**Tags**: `#AI agents`, `#internet traffic`, `#Cloudflare`, `#web scraping`, `#scalability`
 
 ---
 
 <a id="item-tech-news-3"></a>
-### [First AI-Designed Viable Bacteriophages Created](https://www.reddit.com/r/MachineLearning/comments/1vjj4pr/r_generative_design_of_novel_bacteriophages_with/) ⭐️ 8.0/10
+### [World&\#x27;s Largest Single AI Computing Facility Opens in Inner Mongolia](https://www.globaltimes.cn/page/202608/1367666.shtml) ⭐️ 8.0/10
 
-Researchers report the first generative design of viable bacteriophage genomes using genome language models Evo 1 and Evo 2. Using the lytic phage ΦX174 as a template, they generated whole-genome sequences with desired host tropism and realistic genetic architectures. Experimental validation produced 16 viable phages that exhibit substantial evolutionary novelty. This demonstrates that frontier language models can design functional genomes at whole-genome scale, advancing AI-driven synthetic biology.
+On August 6, Envision Group announced the start of operations at the Envision Ulanqab Galaxy Base in Inner Mongolia, the world&\#x27;s largest single AI computing facility. The 120,000-square-meter data center supports millions of GPUs for parallel computing and has a planned total capacity of 2 GW, with over 80% of its electricity sourced from green energy. Located about 240 kilometers from Beijing, it provides data transmission latency of just 4.2 milliseconds and electricity costs roughly 50% lower than those in the Beijing-Tianjin-Hebei region. The base is the first flagship project under Envision&\#x27;s &quot;Gobi Mission,&quot; aimed at delivering replicable solutions for domestic AI computing clusters.
 
-reddit · r/MachineLearning · /u/moschles · Aug 9, 07:11
+telegram · zaihuapd · Aug 9, 05:06
 
-**「Background」** Bacteriophages are viruses that infect bacteria and are widely used as model systems. Genome language models are AI models trained on DNA sequences to understand and generate genomic information. Evo 1 and Evo 2 are frontier models that apply this approach. ΦX174 is a small, well-characterized lytic phage often used as a template in synthetic biology experiments.
+**「Background」** Ulanqab is one of the eight national hub nodes in China&\#x27;s &quot;East Data West Computing&quot; project, which transfers computing demand from developed eastern regions to the energy-rich west. Major technology companies, including Huawei, Alibaba, Apple, and Kuaishou, have already established computing infrastructure there, exploiting the area&\#x27;s abundant green energy and proximity to major cities.
 
-**「Impact」** The success in generating functional phage genomes paves the way for AI-driven design of custom bacteriophages for applications in phage therapy, biocontrol, and fundamental research.
+**「Impact」** The facility will significantly boost China&\#x27;s domestic AI computing capacity, offering a scalable and sustainable infrastructure model that could reduce costs and improve access for training large-scale models and serving inference workloads.
 
-**Tags**: `#synthetic biology`, `#genomic AI`, `#language models`, `#generative design`, `#machine learning`
+**Tags**: `#AI infrastructure`, `#data center`, `#green energy`, `#China`, `#high-performance computing`
 
 ---
 
 <a id="item-tech-news-4"></a>
-### [Tencent WorkBuddy Tops Office AI Agents, Becomes Strategic Product](https://mp.weixin.qq.com/s/TRUjakoaprGFSYYQB301xw) ⭐️ 8.0/10
+### [Elon Musk Details SpaceX Moon Factory to Produce AI Satellites Using Robots](https://finance.yahoo.com/technology/articles/pure-insanity-elon-musk-details-173635969.html) ⭐️ 8.0/10
 
-Tencent&\#x27;s WorkBuddy has been elevated to one of the company&\#x27;s highest strategic AI priorities, with internal references comparing it to QQ and WeChat. In Q2 2026, it ranked first among domestic office AI agent platforms with 20.97 million monthly PC visits and reached 20 million monthly active users. The product integrates with Tencent Docs, WeCom, and Tencent Meeting, and supports multiple models including Hunyuan, DeepSeek, and GLM. In July, the QClaw business was merged into the WorkBuddy unit to streamline development. No commercialization KPIs have been set, and the focus this year is on expanding enterprise customer coverage.
+During SpaceX&\#x27;s first public earnings call, Elon Musk announced plans to deploy Starships carrying robots to the Moon that will extract aluminum, titanium, and silicon from lunar soil to mass-produce AI computing satellites. The satellites would be launched into orbit via electromagnetic &\#x27;mass drivers&\#x27; on the lunar surface. The harsh lunar environment includes abrasive dust, extreme temperature swings, and alternating 14-day periods of light and darkness. Former SpaceX VP Jim Cantrell called the plan &\#x27;pure insanity&\#x27; but expressed belief in Musk&\#x27;s ability to execute, while industry observers note Musk&\#x27;s timelines are typically optimistic.
 
-telegram · zaihuapd · Aug 8, 13:50
+telegram · zaihuapd · Aug 9, 05:37
 
-**「Background」** Office AI agents are emerging tools that automate tasks like document drafting, meeting summaries, and workflow management. Tencent, a leading Chinese tech conglomerate, has been expanding its enterprise software ecosystem through products such as WeCom and Tencent Docs.
+**「Background」** SpaceX has expanded from rocket launches to operating the Starlink internet mega-constellation, and now envisions a much larger orbital network called Starmind for AI computing. The plan revealed during a SpaceX investor update, involves using Starship rockets to deliver equipment for robot-run lunar factories that extract metals from regolith and launch satellites with an electromagnetic mass driver, capitalizing on the Moon&\#x27;s low gravity to cut costs.
 
-**「Impact」** Tencent&\#x27;s prioritization of WorkBuddy and its integration with core productivity apps could drive wider enterprise AI agent adoption in China and intensify competition among tech giants.
+**「Impact」** If realized, the plan could enable cost-efficient mass production of AI satellites on the Moon, shifting satellite manufacturing toward in‑situ resource utilization and accelerating the build‑out of space‑based AI infrastructure. However, experts note Musk’s timelines are typically optimistic, and significant technical challenges remain.
 
-**Tags**: `#AI agents`, `#office intelligence`, `#Tencent`, `#enterprise AI`, `#LLM applications`
+<details><summary>References</summary>
+<ul>
+<li><a href="https://www.financialexpress.com/sci-tech/spacex-factories-on-moon-and-ai-satellites-inside-elon-musks-lunar-expansion-vision/4313680/">SpaceX factories on moon and AI satellites: Inside Elon Musk ...</a></li>
+<li><a href="https://thenextweb.com/news/spacex-moon-factories-ai-compute-satellites-lunar-mass-driver">Musk wants SpaceX to build factories on the Moon</a></li>
+<li><a href="https://www.scientificamerican.com/article/elon-musk-reveals-spacex-plans-to-build-satellite-factories-on-the-moon/">Elon Musk reveals SpaceX plans to build satellite factories ...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#space-technology`, `#artificial-intelligence`, `#robotics`, `#moon-manufacturing`, `#spacex`
 
 ---
 
 <a id="item-tech-news-5"></a>
-### [macOS Screen Sharing Vulnerability Allows Password-less Login, Fixed in macOS 26.6.1](https://x.com/calif_io/status/2086022794840793454) ⭐️ 8.0/10
+### [Everything you do is being recorded](https://www.theatlantic.com/technology/2026/05/ai-wearable-surveillance-countermeasures/687203/) ⭐️ 7.0/10
 
-A critical vulnerability \(CVE-2026-65400\) in macOS screen sharing allows any network attacker to log into any account without a password when the feature is enabled. Apple patched the flaw in macOS 26.6.1, and users are urged to update immediately. Security researchers have released a proof-of-concept exploit and will publish a complete technical analysis tomorrow after reverse engineering the fix.
+The Atlantic article examines the rise of AI-powered wearable devices capable of continuously recording daily life, raising profound privacy concerns. It explores emerging countermeasures, including jamming technologies inspired by early research such as the University of Chicago&\#x27;s Jammer project. The piece focuses on societal implications of unchecked corporate surveillance, though it lacks deep technical detail. It underscores the urgency of addressing these issues as such wearables become more common.
 
-telegram · zaihuapd · Aug 8, 14:20
+hackernews · ike\_usawa · Aug 9, 11:30 · [Discussion](https://news.ycombinator.com/item?id=49230477)
 
-**「macOS Screen Sharing Background」** macOS includes a built-in Screen Sharing feature that enables remote desktop connections over the network, typically requiring a valid username and password. Vulnerability CVE-2026-65400 allowed an attacker to bypass this authentication when Screen Sharing was enabled, granting unauthorized access. Apple addressed the issue with improved state management in macOS Tahoe 26.6.1, Sequoia 15.7.9, and Sonoma 14.8.9.
+**「Background」** AI-powered wearable devices, such as smart glasses, can record audio and video discreetly, and advanced models may even interpret conversations through lip reading. In response, startups like Deveillance have introduced counter-surveillance devices, such as the Spectre I, which aims to block recording capabilities. This marks an escalation in the ongoing privacy arms race between surveillance and anti-surveillance technologies.
 
-**「Impact」** This vulnerability enables unauthorized access to any macOS system with screen sharing turned on, making prompt installation of the macOS 26.6.1 update critical to prevent exploitation.
+**「Impact」** The normalization of AI wearable surveillance could erode privacy expectations, enabling pervasive monitoring by corporations without meaningful consent or legal safeguards.
+
+**「Community Discussion」** Commenters express alarm over corporate power, with some calling for a separation of corporations and state akin to church–state separation. Others reference foundational countermeasure research like the Jammer project, while a few exhibit resignation, noting that widespread voluntary use of surveillance devices undercuts public outrage.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-65400">Nvd - Cve-2026-65400</a></li>
-<li><a href="https://support.apple.com/en-us/148170">About the security content of macOS Tahoe 26.6.1</a></li>
+<li><a href="https://www.theatlantic.com/technology/2026/05/ai-wearable-surveillance-countermeasures/687203/">Everything You Do Is Being Recorded</a></li>
+<li><a href="https://1023jack.com/news/everything-you-do-is-being-recorded/">Everything You Do Is Being Recorded - 1023 Jack</a></li>
+<li><a href="https://wdcnews6.com/a-surveillance-cat-and-mouse-game-with-ai/">A Surveillance ‘Cat-and-Mouse’ Game With AI - WDC NEWS 6</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#macOS`, `#security`, `#vulnerability`, `#CVE-2026-65400`, `#screen sharing`
+**Tags**: `#AI`, `#wearables`, `#surveillance`, `#privacy`, `#countermeasures`
 
 ---
 
 <a id="item-tech-news-6"></a>
-### [Cloudflare Predicts AI Bot Traffic Will Exceed Humans 1000x in 5 Years](https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html) ⭐️ 8.0/10
+### [Former ByteDance Robotics Lead Kong Tao Joins Xiaomi to Head Foundation Model Development](https://m.21jingji.com/article/20260809/herald/107ee1343d570185e9152826bd53db04.html) ⭐️ 7.0/10
 
-During Cloudflare&\#x27;s Q2 earnings call, CFO Thomas Seifert stated that if current trends continue, non-human internet traffic could reach 1,000 times human traffic within five years, reducing humans to a &\#x27;rounding error.&\#x27; CEO Matthew Prince noted that the crossover point where bot traffic exceeds human traffic, originally forecast for late 2027, has already occurred this year. The surge is primarily driven by AI agents that behave like normal browsers but can generate thousands of requests from a single prompt, operating at machine speed.
+Kong Tao, the former head of ByteDance&\#x27;s robotics team, has joined Xiaomi to lead the development of foundation models for robotics, bringing along several former colleagues. He joined in the summer of 2025 and his team operates with a high degree of secrecy in a separate office. Xiaomi&\#x27;s robotics division, numbering about 200 people, has recently released two large models—Xiaomi-Robotics-0 and Xiaomi-Robotics-1—the first of which notably inherits architectural methods that Kong pioneered at ByteDance. This move underscores the intensifying competition among major Chinese tech companies to build general-purpose AI models for robots.
 
-telegram · zaihuapd · Aug 9, 02:08
+telegram · zaihuapd · Aug 9, 13:15
 
-**「Background」** Cloudflare is a leading content delivery network and web security provider that processes a substantial portion of global internet traffic, giving it unique visibility into traffic composition. AI agents, which autonomously crawl and interact with web content, are increasingly deployed for data gathering and task execution, causing a rapid rise in non-human traffic that already accounts for a significant share of all requests.
+**「Background」** Foundation models for robotics are large-scale AI models designed to enable robots with general capabilities such as perception, planning, and control. ByteDance, the parent company of TikTok, established a robotics division that Kong Tao built from scratch before his departure in June 2024. Xiaomi, known for its consumer electronics, has been developing humanoid robots like CyberOne and robotic dogs like CyberDog, and is now advancing into foundation models for broader robotic applications.
 
-**「Impact」** If the prediction materializes, website operators and internet infrastructure providers will need to massively scale capacity and invest in advanced bot-management systems to handle the surge, potentially altering the economics and architecture of the web.
-
-**Tags**: `#AI`, `#bots`, `#internet traffic`, `#Cloudflare`, `#infrastructure`
-
----
-
-<a id="item-tech-news-7"></a>
-### [World&\#x27;s largest single AI computing facility operational in Inner Mongolia](https://www.globaltimes.cn/page/202608/1367666.shtml) ⭐️ 8.0/10
-
-On August 6, Envision Group announced the commissioning of its Ulanqab Xinghe base, the world&\#x27;s largest single AI computing facility. The 120,000-square-meter facility supports up to one million GPUs for parallel computing, with a planned total capacity of 2 GW and over 80% green energy usage. Located in Ulanqab—a key node of China&\#x27;s &\#x27;East Data West Computing&\#x27; project—it is about 240 km from Beijing, offering 4.2-millisecond data transmission latency and electricity costs roughly 50% lower than in the Beijing-Tianjin-Hebei region. The base is the first flagship project under Envision&\#x27;s &\#x27;Gobi Mission&\#x27; plan, intended to provide a replicable model for domestic AI computing clusters.
-
-telegram · zaihuapd · Aug 9, 05:06
-
-**「Background」** Ulanqab is one of eight national hubs under China&\#x27;s &\#x27;East Data West Computing&\#x27; project, which relocates compute-intensive infrastructure to western regions for cheaper renewable energy and land. Envision Group&\#x27;s &\#x27;Mission Gobi&\#x27; initiative aims to build 5GW of green AI computing capacity in deserts globally by 2030, with this facility serving as the first flagship project.
-
-**「Impact」** The facility may lower barriers for large-scale AI training and inference in China, particularly for organizations prioritizing green energy, though its practical impact hinges on utilization rates and integration with existing AI infrastructure.
+**「Impact on Xiaomi&\#x27;s Robotics AI Development」** Xiaomi&\#x27;s foundation models for robotics, such as Xiaomi-Robotics-0, inherit architectural methods from Kong Tao&\#x27;s previous work at ByteDance, accelerating the company&\#x27;s AI capabilities for products like CyberOne and CyberDog.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://www.globaltimes.cn/page/202608/1367666.shtml">World&#x27;s largest single AI computing facility enters operation in China&#x27;s Ulanqab - Global Times</a></li>
-<li><a href="https://aijourn.com/envision-commissions-galaxy-campus-in-ulanqab-establishing-a-new-model-for-gigawatt-scale-ai-infrastructure/">Envision Commissions Galaxy Campus in Ulanqab, Establishing a New Model for Gigawatt-Scale AI Infrastructure | The AI Journal</a></li>
+<li><a href="https://m.21jingji.com/article/20260809/herald/107ee1343d570185e9152826bd53db04.html">21独家｜原字节跳动 机 器 人 一号位加入 小 米 ，负责 基 座 模 型 研发 - 21财经</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#AI infrastructure`, `#data center`, `#large-scale computing`, `#green energy`, `#China`
-
----
-
-<a id="item-tech-news-8"></a>
-### [Claude Code Makes Auto Mode Default for Paid Plans](https://simonwillison.net/2026/Aug/8/auto-mode/#atom-everything) ⭐️ 7.0/10
-
-Anthropic will set auto mode as the default in Claude Code for Pro, Max, and Team plans starting on August 14th, signaling strong confidence in its automated code editing safety. In evaluations, auto mode blocked 89% of dangerous commands in a study of 1,053 paid testers, compared to only 13.6% for human reviewers, and a third-party test of 720 prompt injection attacks against Claude models found zero successes. The change aims to reduce friction for developers by minimizing manual approvals, but author Simon Willison highlights remaining risks, particularly from malicious third-party packages, and advises running agents with limited access to sensitive data and tools.
-
-rss · Simon Willison · Aug 8, 22:36
-
-**「Background」** Auto mode in Claude Code allows the agent to execute code and system commands without requiring user approval for each action, enabling faster autonomous workflows. It was previously available as an opt-in feature, but security concerns—especially around prompt injection and accidental harmful actions—had made manual approval the default. Anthropic&\#x27;s decision reflects internal adoption \(nearly everyone at the company uses auto mode\) and new safety evaluations.
-
-**「Impact」** Starting August 14th, Pro, Max, and Team plan users will have auto mode enabled by default, reducing the need for constant manual approvals but increasing exposure to risks if malicious instructions are injected or harmful actions are not blocked.
-
-**Tags**: `#claude-code`, `#anthropic`, `#ai-tools`, `#developer-tools`, `#automation`
+**Tags**: `#robotics`, `#artificial intelligence`, `#machine learning`, `#foundation models`, `#tech industry`
 
 ---
 
 ## Financial News
 
 <a id="item-finance-news-1"></a>
-### [Moonshot AI Restructures and Adds State Investors for Hong Kong IPO](https://www.theblockbeats.info//flash/360480) ⭐️ 8.0/10
+### [China Tightens Enforcement of Social Security Contribution Bases](https://weekly.caixin.com/2026-08-07/102472223.html) ⭐️ 8.0/10
 
-Moonshot AI is restructuring and introducing state-backed investors to secure Hong Kong IPO approval, according to the Financial Times. Its valuation is estimated up to $50 billion.
+Multiple Chinese local governments are stepping up enforcement of social security contribution bases, requiring companies to pay contributions based on actual wages. The target compliance rate for this year ranges from 65% to 100%, with full compliance expected within three to five years.
 
-telegram · zaihuapd · Aug 8, 09:02
+telegram · zaihuapd · Aug 9, 13:39
 
-**「Background」** Moonshot AI, a Chinese AI startup, has recently closed two funding rounds and already counts the National Social Security Fund, local government guidance funds, and a People&\#x27;s Daily affiliate among its investors.
+**「Background」** Since 2019, China’s tax authorities have been responsible for collecting social security contributions and have started comparing tax and social security data to identify underreporting.
 
-**Tags**: `#AI`, `#IPO`, `#state-owned investment`, `#Chinese tech`, `#venture capital`
+**「Impact」** The enforcement raises labor costs, leading some businesses to shift burdens to employees through salary cuts or outsourcing, reducing their take-home pay.
+
+**Tags**: `#social security`, `#compliance`, `#labor costs`, `#China policy`, `#pension reform`
 
 ---
 
 <a id="item-finance-news-2"></a>
-### [Nevada Utility Sues Data Center Developer Over $1B Grid Upgrade, Warns of Rate Hikes](https://www.sina.cn/news/detail/5329879165568444.html) ⭐️ 8.0/10
+### [U.S. Court Temporarily Blocks WuXi AppTec from Military-Linked List](https://np-info.eastmoney.com/wap/notice/?referrer=appShare&amp;amp;infocode=AN202608091827791183) ⭐️ 7.0/10
 
-Nevada&\#x27;s largest utility has sued a data center developer, alleging it is trying to shift the cost of a required $1 billion grid upgrade to consumers; the utility warns that without the developer covering the expense, it may raise electricity rates for the 90% of state customers it serves.
+A U.S. federal court granted WuXi AppTec&\#x27;s preliminary injunction on August 7, 2026, halting the immediate effects of its designation on the Defense Department&\#x27;s &\#x27;Chinese Military Companies List&\#x27; \(1260H\) during the legal challenge.
 
-telegram · zaihuapd · Aug 9, 01:35
+telegram · zaihuapd · Aug 9, 10:13
 
-**「Background」** The lawsuit follows a dispute between NV Energy and Tract, a Denver-based developer building two data centers in Nevada, over who should pay for $1 billion in grid upgrades needed to serve the facilities, which would consume about one-third of the utility’s generation capacity.
+**「Background」** The Department of Defense added WuXi AppTec and other Chinese firms to the 1260H list in June 2026, which restricts direct contracts and will ban third-party purchases of their products or services by 2027.
 
-**「Impact」** If rate increases occur, Nevada households and businesses served by the utility could face higher electricity bills.
+**「Impact」** The ruling temporarily protects WuXi AppTec from losing U.S. government-related business and the upcoming 2027 third-party ban while it fights the designation in court.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.cbsnews.com/news/nevada-data-center-lawsuit-ai-energy-costs/">Nevada energy company sues data center in first-of-its-kind fight over who should pay for AI buildout - CBS News</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#energy`, `#data centers`, `#electricity rates`, `#legal dispute`, `#infrastructure`
-
----
-
-<a id="item-finance-news-3"></a>
-### [Berkshire Hathaway earnings rise 16% in Q2; CEO Abel deploys cash hoard](https://www.cnbc.com/2026/08/08/berkshire-hathaway-earnings-q2-2026.html) ⭐️ 7.0/10
-
-Berkshire Hathaway reported a 16% increase in operating earnings to $12.98 billion in the second quarter of 2026, and new CEO Greg Abel began deploying the company&\#x27;s record cash pile, with $4.5 billion in share buybacks and nearly $20 billion in net equity purchases.
-
-rss · CNBC Finance · Aug 8, 13:28
-
-**「Background」** The cash deployment marks a shift after 14 consecutive quarters of net stock sales under former CEO Warren Buffett, who handed over the role at the start of 2026.
-
-**Tags**: `#Berkshire Hathaway`, `#earnings`, `#capital allocation`, `#stock buybacks`, `#equity investments`
+**Tags**: `#biotech`, `#legal`, `#US-China`, `#regulation`, `#stock`
 
 ---

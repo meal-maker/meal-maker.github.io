@@ -5,232 +5,179 @@ date: 2026-08-09
 lang: zh
 ---
 
-> 从 30 条内容中筛选出 11 条重要资讯。
+> 从 34 条内容中筛选出 8 条重要资讯。
 
 ---
 
 **科技新闻**
-1. [Shopify 用 MySQL 替代 Redis 实现库存预留扩展](#item-tech-news-1) ⭐️ 8.0/10
-2. [Triton：用于 QEMU 的开源 DirectX 11 驱动](#item-tech-news-2) ⭐️ 8.0/10
-3. [基因组语言模型首次生成新型噬菌体](#item-tech-news-3) ⭐️ 8.0/10
-4. [腾讯 WorkBuddy 跃升战略级产品，领跑国内办公智能体](#item-tech-news-4) ⭐️ 8.0/10
-5. [macOS 屏幕共享曝高危漏洞，无需密码即可登录任意账户](#item-tech-news-5) ⭐️ 8.0/10
-6. [Cloudflare：五年后 AI 机器人流量将达人类千倍](#item-tech-news-6) ⭐️ 8.0/10
-7. [全球最大单体 AI 算力设施在内蒙古乌兰察布投产](#item-tech-news-7) ⭐️ 8.0/10
-8. [Claude Code 自动模式将成付费计划默认选项](#item-tech-news-8) ⭐️ 7.0/10
+1. [AI 设计出首个活性噬菌体全基因组](#item-tech-news-1) ⭐️ 10.0/10
+2. [Cloudflare：五年后 AI 流量将达人类千倍](#item-tech-news-2) ⭐️ 8.0/10
+3. [全球最大单体 AI 算力设施在内蒙古乌兰察布投产](#item-tech-news-3) ⭐️ 8.0/10
+4. [马斯克公布 SpaceX 月球建厂计划：机器人生产 AI 卫星](#item-tech-news-4) ⭐️ 8.0/10
+5. [AI 可穿戴设备记录一切：隐私与对策](#item-tech-news-5) ⭐️ 7.0/10
+6. [字节跳动机器人前负责人孔涛加盟小米，主导基座模型研发](#item-tech-news-6) ⭐️ 7.0/10
 
 **财经新闻**
-1. [月之暗面引入国资股东调整架构，推进赴港上市](#item-finance-news-1) ⭐️ 8.0/10
-2. [内华达州最大电力公司起诉数据中心开发商，警告电费或转嫁消费者](#item-finance-news-2) ⭐️ 8.0/10
-3. [伯克希尔哈撒韦第二季度营业利润增长 16%，新任 CEO 开始动用创纪录现金储备](#item-finance-news-3) ⭐️ 7.0/10
+1. [2026 年多地推进社保缴费基数夯实，要求三至五年内全额实缴](#item-finance-news-1) ⭐️ 8.0/10
+2. [美国法院初步禁令阻止药明康德列入军方清单](#item-finance-news-2) ⭐️ 7.0/10
 
 ---
 
 ## 科技新闻
 
 <a id="item-tech-news-1"></a>
-### [Shopify 用 MySQL 替代 Redis 实现库存预留扩展](https://shopify.engineering/scaling-inventory-reservations) ⭐️ 8.0/10
+### [AI 设计出首个活性噬菌体全基因组](https://www.reddit.com/r/MachineLearning/comments/1vjj4pr/r_generative_design_of_novel_bacteriophages_with/) ⭐️ 10.0/10
 
-Shopify 将其高吞吐的库存预留系统从 Redis 迁移至 MySQL，采用了创新的有界行池设计：每个可售单位使用一行，但每个商品/地点组合的上限为 1000 行，通过补货进程补充行来避免大规模扫描。该方案解决了扩展瓶颈，证明了关系数据库在事务型流负载下可替代 Redis，但引入了补货逻辑和行竞争等额外复杂性。
+研究者利用前沿基因组语言模型 Evo 1 和 Evo 2，以裂解性噬菌体ΦX174 为设计模板，生成了具有合理遗传结构和期望宿主嗜性的全基因组序列。通过实验测试，AI 生成的基因组产生了 16 个活性噬菌体，它们展现出显著的进化新颖性。这是首次生成可存活的噬菌体全基因组，证明语言模型能够在全基因组尺度上设计功能性序列，标志着 AI 驱动合成生物学的重大突破。
 
-hackernews · adletbalzhanov · 8月8日 22:32 · [社区讨论](https://news.ycombinator.com/item?id=49226536)
+reddit · r/MachineLearning · /u/moschles · 8月9日 07:11
 
-**「背景」** 库存预留是电子商务结账时的关键步骤，通过临时锁定商品库存来防止超卖。Shopify 此前依赖 Redis 实现低延迟的预留操作，但在平台峰值流量（如 2025 年黑色星期五每分钟处理 510 万美元销售额）下，对数据一致性和扩展性的要求提高。这推动其考虑采用具有 ACID 事务保证的 MySQL，并设计新的数据模型以维持性能。
+**「背景」** 基因组语言模型（如 Evo 1 和 Evo 2）是基于全基因组 DNA 序列训练的大规模语言模型，能够学习并生成具有功能性的遗传序列。噬菌体是特异性感染细菌的病毒，其基因组较小（如ΦX174 长约 5,386 个碱基对），常被用作合成生物学与基因设计验证的模型系统。
 
-**「影响」** Shopify 的实践表明 MySQL 可处理高吞吐库存预留，为希望简化架构并减少 Redis 运维开销的团队提供了可行方案，但需实现有界行池和补货机制来应对高 SKU 场景。
-
-**「社区讨论」** 评论意见不一：部分赞赏这一创新方法，但对每 SKU 上限 1000 行的设计提出质疑，并建议了更简单的替代方案（如按购物车行记录或扣减后超时退回）。也有指出博文内部不一致，并暗示真正的瓶颈可能不在数据库设计层面。
+**「影响」** 该进展将加速面向噬菌体疗法和生物技术的 AI 驱动设计，但实际应用前需解决安全性与有效性验证问题。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://shopify.engineering/scaling-inventory-reservations">We replaced Redis with MySQL for inventory ... - Shopify</a></li>
-<li><a href="https://byteiota.com/shopify-killed-redis-for-mysql-and-scaled-bigger/">Shopify Killed Redis for MySQL — and Scaled Bigger | byteiota</a></li>
+<li><a href="https://www.science.org/doi/10.1126/science.aec2657">Generative design of bacteriophages with genome language models</a></li>
+<li><a href="https://www.biorxiv.org/content/10.1101/2025.09.12.675911v1">Generative design of novel bacteriophages with genome ...</a></li>
 
 </ul>
 </details>
 
-**标签**: `#software-engineering`, `#databases`, `#scaling`, `#mysql`, `#redis`
+**标签**: `#generative models`, `#genomics`, `#language models`, `#synthetic biology`, `#AI research`
 
 ---
 
 <a id="item-tech-news-2"></a>
-### [Triton：用于 QEMU 的开源 DirectX 11 驱动](https://blog.getutm.app/2026/introducing-triton-directx-11-driver-for-qemu/) ⭐️ 8.0/10
+### [Cloudflare：五年后 AI 流量将达人类千倍](https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html) ⭐️ 8.0/10
 
-Triton 是一个为 QEMU 开发的开源 DirectX 11 驱动程序，它使得在 Windows 虚拟机中实现图形加速成为可能，是 Linux 平台上虚拟化图形的一大进步。该驱动解决了在仅有一块独立 GPU 的 Linux 机器上运行 Windows 虚拟机时的图形加速难题，避免了以往需要复杂的 GPU 直通配置。虽然项目名为 Triton 的 GPU 相关项目已存在多个，但这一驱动聚焦于 QEMU，为虚拟机带来 DirectX 11 级别的加速。具体是否支持更早的 DirectX 版本（如 DX1-10）尚不明确，但无论如何，这一进展为在虚拟机中提升游戏和图形应用性能带来了新希望。
+Cloudflare 在第二季度财报电话会上预测，若当前趋势持续，五年后 AI 驱动的非人类流量将达到人类流量的 1000 倍。公司首席财务官 Thomas Seifert 称届时人类在互联网上将变成一个“舍入误差”。智能体 AI 能以机器速度大规模重复正常浏览行为，一个简单提示即可触发数千次请求。值得注意的是，原先预计机器人流量将在 2027 年底超过人类，但这一节点已在今年提前到来。
 
-hackernews · electricant · 8月8日 13:33 · [社区讨论](https://news.ycombinator.com/item?id=49221711)
+telegram · zaihuapd · 8月9日 02:08
 
-**「背景」** 在 Triton 出现之前，QEMU 中的 Windows 虚拟机长期缺乏对 DirectX 11 的硬件加速支持，导致图形性能受限。VirtualBox 虽有唯一可用的开源 DirectX 11 用户模式驱动，但其通过翻译 DDI 调用的工作方式难以直接适配 QEMU。Triton 通过利用 Mesa 和 virglrenderer 组件并在 AI 辅助下开发，填补了这一空白。
+**「背景」** Cloudflare 作为全球内容分发网络和安全服务提供商，能够监控大量互联网流量，从而掌握流量构成变化。AI 智能体是自动执行任务的程序，近年来在大型语言模型推动下数量激增，广泛用于网页抓取、自动化交互等场景，行为上接近人类浏览但规模和速度远超后者。
 
-**「影响」** 对于需要在 Linux 上使用图形加速的 Windows 虚拟机用户，Triton 提供了一种开源驱动方案，有望简化配置并减少对 GPU 直通的依赖。
-
-**「社区讨论」** 社区普遍对此表示兴奋和期待，认为这一方案等待已久。部分用户询问该驱动是否支持 VirtualBox 以及较早 DirectX 版本（如 DX3-7）的兼容性，但文章未提供明确答复；另有评论提到这是第三个以 Triton 命名的 GPU 相关项目。
+**「影响」** 若该预测成真，网站运营商和云服务商须为 AI 智能体流量千倍增长做好准备，否则现有基础设施可能不堪重负，引发成本失控或服务瘫痪。不过，此预测取决于当前增长趋势是否持续，且 Cloudflare 高管坦承过往预测曾失误。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://blog.getutm.app/2026/introducing-triton-directx-11-driver-for-qemu/">Introducing Triton: DirectX 11 driver for QEMU | UTM Blog</a></li>
-<li><a href="https://www.phoronix.com/news/Triton-DirectX-11-QEMU-Driver">AI Helped Create A DirectX 11 Driver For QEMU VMs - Phoronix</a></li>
-<li><a href="https://www.linux.org/threads/phoronix-ai-helped-create-a-directx-11-driver-for-qemu-vms.69857/">News - [Phoronix] AI Helped Create A DirectX 11 Driver For QEMU VMs | Linux.org</a></li>
+<li><a href="https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html">Cloudflare says humans could become a &quot;rounding error&quot; as bots generate 1,000 times more internet traffic | TechSpot</a></li>
+<li><a href="https://www.forbes.com/sites/josipamajic/2026/06/04/bots-now-outnumber-humans-online-and-the-internet-was-never-built-for-this/">Bots Now Outnumber Humans Online And The Internet Was Never Built For This</a></li>
 
 </ul>
 </details>
 
-**标签**: `#virtualization`, `#graphics-drivers`, `#qemu`, `#directx`, `#open-source`
+**标签**: `#AI agents`, `#internet traffic`, `#Cloudflare`, `#web scraping`, `#scalability`
 
 ---
 
 <a id="item-tech-news-3"></a>
-### [基因组语言模型首次生成新型噬菌体](https://www.reddit.com/r/MachineLearning/comments/1vjj4pr/r_generative_design_of_novel_bacteriophages_with/) ⭐️ 8.0/10
+### [全球最大单体 AI 算力设施在内蒙古乌兰察布投产](https://www.globaltimes.cn/page/202608/1367666.shtml) ⭐️ 8.0/10
 
-研究人员利用前沿基因组语言模型 Evo 1 和 Evo 2，以溶解性噬菌体ΦX174 为模板，首次成功生成具有现实遗传结构和期望宿主嗜性的全基因组序列。实验测试验证了 AI 生成的基因组，获得了 16 株具有显著进化新颖性的可存活噬菌体。这一成就展示了基因组语言模型在设计功能完整的生物系统方面的潜力，是 AI 驱动合成生物学的重要里程碑。该研究突破了以往仅设计小规模序列的限制，实现了全基因组尺度的功能性生成。
+8 月 6 日，远景科技集团宣布其‘远景乌兰察布星河基地’正式投产，成为全球最大单体 AI 算力设施。该基地建筑面积 12 万平方米，支持百万 GPU 并行计算，规划总容量达 2GW，绿电占比超 80%，是全球 Token 产出能力最强的单体 AI 数据中心。乌兰察布是国家‘东数西算’八大节点之一，距离北京仅 240 公里，数据传输延迟 4.2 毫秒，电价较京津冀低约 50%。这是远景‘戈壁使命’计划的首个旗舰项目，旨在为国产算力集群提供可复制方案。此前，华为、阿里巴巴、苹果、快手等企业已在此布局算力设施。
 
-reddit · r/MachineLearning · /u/moschles · 8月9日 07:11
+telegram · zaihuapd · 8月9日 05:06
 
-**「背景」** 基因组语言模型是通过大规模 DNA 序列训练的人工智能模型，能够预测和生成基因数据。噬菌体是感染细菌的病毒，在噬菌体疗法中作为抗生素替代品具有应用前景。ΦX174 是一种广泛研究的模型噬菌体，常用于合成生物学研究。
+**「背景」** 中国‘东数西算’工程旨在将东部算力需求引导至西部能源丰富地区，乌兰察布作为八大枢纽节点之一，依托绿电优势和低延迟网络，成为数据中心聚集地。远景科技集团的‘戈壁使命’计划以此为基础，推动绿色算力规模化部署。
 
-**「影响」** 该研究首次证明基因组语言模型可以生成功能性全基因组，有望加速噬菌体疗法和合成生物学应用的发展。
+**「影响」** 该设施的投运将大幅提升国内大模型训练与推理的算力供给，同时降低能耗成本，为 AI 产业提供高效、绿色的算力基础设施支撑。
 
-**标签**: `#synthetic biology`, `#genomic AI`, `#language models`, `#generative design`, `#machine learning`
+**标签**: `#AI infrastructure`, `#data center`, `#green energy`, `#China`, `#high-performance computing`
 
 ---
 
 <a id="item-tech-news-4"></a>
-### [腾讯 WorkBuddy 跃升战略级产品，领跑国内办公智能体](https://mp.weixin.qq.com/s/TRUjakoaprGFSYYQB301xw) ⭐️ 8.0/10
+### [马斯克公布 SpaceX 月球建厂计划：机器人生产 AI 卫星](https://finance.yahoo.com/technology/articles/pure-insanity-elon-musk-details-173635969.html) ⭐️ 8.0/10
 
-腾讯已将 WorkBuddy 列为内部战略优先级最高的 AI 产品之一，被视为继 QQ 和微信后的第三个战略级产品。根据易观报告，2026 年二季度 WorkBuddy 以 2097 万次 PC 端月访问量位居国内办公智能体平台首位，月活跃用户达 2000 万级别，日活百万级。该产品已深度接入腾讯文档、企业微信、腾讯会议等核心生态，并支持混元、DeepSeek、GLM 等多种大语言模型。目前 WorkBuddy 仍处于投入阶段，未设商业化指标，年内重点在于扩大企业客户覆盖。此举标志着腾讯在企业级 AI 代理赛道上的加码，也反映出办公场景智能体的加速落地。
+在 SpaceX 首次上市公司财报电话会议上，埃隆·马斯克公布了在月球建立自动化工厂的计划。该计划拟通过 Starship 火箭运送设备，利用机器人从月壤中提取铝、钛、硅等矿物，大规模生产 AI 计算卫星，成品由电磁“质量驱动器”直接发射入轨。月球环境极其严苛，包括具有磨损性的月尘和 14 天交替的极端温差。前 SpaceX 副总裁 Jim Cantrell 称该计划“纯属疯狂”，但认为马斯克能够实现；业界普遍认可技术可行性，但指出其时间表通常偏乐观。SpaceX 当季营收 78 亿美元，太空部门因 Starship 投入录得 2.05 亿美元亏损。
 
-telegram · zaihuapd · 8月8日 13:50
+telegram · zaihuapd · 8月9日 05:37
 
-**「背景」** WorkBuddy 是腾讯推出的一款办公智能体产品，旨在通过对话式交互和自动化处理日常办公任务，如文档协作、会议安排和信息整合。在 AI 代理竞争激烈的背景下，腾讯将此前探索的 QClaw 相关业务并入 WorkBuddy 部门，收拢战线，集中资源打造集成多模型能力的统一入口。
+**「背景」** SpaceX 是一家以可重复使用火箭闻名的私营航天公司，其正在研发的星舰（Starship）旨在执行月球和火星任务。此次月球工厂计划是其更大愿景的一部分，即部署名为“Starmind”的百万颗 AI 卫星星座以提供星载计算服务，而仅在地球上制造和发射如此庞大的星座面临成本与规模的巨大挑战。
 
-**「影响」** 腾讯 WorkBuddy 的战略升级和生态整合将直接提升千万级企业用户的工作效率，其多模型架构也为企业避免供应商锁定提供了技术保障，可能加速办公智能体在行业中的普及。
+**「潜在影响」** 该计划旨在通过月球工厂原位制造 AI 卫星，大幅降低发射与制造成本，为未来在轨算力租赁等商业化服务奠定基础；然而，鉴于马斯克通常过于乐观的时间表，其具体实施进程仍面临重大不确定性。
 
-**标签**: `#AI agents`, `#office intelligence`, `#Tencent`, `#enterprise AI`, `#LLM applications`
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://www.financialexpress.com/sci-tech/spacex-factories-on-moon-and-ai-satellites-inside-elon-musks-lunar-expansion-vision/4313680/">SpaceX factories on moon and AI satellites: Inside Elon Musk ...</a></li>
+<li><a href="https://carthageelectronics.com/spacex-ai1-satellite-orbital-datacenter-2026/">SpaceX AI1 Satellite: Orbital AI Data Center Full Breakdown ...</a></li>
+<li><a href="https://seczine.com/technology/2026/02/xaispacex-merger-launches-lunar-factories-orbital/">xAI‑SpaceX Merger Launches Lunar Factories &amp; Orbital AI Hubs</a></li>
+
+</ul>
+</details>
+
+**标签**: `#space-technology`, `#artificial-intelligence`, `#robotics`, `#moon-manufacturing`, `#spacex`
 
 ---
 
 <a id="item-tech-news-5"></a>
-### [macOS 屏幕共享曝高危漏洞，无需密码即可登录任意账户](https://x.com/calif_io/status/2086022794840793454) ⭐️ 8.0/10
+### [AI 可穿戴设备记录一切：隐私与对策](https://www.theatlantic.com/technology/2026/05/ai-wearable-surveillance-countermeasures/687203/) ⭐️ 7.0/10
 
-安全研究人员公开了苹果 macOS 屏幕共享功能中的一个关键漏洞 Proof of Concept（CVE-2026-65400）。当屏幕共享处于开启状态时，攻击者可在不知晓密码的情况下，通过网络以任意账户身份登录受影响的 Mac。该漏洞影响版本低于 macOS 26.6.1 的系统，苹果已在 macOS 26.6.1 中修复此问题。研究人员表示已逆向工程补丁以厘清漏洞根因和利用路径，并将于明日发布完整技术分析。
+《大西洋月刊》的报道探讨了 AI 可穿戴设备（如智能眼镜）带来的普遍监视风险及可能的反制措施。文章指出，此类设备能持续记录周边环境，加剧个人隐私侵蚀，同时引发社会对监视资本主义的担忧。报道提及了芝加哥大学 Sandlab 的早期干扰技术研究等潜在防御手段，但并未深入技术细节。社区反应热烈，反映了公众对科技公司权力膨胀的警觉与自身便利性选择间的矛盾。
 
-telegram · zaihuapd · 8月8日 14:20
+hackernews · ike\_usawa · 8月9日 11:30 · [社区讨论](https://news.ycombinator.com/item?id=49230477)
 
-**「背景」** macOS 的屏幕共享功能允许用户远程查看或控制另一台 Mac 的屏幕。此漏洞（CVE-2026-65400）为身份验证绕过问题，攻击者无需凭证即可通过网络连接到已开启屏幕共享的 Mac。Apple 已在 macOS Tahoe 26.6.1 等多个版本中修复了该漏洞。
+**「背景」** 随着人工智能可穿戴设备能够隐蔽录音，引发隐私担忧，一家初创公司推出了 Spectre I 设备，声称能阻止录音设备。这加剧了监控与反监控之间的技术竞赛。
 
-**「影响」** 该漏洞可让攻击者在屏幕共享启用时无需密码即获得任意账户的完全控制权，对未升级至 macOS 26.6.1 的用户构成直接风险。
+**「影响」** 该报道将推动公众对 AI 可穿戴监视的讨论，可能促使部分用户寻求反制工具，并加剧对监管需求的呼声。
+
+**「社区讨论」** 社区讨论呈现分歧：部分声音呼吁企业与国家权力的严格分离，以遏制监视滥用；另一些则认为用户自愿采用监视技术，指责与便利并存；少数人表现出漠然态度，凸显隐私意识与实际行动的鸿沟。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2026-65400">Nvd - Cve-2026-65400</a></li>
-<li><a href="https://support.apple.com/en-us/148170">About the security content of macOS Tahoe 26.6.1</a></li>
+<li><a href="https://1023jack.com/news/everything-you-do-is-being-recorded/">Everything You Do Is Being Recorded - 1023 Jack</a></li>
+<li><a href="https://wdcnews6.com/a-surveillance-cat-and-mouse-game-with-ai/">A Surveillance ‘Cat-and-Mouse’ Game With AI - WDC NEWS 6</a></li>
 
 </ul>
 </details>
 
-**标签**: `#macOS`, `#security`, `#vulnerability`, `#CVE-2026-65400`, `#screen sharing`
+**标签**: `#AI`, `#wearables`, `#surveillance`, `#privacy`, `#countermeasures`
 
 ---
 
 <a id="item-tech-news-6"></a>
-### [Cloudflare：五年后 AI 机器人流量将达人类千倍](https://www.techspot.com/news/113410-cloudflare-humans-could-become-rounding-error-bots-generate.html) ⭐️ 8.0/10
+### [字节跳动机器人前负责人孔涛加盟小米，主导基座模型研发](https://m.21jingji.com/article/20260809/herald/107ee1343d570185e9152826bd53db04.html) ⭐️ 7.0/10
 
-Cloudflare 在第二季度财报电话会上预测，若当前趋势持续，五年后非人类流量将达人类流量的 1000 倍。CFO Thomas Seifert 表示人类在互联网上将变成一个“舍入误差”，并坦承自己过去的预测曾失误。这一趋势主要由智能体 AI 驱动，CEO Matthew Prince 此前预测机器人流量将在 2027 年底超过人类，但该节点今年已到来。智能体系统的行为接近正常浏览，却能以机器速度大规模重复，一个简单提示就可能触发数千次请求。
+原字节跳动机器人团队负责人孔涛已于 2025 年夏季加入小米，担任机器人基座模型团队负责人，并带去了多名前同事。小米机器人事业部目前约 200 人，孔涛领导的基座模型团队拥有独立办公区且保密级别极高。小米今年先后发布了 Xiaomi-Robotics-0 和 Xiaomi-Robotics-1 大模型，其中前者架构继承了孔涛在字节时期的工作方法。此外，小米 CyberOne 和 CyberDog 2 团队的不少成员此前也加入了字节跳动的 Seed 团队。
 
-telegram · zaihuapd · 8月9日 02:08
+telegram · zaihuapd · 8月9日 13:15
 
-**「背景」** 互联网流量包含人工和自动化请求。传统机器人流量通常为爬虫或攻击工具，而新一代 AI 智能体（如基于大模型的自动化代理）能够模拟人类浏览行为，以极高效率执行任务，从而大幅提升非人类流量占比。Cloudflare 作为全球 CDN 和网络安全供应商，负责处理大量此类流量。
+**「背景」** 孔涛是字节跳动机器人方向“从 0 到 1”的开拓者，于 2024 年 6 月离职。小米近年来加速布局机器人领域，已推出 Cyber 系列机器人和机器人专用大模型。行业头部公司之间的人才流动反映了基础模型在机器人领域日益重要的战略地位。
 
-**「影响」** 网络服务提供者将面临非人类流量指数级增长的挑战，迫使重新设计基础设施以应对成本、安全和性能压力。
+**「对小米机器人研发的影响」** 孔涛加入小米，预计将加速其机器人基座模型的研发，并将字节跳动的相关经验融入小米机器人产品（如 CyberOne 和 CyberDog）的智能升级，强化小米在具身智能领域的竞争力。
 
-**标签**: `#AI`, `#bots`, `#internet traffic`, `#Cloudflare`, `#infrastructure`
-
----
-
-<a id="item-tech-news-7"></a>
-### [全球最大单体 AI 算力设施在内蒙古乌兰察布投产](https://www.globaltimes.cn/page/202608/1367666.shtml) ⭐️ 8.0/10
-
-8 月 6 日，远景科技集团宣布其位于内蒙古乌兰察布的“星河基地”正式投产，成为全球最大单体 AI 算力设施。该基地建筑面积 12 万平方米，支持百万 GPU 并行计算，规划总容量达 2GW，是全球 Token 产出能力最强的单体 AI 数据中心，绿电占比超 80%。乌兰察布作为国家“东数西算”工程八大节点之一，距北京约 240 公里，数据传输延迟仅 4.2 毫秒，且数据中心电价较京津冀地区低约 50%。该基地也是远景“戈壁使命”计划的首个旗舰项目，旨在为国产算力集群提供可复制解决方案。此前，华为、阿里巴巴、苹果、快手等企业已在此布局算力设施。
-
-telegram · zaihuapd · 8月9日 05:06
-
-**「背景」** 乌兰察布是国家“东数西算”工程八大算力枢纽节点之一，距离北京约 240 公里，数据传输延迟仅 4.2 毫秒，且数据中心电价较京津冀地区低约 50%，已吸引华为、阿里巴巴、苹果、快手等企业布局。远景科技集团的“戈壁使命”计划旨在利用沙漠和干旱地区建设绿色 AI 算力，该基地是首个旗舰项目，计划到 2030 年全球累计建成 5GW 容量。
-
-**「影响」** 该设施的投产将极大提升国内大规模 AI 计算能力，尤其利好于需要海量算力的国产大模型训练与推理，同时依托低成本绿电优势可能降低算力使用成本。但文章未披露实际投入运营的 GPU 数量及具体算力性能指标。
-
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://www.globaltimes.cn/page/202608/1367666.shtml">World&#x27;s largest single AI computing facility enters operation in China&#x27;s Ulanqab - Global Times</a></li>
-<li><a href="https://aijourn.com/envision-commissions-galaxy-campus-in-ulanqab-establishing-a-new-model-for-gigawatt-scale-ai-infrastructure/">Envision Commissions Galaxy Campus in Ulanqab, Establishing a New Model for Gigawatt-Scale AI Infrastructure | The AI Journal</a></li>
-
-</ul>
-</details>
-
-**标签**: `#AI infrastructure`, `#data center`, `#large-scale computing`, `#green energy`, `#China`
-
----
-
-<a id="item-tech-news-8"></a>
-### [Claude Code 自动模式将成付费计划默认选项](https://simonwillison.net/2026/Aug/8/auto-mode/#atom-everything) ⭐️ 7.0/10
-
-Anthropic 将于 2026 年 8 月 14 日起，在 Claude Code 的 Pro、Max 和 Team 计划中默认启用自动模式，无需用户逐步批准操作。内部对 1053 名付费测试者的研究表明，自动模式阻止了 89% 的有害指令，而人工审查仅拒绝 13.6%；Trajectory Labs 的第三方评估显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下成功防御了全部 720 次间接提示注入攻击。然而，仍有 11% 的有害操作未被拦截，且作者指出恶意第三方包等社会工程攻击可能绕过防护。尽管 Anthropic 对安全性表现出强烈信心，但作者呼吁更多独立验证，并对编码代理的安全风险保持警惕。
-
-rss · Simon Willison · 8月8日 22:36
-
-**「背景」** 自动模式是 Claude Code 的一项功能，允许 AI 代理在用户不逐一确认的情况下执行命令、编辑文件等操作。间接提示注入是指攻击者将恶意指令隐藏在 AI 代理处理的外部内容（如网页、文档、包描述）中，诱导代理执行非预期行为。此前，编码代理的安全性（尤其是提示注入风险）被认为是重大威胁，有专家预测 2026 年可能发生严重安全事件。
-
-**「影响」** Claude Code 付费开发者将自动获得自动模式，降低操作确认负担，但需注意该模式无法完全消除恶意包和社会工程攻击带来的安全风险。
-
-**标签**: `#claude-code`, `#anthropic`, `#ai-tools`, `#developer-tools`, `#automation`
+**标签**: `#robotics`, `#artificial intelligence`, `#machine learning`, `#foundation models`, `#tech industry`
 
 ---
 
 ## 财经新闻
 
 <a id="item-finance-news-1"></a>
-### [月之暗面引入国资股东调整架构，推进赴港上市](https://www.theblockbeats.info//flash/360480) ⭐️ 8.0/10
+### [2026 年多地推进社保缴费基数夯实，要求三至五年内全额实缴](https://weekly.caixin.com/2026-08-07/102472223.html) ⭐️ 8.0/10
 
-据英国《金融时报》报道，月之暗面（Moonshot AI）正在重组股权结构并引入国资背景投资者以推进香港上市，估值最高预计达 500 亿美元。公司否认了此前关于本月提交香港 IPO 申请募资 30 亿美元的传闻。
+2026 年多地加速推进社保缴费基数夯实工作。今年夯实率设定为 65%至 100%，多数地区要求三至五年内实现全额实缴。
 
-telegram · zaihuapd · 8月8日 09:02
+telegram · zaihuapd · 8月9日 13:39
 
-**「背景」** 月之暗面已将中国境内主体由有限责任公司变更为股份有限公司，并与投行及律师协调解决海外投资者持股转移问题，以满足上市条件。
+**「背景」** 社保征管职责自 2019 年划转至税务部门，税务部门通过比对个税与社保申报数据排查基数不实企业。
 
-**标签**: `#AI`, `#IPO`, `#state-owned investment`, `#Chinese tech`, `#venture capital`
+**「影响」** 执法趋严导致企业用工成本上升，部分企业转嫁成本可能压低员工到手收入，专家呼吁同步下调费率并补贴中小微企业。
+
+**标签**: `#social security`, `#compliance`, `#labor costs`, `#China policy`, `#pension reform`
 
 ---
 
 <a id="item-finance-news-2"></a>
-### [内华达州最大电力公司起诉数据中心开发商，警告电费或转嫁消费者](https://www.sina.cn/news/detail/5329879165568444.html) ⭐️ 8.0/10
+### [美国法院初步禁令阻止药明康德列入军方清单](https://np-info.eastmoney.com/wap/notice/?referrer=appShare&amp;amp;infocode=AN202608091827791183) ⭐️ 7.0/10
 
-美国内华达州最大电力供应商内华达能源公司起诉一家数据中心开发商，指其两座在建数据中心将消耗公司近三分之一发电量。该公司要求开发商承担 10 亿美元电网升级费用，否则警告将上调电价，把成本转嫁给该州 90%的家庭和企业用户。
+美国哥伦比亚特区联邦地区法院批准药明康德申请的初步禁令，暂停美国国防部将其列入“中国军工企业清单”带来的即时不利影响。
 
-telegram · zaihuapd · 8月9日 01:35
+telegram · zaihuapd · 8月9日 10:13
 
-**「背景」** 内华达能源公司为内华达州 90%的用户供电，而这两座在建数据中心建成后预计消耗的电力几乎占其总发电量的三分之一，因而要求开发商承担 10 亿美元的电网升级费用。争议升级前，开发商曾于 6 月申请仲裁解决供电承诺争议，随后内华达能源公司提起诉讼阻止仲裁。
+**「背景」** 美国国防部于 2026 年 6 月 8 日将药明康德等企业列入 1260H 清单，列入后国防部不得与其签订合同，并计划自 2027 年起禁止通过第三方采购其产品或服务。
 
-**「影响」** 如果内华达能源公司最终上调电价，该州约九成用户将承受更高电费，普通家庭和企业可能间接承担 10 亿美元电网升级成本。
+**「影响」** 该裁决使药明康德在司法挑战期间免受限购影响，暂时消除了业务中断风险。
 
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://www.cbsnews.com/news/nevada-data-center-lawsuit-ai-energy-costs/">Nevada energy company sues data center in first-of-its-kind fight over who should pay for AI buildout - CBS News</a></li>
-
-</ul>
-</details>
-
-**标签**: `#energy`, `#data centers`, `#electricity rates`, `#legal dispute`, `#infrastructure`
-
----
-
-<a id="item-finance-news-3"></a>
-### [伯克希尔哈撒韦第二季度营业利润增长 16%，新任 CEO 开始动用创纪录现金储备](https://www.cnbc.com/2026/08/08/berkshire-hathaway-earnings-q2-2026.html) ⭐️ 7.0/10
-
-伯克希尔哈撒韦第二季度营业利润同比增长 16%至 129.8 亿美元，新任 CEO 格雷格·阿贝尔通过 45 亿美元股票回购和近 200 亿美元净股票购买，开始动用创纪录的现金储备。
-
-rss · CNBC Finance · 8月8日 13:28
-
-**「背景」** 阿贝尔于今年初接替沃伦·巴菲特出任 CEO，继承了因前任坚持耐心价值投资策略而积累的巨额现金。
-
-**标签**: `#Berkshire Hathaway`, `#earnings`, `#capital allocation`, `#stock buybacks`, `#equity investments`
+**标签**: `#biotech`, `#legal`, `#US-China`, `#regulation`, `#stock`
 
 ---
